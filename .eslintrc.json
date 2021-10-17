@@ -1,0 +1,29 @@
+{
+    "env": {
+        "browser": true,
+    },
+    "extends": [
+        "airbnb",
+        "prettier"
+    ],
+    "plugins": [
+        "prettier"
+    ],
+    "rules": {
+        "no-console": 1, // Warning
+        "no-duplicate-case": 2, // Error
+        "no-extra-semi": 0, // NO error
+        "eqeqeq": 2, // Error
+        "default-case": 2, // Error
+        "comma-dangle": ["error", "always-multiline"],
+        "no-shadow": 0,
+        "no-plusplus": 2,
+        "no-nested-ternary": 0,
+        "no-tabs": 2,
+        "no-unneeded-ternary": 2,
+        "quotes": ["error", "single"],
+        "func-names": "off",
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "react/jsx-props-no-spreading": "off"
+    }
+}
