@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": true,
+        "browser": true
     },
     "extends": [
         "airbnb",
@@ -24,6 +24,7 @@
         "quotes": ["error", "single"],
         "func-names": "off",
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "react/prop-types": 0
     }
 }
