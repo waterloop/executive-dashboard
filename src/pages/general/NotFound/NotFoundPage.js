@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import NotFoundSVG from './assets/not-found.svg';
+import NotFoundSVG from '../../../assets/svg/not-found.svg';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -35,6 +35,8 @@ const NotFoundParagraph = styled.p`
 const NotFoundImage = styled.img.attrs({
   src: NotFoundSVG,
 })``;
+
+/* TODO: Make this look better than it currently does */
 
 const NotFoundPage = () => (
   <Container>
