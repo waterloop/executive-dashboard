@@ -1,4 +1,4 @@
-import * as actionTypes from '../action-types';
+import * as actionTypes from '../actionTypes';
 
 export const setUserAuth = (authPayload) => ({
   type: actionTypes.USER_SET_AUTH,
