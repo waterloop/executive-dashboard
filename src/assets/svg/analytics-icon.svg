@@ -1,0 +1,15 @@
+<svg width="150" height="150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M75 150c41.421 0 75-33.579 75-75S116.421 0 75 0 0 33.579 0 75s33.579 75 75 75Z" fill="#473080"/>
+  <path d="M75 139.062c35.381 0 64.063-28.681 64.063-64.062 0-35.38-28.682-64.063-64.063-64.063-35.38 0-64.062 28.682-64.062 64.063S39.62 139.062 75 139.062Z" fill="#473080"/>
+  <g clip-path="url(#a)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M104.867 128.761 80.973 29.204H69.028L45.133 128.76h12.942L75 55.174l16.925 73.587h12.942Z" fill="#F29C1F"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M25.221 39.16h99.558v61.725H25.221V39.159Z" fill="#ECF0F1"/>
+    <path d="m35.177 89.934 12.966-12.967 5.95 5.002 16.913-15.941L79.978 75l14.934-14.934 4.977 4.978 14.934-14.933" stroke="#E64C3C" stroke-width="4" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M98.177 100.885H85.513l.458 1.991h12.684l-.478-1.991Zm-46.832 1.991H64.03l.458-1.991H51.823l-.478 1.991Z" fill="#E57E25"/>
+  </g>
+  <defs>
+    <clipPath id="a">
+      <path fill="#fff" transform="translate(25.221 29.204)" d="M0 0h99.558v99.558H0z"/>
+    </clipPath>
+  </defs>
+</svg>
