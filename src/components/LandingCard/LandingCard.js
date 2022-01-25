@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Button from '../Button';
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colours.white};
+  background-color: ${({ backgroundColor, theme }) => backgroundColor === '' ? theme.colours.white : backgroundColor };
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 15px;
   display: flex;
@@ -12,7 +12,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 57px;
-  width: ${({width}) => width};
+  width: ${({ width }) => width};
+  max-width: ${({ maxWidth }) => maxWidth};
 
   -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
@@ -37,8 +38,8 @@ const CardDescription = styled.p`
   margin-bottom: 40px;
 `;
 
-const LandingCard = ({ name, description, to, icon, width="400px", backgroundColor="" }) => (
-  <Container width={width} backgroundColor={backgroundColor}>
+const LandingCard = ({ name, description, to, icon, width='400px', backgroundColor='', maxWidth='fit-content'}) => (
+  <Container width={width} maxWidth={maxWidth} backgroundColor={backgroundColor}>
     <CardIcon src={icon} />
     <CardTitle>{name}</CardTitle>
     <CardDescription>{description}</CardDescription>
