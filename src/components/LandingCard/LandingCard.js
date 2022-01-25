@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 57px;
-  width: 400px;
+  width: ${({width}) => width};
 
   -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
@@ -37,8 +37,8 @@ const CardDescription = styled.p`
   margin-bottom: 40px;
 `;
 
-const LandingCard = ({ name, description, to, icon }) => (
-  <Container>
+const LandingCard = ({ name, description, to, icon, width="400px", backgroundColor="" }) => (
+  <Container width={width} backgroundColor={backgroundColor}>
     <CardIcon src={icon} />
     <CardTitle>{name}</CardTitle>
     <CardDescription>{description}</CardDescription>
