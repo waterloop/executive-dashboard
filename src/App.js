@@ -9,8 +9,8 @@ import SignInPage from './pages/general/SignIn';
 import LandingPage from './pages/general/Landing';
 import NotFoundPage from './pages/general/NotFound';
 /* TODO: Create the folllowing pages and include them for their corresponding routes */
+import RecruitmentLandingPage from './pages/recruitment';
 /*
-import RecruitmentLandingPage from './pages/recruitment/...';
 import AnalyticsLandingPage from './pages/analytics/...';
 */
 
@@ -35,8 +35,7 @@ const App = () => {
         <Route path="/recruitment" exact>
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
-          {/* <RecruitmentLandingPage /> */}
-          <h1>Recruitment</h1>
+          <RecruitmentLandingPage />
         </Route>
         <Route path="/analytics" exact>
           {!token && <Redirect to="/sign-in" />}
