@@ -7,6 +7,7 @@ const reds = {
 const blues = {
   blue1: '#232535',
   blue2: '#82B0FD',
+  blue3: '#B4BFED',
 };
 
 const yellows = {
@@ -24,6 +25,14 @@ const greys = {
   grey1: '#F5F5F5',
   grey2: '#C4C4C4',
 };
+
+const greens = {
+  green1: '#bcddd7',
+}
+
+const purples = {
+  purple1: '#C1B1E9',
+}
 
 const white = '#FFFFFF';
 
@@ -71,6 +80,8 @@ export default {
     blacks,
     white,
     greys,
+    greens,
+    purples,
   },
   breakpoints,
   fonts: {
