@@ -6,13 +6,16 @@ import MUIMenuItem from '@mui/material/MenuItem';
 import MUIFormControl from '@mui/material/FormControl';
 import MUISelect from '@mui/material/Select';
 
-const FormControl = styled(MUIFormControl)`
-  margin-left: 20px;
-  margin-right: 20px;
-  min-width: 100px;
-`;
+const LinkContainer = styled.div`
+  & > div {
+    margin-left: 20px;
+  }
+  display: inline-flex;
+`
 
-/* TODO: Fix the styling for this component - currently broken, make finishing touches */
+const FormControl = styled(MUIFormControl)`
+  width: 120px;
+`;
 
 const NavDropdown = ({ dropdown }) => {
   const history = useHistory();
@@ -27,19 +30,21 @@ const NavDropdown = ({ dropdown }) => {
     ));
 
   return (
-    <FormControl variant="standard">
-      <MUIInputLabel id="demo-simple-select-label">
-        {dropdown.section}
-      </MUIInputLabel>
-      <MUISelect
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label={dropdown.section}
-        onChange={handleChange}
-      >
-        {mapRoutes()}
-      </MUISelect>
-    </FormControl>
+    <LinkContainer>
+      <FormControl variant="standard">
+        <MUIInputLabel id="nav-dropdown-select-label">
+          {dropdown.section}
+        </MUIInputLabel>
+        <MUISelect
+          labelId="nav-dropdown-select-label"
+          id="nav-dropdown-select"
+          label={dropdown.section}
+          onChange={handleChange}
+        >
+          {mapRoutes()}
+        </MUISelect>
+      </FormControl>
+    </LinkContainer>
   );
 };
 
