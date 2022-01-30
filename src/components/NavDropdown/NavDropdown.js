@@ -32,12 +32,12 @@ const NavDropdown = ({ dropdown }) => {
   return (
     <LinkContainer>
       <FormControl variant="standard">
-        <MUIInputLabel id="demo-simple-select-label">
+        <MUIInputLabel id="nav-dropdown-select-label">
           {dropdown.section}
         </MUIInputLabel>
         <MUISelect
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="nav-dropdown-select-label"
+          id="nav-dropdown-select"
           label={dropdown.section}
           onChange={handleChange}
         >
