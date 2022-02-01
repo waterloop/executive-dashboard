@@ -15,22 +15,38 @@ const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
 `;
 
+const PageTitle = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold36};
+`;
+
+const styles = {
+  descriptionColor: theme.colours.greys.grey3,
+  cardTitle: theme.fonts.bold24,
+  descriptionFont: theme.fonts.medium16,
+  cardWidth: '125px',
+  cardHeight: '125px',
+  padding: '40px',
+  maxWidth: '225px',
+  height: '388px',
+  justifyContent: 'space-between',
+};
+
 const sections = [
   {
     name: 'Application Portal',
-    description:
-      'To view all applications',
+    description: 'To view all applications',
     to: '/recruitment/application',
     icon: ApplicantPortalIcon,
-    backgroundColor: theme.colours.greens.green1
+    backgroundColor: theme.colours.greens.green1,
   },
   {
     name: 'Interview Portal',
-    description:
-      'To view all interviewed applications',
+    description: 'To view all interviewed applications',
     to: '/recruitment/interview',
     icon: InterviewPortalIcon,
-    backgroundColor: theme.colours.purples.purple1
+    backgroundColor: theme.colours.purples.purple1,
+    descriptionColor: theme.colours.greys.grey3,
+    descriptionFont: theme.fonts.medium16,
   },
   {
     name: 'Decision Portal',
@@ -38,34 +54,65 @@ const sections = [
       'To view all acceptances and rejections from both Application and Interview portal',
     to: '/recruitment/decision',
     icon: DecisionPortalIcon,
-    backgroundColor: theme.colours.blues.blue3
+    backgroundColor: theme.colours.blues.blue3,
+    descriptionColor: theme.colours.greys.grey3,
   },
 ];
+
+sections.forEach((section) => {
+  Object.assign(section, styles);
+});
+
 // MOBILE/Tablet view: Overview on top, calendar second, then rest is navigation.
 const RecruitmentLanding = () => {
   const sectionItems = sections.map((section) => (
     <Grid key={section.name} item>
-      <LandingCard {...section} width='fit-content' maxWidth={"200px"} /> 
+      <LandingCard {...section} />
     </Grid>
   ));
 
   return (
     <>
-    {/* TODO: Fix header font. */}
       <Container>
-        <h1>Recruitment Dashboard</h1>
+        <PageTitle>Recruitment Dashboard</PageTitle>
         {/* TODO: Add placeholder components for calendar and stats */}
-        {/* TODO: Add 3 portal navigation components */}
         {/* 4-8 split */}
-        <Grid container direction="row" md={12} justifyContent="center" alignItems="stretch">
-          <Grid container direction="row" md={4} justifyContent="center" alignItems="stretch">
-            <Container>
-              PLACEHOLDER
-            </Container>
+        <Grid
+          container
+          direction="row"
+          md={12}
+          justifyContent="center"
+          alignItems="stretch"
+        >
+          <Grid
+            container
+            direction="row"
+            md={4}
+            justifyContent="center"
+            alignItems="stretch"
+          >
+            <Container> {'PLACEHOLDER (STATS)'}</Container>
           </Grid>
-          <Grid container direction="row" spacing={1} md={8} justifyContent="center" alignItems="stretch">
+          <Grid
+            container
+            direction="row"
+            spacing={1}
+            md={8}
+            justifyContent="center"
+            alignItems="stretch"
+          >
             {sectionItems}
           </Grid>
+        </Grid>
+        <Grid
+          container
+          direction="row"
+          spacing={1}
+          md={12}
+          justifyContent="center"
+          alignItems="stretch"
+        >
+          {'PLACEHOLDER (CALENDAR)'}
         </Grid>
       </Container>
     </>
