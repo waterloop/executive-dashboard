@@ -23,10 +23,10 @@ const styles = {
   descriptionColor: theme.colours.greys.grey3,
   cardTitle: theme.fonts.bold24,
   descriptionFont: theme.fonts.medium16,
-  cardWidth: '125px',
-  cardHeight: '125px',
+  iconWidth: '125px',
+  iconHeight: '125px',
   padding: '40px',
-  maxWidth: '225px',
+  width: '225px',
   height: '388px',
   justifyContent: 'space-between',
 };
@@ -45,8 +45,6 @@ const sections = [
     to: '/recruitment/interview',
     icon: InterviewPortalIcon,
     backgroundColor: theme.colours.purples.purple1,
-    descriptionColor: theme.colours.greys.grey3,
-    descriptionFont: theme.fonts.medium16,
   },
   {
     name: 'Decision Portal',
@@ -55,9 +53,34 @@ const sections = [
     to: '/recruitment/decision',
     icon: DecisionPortalIcon,
     backgroundColor: theme.colours.blues.blue3,
-    descriptionColor: theme.colours.greys.grey3,
   },
 ];
+
+const overview = {
+  name: 'Overview',
+  description: 'TODO',
+  to: '',
+  icon: 'https://i.imgur.com/OvMZBs9.jpg',
+  backgroundColor: theme.colours.white,
+  descriptionColor: theme.colours.greys.grey3,
+  width: '300px',
+  padding: '40px',
+  height: '388px',
+  justifyContent: 'space-between',
+};
+
+const calendar = {
+  name: 'Calendar',
+  description: 'TODO',
+  to: '',
+  icon: 'https://i.imgur.com/OvMZBs9.jpg',
+  backgroundColor: theme.colours.white,
+  descriptionColor: theme.colours.greys.grey3,
+  width: '80vw',
+  margin: '20px',
+  height: '350px',
+  justifyContent: 'space-between',
+};
 
 sections.forEach((section) => {
   Object.assign(section, styles);
@@ -65,17 +88,28 @@ sections.forEach((section) => {
 
 // MOBILE/Tablet view: Overview on top, calendar second, then rest is navigation.
 const RecruitmentLanding = () => {
+  const overviewCard = (
+    <Grid key="overview" item>
+      <LandingCard {...overview} />
+    </Grid>
+  );
+
   const sectionItems = sections.map((section) => (
     <Grid key={section.name} item>
       <LandingCard {...section} />
     </Grid>
   ));
 
+  const calendarCard = (
+    <Grid key="calendar" item>
+      <LandingCard {...calendar} />
+    </Grid>
+  );
+
   return (
     <>
       <Container>
         <PageTitle>Recruitment Dashboard</PageTitle>
-        {/* TODO: Add placeholder components for calendar and stats */}
         {/* 4-8 split */}
         <Grid
           container
@@ -91,7 +125,7 @@ const RecruitmentLanding = () => {
             justifyContent="center"
             alignItems="stretch"
           >
-            <Container> {'PLACEHOLDER (STATS)'}</Container>
+            {overviewCard}
           </Grid>
           <Grid
             container
@@ -112,7 +146,7 @@ const RecruitmentLanding = () => {
           justifyContent="center"
           alignItems="stretch"
         >
-          {'PLACEHOLDER (CALENDAR)'}
+          {calendarCard}
         </Grid>
       </Container>
     </>

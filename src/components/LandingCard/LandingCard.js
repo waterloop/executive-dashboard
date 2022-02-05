@@ -15,8 +15,7 @@ const Container = styled.div`
   padding: ${({ padding }) => padding || '57px'};
   width: ${({ width }) => width};
   height: ${({ height }) => height || 'auto'};
-  max-width: ${({ maxWidth }) => maxWidth};
-
+  margin: ${({ margin }) => margin || 'auto'};
   -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   box-shadow: ${({ theme }) => theme.shadows.shadow1};
@@ -50,24 +49,24 @@ const LandingCard = ({
   width = '400px',
   height = '',
   backgroundColor = '',
-  maxWidth = 'fit-content',
   cardTitle = '',
   descriptionColor = '',
   descriptionFont = '',
-  cardWidth = '',
-  cardHeight = '',
+  iconWidth = '',
+  iconHeight = '',
   padding = '',
+  margin = '',
 }) => (
   <Container
     width={width}
     height={height}
-    maxWidth={maxWidth}
     backgroundColor={backgroundColor}
     padding={padding}
     alignItems={alignItems}
     justifyContent={justifyContent}
+    margin={margin}
   >
-    <CardIcon width={cardWidth} height={cardHeight} src={icon} />
+    <CardIcon width={iconWidth} height={iconHeight} src={icon} />
     <CardTitle title={cardTitle}>{name}</CardTitle>
     <CardDescription font={descriptionFont} color={descriptionColor}>
       {description}
