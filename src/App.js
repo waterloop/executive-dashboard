@@ -44,6 +44,7 @@ const App = () => {
           <h1>Analytics</h1>
         </Route>
         <Route path="*">
+          <TopBar />
           <NotFoundPage />
         </Route>
       </Switch>
