@@ -24,9 +24,9 @@ const CardContainer = styled.div`
 `;
 
 const CardIcon = styled.img`
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
+  width: 9.375rem;
+  height: 9.375rem;
+  margin-bottom: 1.25rem;
 `;
 
 const CardTitle = styled.h1`
@@ -37,8 +37,8 @@ const CardDescription = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
   color: ${({ theme }) => theme.colours.greys.grey2}};
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
 `;
 
 const LandingCard = ({ name, description, to, icon }) => (

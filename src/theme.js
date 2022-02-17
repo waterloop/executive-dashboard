@@ -66,7 +66,8 @@ const mediums = {
 };
 
 const shadows = {
-  shadow1: '0 4px 4px 0px rgba(0, 0, 0, 0.25)',
+  shadow1: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+  shadow2: '0 8px 8px 0 rgba(0, 0, 0, 0.75)',
 };
 
 const borders = {
