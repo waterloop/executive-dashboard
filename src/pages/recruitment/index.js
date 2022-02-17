@@ -1,3 +1,3 @@
-import recruitment from './RecruitmentLanding';
+import Landing from './RecruitmentLanding';
 
-export default recruitment;
+export default Landing;

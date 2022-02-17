@@ -39,10 +39,10 @@ const white = '#FFFFFF';
 
 const breakpoints = {
   xs: 0,
-  sm: 350,
-  md: 740,
-  lg: 1040,
-  xl: 1920,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
 };
 
 const bolds = {
