@@ -11,7 +11,7 @@ const LinkContainer = styled.div`
     margin-left: 20px;
   }
   display: inline-flex;
-`
+`;
 
 const FormControl = styled(MUIFormControl)`
   width: 120px;
@@ -26,11 +26,13 @@ const NavDropdown = ({ dropdown }) => {
 
   const mapRoutes = () =>
     dropdown.options.map((route) => (
-      <MUIMenuItem value={route.path}>{route.label}</MUIMenuItem>
+      <MUIMenuItem key={route.label} value={route.path}>
+        {route.label}
+      </MUIMenuItem>
     ));
 
   return (
-    <LinkContainer>
+    <LinkContainer className="link-container">
       <FormControl variant="standard">
         <MUIInputLabel id="nav-dropdown-select-label">
           {dropdown.section}

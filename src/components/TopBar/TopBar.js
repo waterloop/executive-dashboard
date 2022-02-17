@@ -72,10 +72,12 @@ const TopBar = () => {
   ];
 
   const mapNavDropdowns = () =>
-    navDropdowns.map((dropdown) => <NavDropdown dropdown={dropdown} />);
+    navDropdowns.map((dropdown) => (
+      <NavDropdown key={dropdown.section} dropdown={dropdown} />
+    ));
 
   return (
-    <AppBar position="relative">
+    <AppBar position="sticky">
       <Toolbar>
         <NavContainer>
           <IconButton
