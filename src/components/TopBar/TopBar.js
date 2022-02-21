@@ -47,15 +47,15 @@ const TopBar = () => {
       options: [
         {
           label: 'Applications',
-          path: '/applications',
+          path: '/application',
         },
         {
           label: 'Interviews',
-          path: '/interviews',
+          path: '/interview',
         },
         {
           label: 'Decisions',
-          path: '/decisions',
+          path: '/decision',
         },
       ],
     },

@@ -1,3 +1,3 @@
-import Landing from './RecruitmentLanding';
+import Landing from './LandingPage';
 
 export default Landing;

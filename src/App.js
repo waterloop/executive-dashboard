@@ -25,14 +25,7 @@ const App = () => {
           <SignInPage />
           <h1>Sign In</h1>
         </Route>
-        <Route path="/" exact>
-          <div>
-            {!token && <Redirect to="/sign-in" />}
-            <TopBar />
-            <LandingPage />
-          </div>
-        </Route>
-        <Route path="/recruitment" exact>
+        <Route path="/recruitment">
           {!token && <Redirect to="/sign-in" />}
           <TopBar />
           <RecruitmentLandingPage />
@@ -42,6 +35,13 @@ const App = () => {
           <TopBar />
           {/* <AnalyticsLandingPage /> */}
           <h1>Analytics</h1>
+        </Route>
+        <Route path="/" exact>
+          <div>
+            {!token && <Redirect to="/sign-in" />}
+            <TopBar />
+            <LandingPage />
+          </div>
         </Route>
         <Route path="*">
           <TopBar />
