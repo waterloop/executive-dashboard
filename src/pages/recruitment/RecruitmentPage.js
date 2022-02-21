@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import LandingContent from './LandingContent';
+import LandingContent from './Landing/LandingContent';
 import NotFoundPage from '../general/NotFound';
 
 /**

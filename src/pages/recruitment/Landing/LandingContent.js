@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
+import { useRouteMatch } from 'react-router-dom';
 
-import ApplicantPortalIcon from '../../assets/svg/recruitment/application-portal-icon.svg';
-import InterviewPortalIcon from '../../assets/svg/recruitment/interview-portal-icon.svg';
-import DecisionPortalIcon from '../../assets/svg/recruitment/decision-portal-icon.svg';
-import RecruitmentCard from '../../components/RecruitmentCard';
+import ApplicantPortalIcon from '../../../assets/svg/recruitment/application-portal-icon.svg';
+import InterviewPortalIcon from '../../../assets/svg/recruitment/interview-portal-icon.svg';
+import DecisionPortalIcon from '../../../assets/svg/recruitment/decision-portal-icon.svg';
+import RecruitmentCard from '../../../components/RecruitmentCard';
 
-import theme from '../../theme';
+import { sanitizeUrlPrefix } from '../../../utils';
+
+import theme from '../../../theme';
 
 /**
  * Provides breakpoint support on element layout.
@@ -56,20 +59,18 @@ const CardTitle = styled.h1`
   text-align: center;
 `;
 
-const LINK_PREFIX = '/recruitment';
-
-const sections = [
+const sections = (linkPrefix) => [
   {
     name: 'Application Portal',
     description: 'Tap to view all applications',
-    to: `${LINK_PREFIX}/application`,
+    to: `${linkPrefix}application`,
     icon: ApplicantPortalIcon,
     backgroundColor: theme.colours.greens.green1,
   },
   {
     name: 'Interview Portal',
-    description: 'Tap to view all interviewed applications',
-    to: `${LINK_PREFIX}/interview`,
+    description: 'Tap to view all interviewed applicants',
+    to: `${linkPrefix}interview`,
     icon: InterviewPortalIcon,
     backgroundColor: theme.colours.purples.purple1,
   },
@@ -77,7 +78,7 @@ const sections = [
     name: 'Decision Portal',
     description:
       'Tap to view all acceptances and rejections from both Application and Interview portal',
-    to: `${LINK_PREFIX}/decision`,
+    to: `${linkPrefix}decision`,
     icon: DecisionPortalIcon,
     backgroundColor: theme.colours.blues.blue3,
   },
@@ -86,34 +87,33 @@ const sections = [
 // MOBILE/Tablet view: Overview should be first element (on top of page), followed by the 3 navigation portals,
 // and finally the calendar should be last.
 const RecruitmentLanding = () => {
-  const sectionItems = sections.map((section) => (
-    <RecruitmentCard key={section.name} {...section} />
-  ));
+  const linkPrefix = useRouteMatch().url;
+  const sectionItems = sections(sanitizeUrlPrefix(linkPrefix)).map(
+    (section) => <RecruitmentCard key={section.name} {...section} />,
+  );
 
   return (
-    <>
-      <Container>
-        <PageTitle>Recruitment Dashboard</PageTitle>
+    <Container>
+      <PageTitle>Recruitment Dashboard</PageTitle>
 
-        <Grid className="root-grid" container spacing={3}>
-          <Grid item container justifyContent="space-between" xs={12}>
-            <Grid item xs={12} lg={4}>
-              <PlaceholderContainer className="overview">
-                <CardTitle>[Overview Placeholder]</CardTitle>
-              </PlaceholderContainer>
-            </Grid>
-            <CardGroupGrid item container spacing={1} lg={8} xs={12}>
-              {sectionItems}
-            </CardGroupGrid>
-          </Grid>
-          <Grid item xs={12}>
-            <PlaceholderContainer className="calendar">
-              <CardTitle>[Calendar Placeholder]</CardTitle>
+      <Grid container spacing={3}>
+        <Grid item container justifyContent="space-between" xs={12}>
+          <Grid item xs={12} lg={4}>
+            <PlaceholderContainer>
+              <CardTitle>[Overview Placeholder]</CardTitle>
             </PlaceholderContainer>
           </Grid>
+          <CardGroupGrid item container spacing={1} lg={8} xs={12}>
+            {sectionItems}
+          </CardGroupGrid>
         </Grid>
-      </Container>
-    </>
+        <Grid item xs={12}>
+          <PlaceholderContainer>
+            <CardTitle>[Calendar Placeholder]</CardTitle>
+          </PlaceholderContainer>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

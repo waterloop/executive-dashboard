@@ -1,3 +1,3 @@
-import Landing from './LandingPage';
+import RecruitmentPage from './RecruitmentPage';
 
-export default Landing;
+export default RecruitmentPage;
