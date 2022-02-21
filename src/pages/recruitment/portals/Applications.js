@@ -56,11 +56,32 @@ const Applications = () => {
     web: true,
     electrical: true,
     mechanical: true,
+    lim: true,
+    business: true,
+    infrastructure: true,
+    propulsion: true,
+    bms: true,
+    embedded: true,
+    motorControl: true,
+    communications: true,
+    firmware: true,
   };
  
   const termTypeChecked = {
     study: true,
     coop: true,
+  };
+
+  const yearsChecked = {
+    _1A: true,
+    _1B: true,
+    _2A: true,
+    _2B: true,
+    _3A: true,
+    _3B: true,
+    _4A: true,
+    _4B: true,
+    _5A: true,
   };
  
   const tabs = [
@@ -70,6 +91,7 @@ const Applications = () => {
   const [value, setValue] = React.useState(0);
   const [subteam, setSubteam] = useState(subteamChecked);
   const [termType, setTermType] = useState(termTypeChecked);
+  const [year, setYear] = useState(yearsChecked);
  
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -82,6 +104,10 @@ const Applications = () => {
   const getTermType = (childData) => {
     setTermType(childData);
   };
+
+  const getYear = (childData) => {
+    setYear(childData);
+  }
  
   return (
     <Container>
@@ -90,7 +116,7 @@ const Applications = () => {
         container
         direction="row"
         md={12}
-        justifyContent="left"
+        justifyContent="flex-start"
         alignItems="stretch"
       >
         <Grid
@@ -104,6 +130,7 @@ const Applications = () => {
             <CheckboxesGroup
               getSubteam={getSubteam}
               getTermTypes={getTermType}
+              getYear={getYear}
             />
           </Container>
         </Grid>
@@ -129,11 +156,13 @@ const Applications = () => {
               </Tabs>
             </Box>
             {tabs.map((tab, index) => (
-              <TabPanel value={value} index={index}>
+              <TabPanel value={value} index={index} key={index}>
               <BasicTable
                 status={tabs[index]}
                 subteams={subteam}
                 termTypes={termType}
+                years={year}
+                key={index+1000}
               />
             </TabPanel>
             )

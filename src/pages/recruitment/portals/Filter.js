@@ -9,18 +9,60 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import Button from '@mui/material/Button';
 
-export default function CheckboxesGroup({ getSubteam, getTermTypes }) {
+const allSubteams = [
+  'web',
+  'electrical',
+  'mechanical',
+  'lim',
+  'business',
+  'infrastructure',
+  'propulsion',
+  'bms',
+  'embedded',
+  'motorControl',
+  'communications',
+  'firmware',
+];
+
+const allYears = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A'];
+
+export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
   const [subteams, setSubteams] = useState({
     web: true,
     electrical: true,
     mechanical: true,
+    lim: true,
+    business: true,
+    infrastructure: true,
+    propulsion: true,
+    bms: true,
+    embedded: true,
+    motorControl: true,
+    communications: true,
+    firmware: true,
   });
 
   const [termTypes, setTermTypes] = useState({
     study: true,
     coop: true,
   });
+
+  const [years, setYear] = useState({
+    _1A: true,
+    _1B: true,
+    _2A: true,
+    _2B: true,
+    _3A: true,
+    _3B: true,
+    _4A: true,
+    _4B: true,
+    _5A: true,
+  });
+
+  const [subteamsShown, setSubteamsShown] = useState(6);
+  const [yearsShown, setYearsShown] = useState(2);
 
   const handleChange = (event) => {
     if (event.target.name in subteams) {
@@ -37,12 +79,34 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes }) {
       };
       setTermTypes(newChecked);
       getTermTypes(newChecked);
+    } else if (event.target.name in years) {
+      const newChecked = {
+        ...years,
+        [event.target.name]: event.target.checked,
+      };
+      setYear(newChecked);
+      getYear(newChecked);
     }
   };
 
-  const { web, electrical, mechanical } = subteams;
-  console.log(subteams);
+  const {
+    web,
+    electrical,
+    mechanical,
+    lim,
+    business,
+    infrastructure,
+    propulsion,
+    bms,
+    embedded,
+    motorControl,
+    communications,
+    firmware,
+  } = subteams;
+
   const { study, coop } = termTypes;
+
+  const { _1A, _1B, _2A, _2B, _3A, _3B, _4A, _4B, _5A } = years;
 
   return (
     <Container>
@@ -57,33 +121,47 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes }) {
           <FormLabel component="legend">Filters</FormLabel>
           <FormHelperText>Subteam</FormHelperText>
           <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox checked={web} onChange={handleChange} name="web" />
-              }
-              label="Web"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={electrical}
-                  onChange={handleChange}
-                  name="electrical"
-                />
-              }
-              label="Electrical"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={mechanical}
-                  onChange={handleChange}
-                  name="mechanical"
-                />
-              }
-              label="Mechanical"
-            />
+            {allSubteams.slice(0, subteamsShown).map((team, index) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={eval(team)}
+                    onChange={handleChange}
+                    name={team}
+                    key={index + 100}
+                  />
+                }
+                label={
+                  team.charAt(0).toUpperCase() +
+                  team
+                    .slice(1)
+                    .replace(/([A-Z])/g, ' $1')
+                    .trim()
+                }
+                key={index}
+              />
+            ))}
           </FormGroup>
+          {subteamsShown < 12 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setSubteamsShown(12);
+              }}
+            >
+              Show all...
+            </Button>
+          )}
+          {subteamsShown == 12 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setSubteamsShown(6);
+              }}
+            >
+              Show less...
+            </Button>
+          )}
         </FormControl>
       </Grid>
       <Grid
@@ -113,6 +191,53 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes }) {
               label="Co-op"
             />
           </FormGroup>
+        </FormControl>
+      </Grid>
+      <Grid
+        container
+        direction="row"
+        md={12}
+        justifyContent="left"
+        alignItems="stretch"
+      >
+        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+          <FormHelperText>Year of Study</FormHelperText>
+          <FormGroup>
+            {allYears.slice(0, yearsShown).map((year, index) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={eval("_" + year)}
+                    onChange={handleChange}
+                    name={"_"+year}
+                    key={index + 1000}
+                  />
+                }
+                label={year}
+                key={index + 2000}
+              />
+            ))}
+          </FormGroup>
+          {yearsShown < 9 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setYearsShown(9);
+              }}
+            >
+              Show all...
+            </Button>
+          )}
+          {yearsShown == 9 && (
+            <Button
+              variant="text"
+              onClick={() => {
+                setYearsShown(2);
+              }}
+            >
+              Show less...
+            </Button>
+          )}
         </FormControl>
       </Grid>
     </Container>
