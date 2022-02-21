@@ -1,3 +1,3 @@
-import recruitment from './portals/Applications';
+import RecruitmentPage from './RecruitmentPage';
 
-export default recruitment;
+export default RecruitmentPage;

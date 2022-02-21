@@ -7,6 +7,7 @@ const reds = {
 const blues = {
   blue1: '#232535',
   blue2: '#82B0FD',
+  blue3: '#B4BFED',
 };
 
 const yellows = {
@@ -23,16 +24,25 @@ const blacks = {
 const greys = {
   grey1: '#F5F5F5',
   grey2: '#C4C4C4',
+  grey3: '#666666',
+};
+
+const greens = {
+  green1: '#bcddd7',
+};
+
+const purples = {
+  purple1: '#C1B1E9',
 };
 
 const white = '#FFFFFF';
 
 const breakpoints = {
   xs: 0,
-  sm: 350,
-  md: 740,
-  lg: 1040,
-  xl: 1920,
+  sm: 600,
+  md: 900,
+  lg: 1200,
+  xl: 1536,
 };
 
 const bolds = {
@@ -47,14 +57,17 @@ const bolds = {
 const mediums = {
   medium12: '400 12px IBM Plex Sans',
   medium14: '400 14px IBM Plex Sans',
+  medium16: '400 16px IBM Plex Sans',
   medium18: '400 18px IBM Plex Sans',
+  medium20: '400 20px IBM Plex Sans',
   medium24: '400 24px IBM Plex Sans',
   medium48: '400 48px IBM Plex Sans',
   medium72: '400 72px IBM Plex Sans',
 };
 
 const shadows = {
-  shadow1: '0 4px 4px 0px rgba(0, 0, 0, 0.25)',
+  shadow1: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+  shadow2: '0 8px 8px 0 rgba(0, 0, 0, 0.75)',
 };
 
 const borders = {
@@ -71,6 +84,8 @@ export default {
     blacks,
     white,
     greys,
+    greens,
+    purples,
   },
   breakpoints,
   fonts: {
