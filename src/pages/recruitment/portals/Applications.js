@@ -9,17 +9,17 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@material-ui/core/Grid';
-
+ 
 import BasicTable from './ApplicationsTable';
 import CheckboxesGroup from './Filter';
-
+ 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
 `;
-
+ 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+ 
   return (
     <div
       role="tabpanel"
@@ -36,7 +36,7 @@ function TabPanel(props) {
     </div>
   );
 }
-
+ 
 TabPanel.propTypes = {
   /* eslint-disable */
   children: PropTypes.node,
@@ -57,32 +57,32 @@ const Applications = () => {
     electrical: true,
     mechanical: true,
   };
-
+ 
   const termTypeChecked = {
     study: true,
     coop: true,
   };
-
+ 
   const tabs = [
     'pending', 'interview', 'rejected', 'undecided'
   ]
-
+ 
   const [value, setValue] = React.useState(0);
   const [subteam, setSubteam] = useState(subteamChecked);
   const [termType, setTermType] = useState(termTypeChecked);
-
+ 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+ 
   const getSubteam = (childData) => {
     setSubteam(childData);
   };
-
+ 
   const getTermType = (childData) => {
     setTermType(childData);
   };
-
+ 
   return (
     <Container>
       <h1>Recruitment</h1>
@@ -144,5 +144,7 @@ const Applications = () => {
     </Container>
   );
 };
-
+ 
 export default Applications;
+ 
+
