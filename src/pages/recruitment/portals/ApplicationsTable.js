@@ -70,6 +70,12 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
     setPage(newPage);
   };
 
+  const rowsShown = rows
+    .filter((row) => row.status === status)
+    .filter((row) => subteams[row.subteam])
+    .filter((row) => termTypes[row.term])
+    .filter((row) => years['_' + row.year]);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -83,11 +89,7 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows
-            .filter((row) => row.status === status)
-            .filter((row) => subteams[row.subteam])
-            .filter((row) => termTypes[row.term])
-            .filter((row) => years['_' + row.year])
+          {rowsShown
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((row) => (
               <TableRow key={row.name}>
@@ -105,13 +107,7 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}
-        count={
-          rows
-            .filter((row) => row.status === status)
-            .filter((row) => subteams[row.subteam])
-            .filter((row) => termTypes[row.term])
-            .filter((row) => years['_' + row.year]).length
-        }
+        count={rowsShown.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
