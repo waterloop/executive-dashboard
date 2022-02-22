@@ -105,7 +105,13 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}
-        count={rows.filter((row) => row.status === status).length}
+        count={
+          rows
+            .filter((row) => row.status === status)
+            .filter((row) => subteams[row.subteam])
+            .filter((row) => termTypes[row.term])
+            .filter((row) => years['_' + row.year]).length
+        }
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
