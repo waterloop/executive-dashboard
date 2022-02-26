@@ -29,6 +29,8 @@ const allSubteams = [
 const allYears = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A'];
 
 export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
+  // TODO: You already have this state defined in Applications.js. Let's instead pass in both the state and setState variables
+  // directly from the parent to avoid its redefinition here.
   const [subteams, setSubteams] = useState({
     web: true,
     electrical: true,
@@ -61,6 +63,7 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
     _5A: true,
   });
 
+  // TODO: create constants for minimal subteams and years shown, as well as full subteams + years shown.
   const [subteamsShown, setSubteamsShown] = useState(6);
   const [yearsShown, setYearsShown] = useState(2);
 
@@ -89,6 +92,7 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
     }
   };
 
+  // TODO: Grab team names from an api call. Do not hardcode it into parameters like this.
   const {
     web,
     electrical,
@@ -207,9 +211,11 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
               <FormControlLabel
                 control={
                   <Checkbox
-                    checked={eval("_" + year)}
+                    // TODO: DO NOT USE eval(), it's generally considered bad practice.
+                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
+                    checked={eval('_' + year)}
                     onChange={handleChange}
-                    name={"_"+year}
+                    name={'_' + year}
                     key={index + 1000}
                   />
                 }
