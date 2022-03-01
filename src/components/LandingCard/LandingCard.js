@@ -1,18 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import Button from '../Button';
 
-const Container = styled.div`
+const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   border: ${({ theme }) => theme.borders.solidGrey1};
-  border-radius: 15px;
+  border-radius: 0.9375rem;
+
+  width: 20rem;
+  height: auto;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 57px;
-  width: 400px;
+
+  margin: auto;
+  padding: 3rem;
 
   -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
@@ -20,9 +24,9 @@ const Container = styled.div`
 `;
 
 const CardIcon = styled.img`
-  width: 150px;
-  height: 150px;
-  margin-bottom: 20px;
+  width: 9.375rem;
+  height: 9.375rem;
+  margin-bottom: 1.25rem;
 `;
 
 const CardTitle = styled.h1`
@@ -31,21 +35,21 @@ const CardTitle = styled.h1`
 
 const CardDescription = styled.p`
   font: ${({ theme }) => theme.fonts.medium24};
-  color: ${({ theme }) => theme.colours.greys.grey2};
+  color: ${({ theme }) => theme.colours.greys.grey2}};
   text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  margin-top: 1.25rem;
+  margin-bottom: 2.5rem;
 `;
 
 const LandingCard = ({ name, description, to, icon }) => (
-  <Container>
+  <CardContainer>
     <CardIcon src={icon} />
     <CardTitle>{name}</CardTitle>
     <CardDescription>{description}</CardDescription>
     <Button tertiary link to={to}>
       View
     </Button>
-  </Container>
+  </CardContainer>
 );
 
 export default LandingCard;
