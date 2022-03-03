@@ -3,7 +3,7 @@ const addApplication = (server) => (formData) => {
 };
 
 const getApplicationByEmail = (server) => (email) => {
-  server.get(`/api/applications?email=${email}`);
+  server.get(`/api/applications/applicant/${email}`);
 };
 
 const getApplication = (server) => (term) => {
@@ -11,7 +11,7 @@ const getApplication = (server) => (term) => {
 };
 
 const updateApplicationStatus = (server) => (id, status) => {
-  server.patch('/api/applications', { id, status });
+  server.patch('/api/applications/applicant/status', { id, status });
 };
 
 export default (server) => ({
