@@ -17,12 +17,21 @@ function createData(name, year, term, subteam, position, status) {
   return { name, year, term, subteam, position, status };
 }
 
-const rowsPerPage = 11;
+const ROWS_PER_PAGE = 11;
 
+// TODO: (optional): Move to separate file (hooks.js) that grabs relevant data from backend
+// TODO: and gives us only data that needs to be used in ApplicationsTable.js.
 const rows = [
   createData('Michael', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
   createData('John', '1B', 'coop', 'web', 'Backend Developer', 'pending'),
-  createData('Michael1', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
+  createData(
+    'Michael1 really long name',
+    '1A',
+    'study',
+    'web',
+    'Frontend Developer',
+    'pending',
+  ),
   createData('Michael2', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
   createData('Michael3', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
   createData('Michael4', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
@@ -49,16 +58,17 @@ const rows = [
   createData('Jean', '4A', 'study', 'web', 'Frontend Developer', 'rejected'),
 ];
 
+// TODO: consider overriding css styling directly using backticks ``. Stick with MatUI if this is too difficult.
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: '#E1D9F6',
     color: theme.palette.common.black,
     fontWeight: 600,
-    font: theme2.fonts18,
+    font: theme2.medium18,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    font: theme2.fonts18,
+    font: theme2.medium18,
     fontWeight: 600,
   },
 }));
@@ -78,9 +88,10 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table aria-label="customized table">
         <TableHead>
           <TableRow>
+            {/* TODO: Like tabs, customize so it supports values dynamically. */}
             <StyledTableCell>NAME</StyledTableCell>
             <StyledTableCell align="center">YEAR OF STUDY</StyledTableCell>
             <StyledTableCell align="center">TERM</StyledTableCell>
@@ -90,7 +101,7 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
         </TableHead>
         <TableBody>
           {rowsShown
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE)
             .map((row) => (
               <TableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
@@ -108,7 +119,7 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
         rowsPerPageOptions={[]}
         component={TableContainer}
         count={rowsShown.length}
-        rowsPerPage={rowsPerPage}
+        rowsPerPage={ROWS_PER_PAGE}
         page={page}
         onPageChange={handleChangePage}
       />

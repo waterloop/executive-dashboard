@@ -8,8 +8,9 @@ import TopBar from './components/TopBar';
 import SignInPage from './pages/general/SignIn';
 import LandingPage from './pages/general/Landing';
 import NotFoundPage from './pages/general/NotFound';
-/* TODO: Create the folllowing pages and include them for their corresponding routes */
 import RecruitmentLandingPage from './pages/recruitment';
+
+/* TODO: Create the folllowing pages and include them for their corresponding routes */
 /*
 import AnalyticsLandingPage from './pages/analytics/...';
 */
