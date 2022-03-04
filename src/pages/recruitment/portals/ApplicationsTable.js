@@ -1,6 +1,6 @@
-import * as React from 'react';
 /* eslint-disable */
-import { useEffect } from 'react';
+
+import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -58,6 +58,8 @@ const rows = [
   createData('Jean', '4A', 'study', 'web', 'Frontend Developer', 'rejected'),
 ];
 
+const colNames = ['NAME', 'YEAR OF STUDY', 'TERM', 'SUBTEAM', 'POSITION'];
+
 // TODO: consider overriding css styling directly using backticks ``. Stick with MatUI if this is too difficult.
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -91,12 +93,10 @@ function CustomizedTables({ status, subteams, termTypes, years }) {
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            {/* TODO: Like tabs, customize so it supports values dynamically. */}
-            <StyledTableCell>NAME</StyledTableCell>
-            <StyledTableCell align="center">YEAR OF STUDY</StyledTableCell>
-            <StyledTableCell align="center">TERM</StyledTableCell>
-            <StyledTableCell align="center">SUBTEAM</StyledTableCell>
-            <StyledTableCell align="left">POSITION</StyledTableCell>
+            {/* TODO: Like tabs, customize so it supports values dynamically. [DONE] */}
+            {colNames.map((col) => (
+              <StyledTableCell align ="center">{col}</StyledTableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>

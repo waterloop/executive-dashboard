@@ -14,6 +14,8 @@ import CheckboxesGroup from './Filter';
 
 import { makeTruthTable } from '../../../utils';
 
+import * as filterConstants from './Constants';
+
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
 `;
@@ -49,26 +51,11 @@ const a11yProps = (index) => ({
   'aria-controls': `simple-tabpanel-${index}`,
 });
 
-// TODO: move these constants to a different file called Constants.js that can be used by all 3 portals.
+// TODO: move these constants to a different file called Constants.js that can be used by all 3 portals. [DONE]
 // TODO: change to UPPER_CASE and follow convention below for other 2 constants (+ any other global non-changing constants)
-const SUBTEAM_OPTIONS = [
-  'web',
-  'electrical',
-  'mechanical',
-  'lim',
-  'business',
-  'infrastructure',
-  'propulsion',
-  'bms',
-  'embedded',
-  'motorControl',
-  'communications',
-  'firmware',
-];
-
-const TERM_TYPE_OPTIONS = ['study', 'coop'];
-
-const YEAR_OPTIONS = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A'];
+const { SUBTEAM_OPTIONS } =  filterConstants;
+const { TERM_TYPE_OPTIONS } =  filterConstants;
+const { YEAR_OPTIONS } =  filterConstants;
 
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.
@@ -137,11 +124,11 @@ const Applications = () => {
                 onChange={handleTabChange}
                 aria-label="application status tabs"
               >
-                {/* TODO: Dynamically define tabs using the .map function */}
-                <Tab label="Pending" {...a11yProps(0)} />
-                <Tab label="To interview" {...a11yProps(1)} />
-                <Tab label="To reject" {...a11yProps(2)} />
-                <Tab label="Undecided" {...a11yProps(3)} />
+                {/* TODO: Dynamically define tabs using the .map function [DONE] */}
+                {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
+                {tabs.map((tab, index) => (
+                  <Tab label={tab} {...a11yProps(index)} />
+                ))}
               </Tabs>
             </Box>
             {tabs.map((tab, index) => (
