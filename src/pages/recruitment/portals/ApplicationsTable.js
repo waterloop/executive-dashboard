@@ -64,11 +64,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#E1D9F6',
     color: theme.palette.common.black,
     fontWeight: 600,
-    font: theme2.fonts18, // TODO: change to medium18
+    font: theme2.medium18,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    font: theme2.fonts18, // TODO: Same here.
+    font: theme2.medium18,
     fontWeight: 600,
   },
 }));

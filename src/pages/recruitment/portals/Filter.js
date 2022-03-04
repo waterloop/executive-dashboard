@@ -1,5 +1,4 @@
 import * as React from 'react';
-/* eslint-disable */
 import { useState } from 'react';
 import Container from '@mui/material/Container';
 import FormLabel from '@mui/material/FormLabel';
@@ -11,107 +10,27 @@ import Checkbox from '@mui/material/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Button from '@mui/material/Button';
 
-const allSubteams = [
-  'web',
-  'electrical',
-  'mechanical',
-  'lim',
-  'business',
-  'infrastructure',
-  'propulsion',
-  'bms',
-  'embedded',
-  'motorControl',
-  'communications',
-  'firmware',
-];
+const MIN_SUBTEAMS_SHOWN = 6;
+const MIN_YEARS_SHOWN = 2;
 
-const allYears = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A'];
+const CheckboxesGroup = ({
+  subteams,
+  termTypes,
+  years,
+  setSubteamsChecked,
+  setTermTypesChecked,
+  setYearsChecked,
+}) => {
+  // TODO (JEFF): Go over all changes you made to make component more reusable and dynamic, and also go over
+  // which constants can be used.
 
-export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
-  // TODO: You already have this state defined in Applications.js. Let's instead pass in both the state and setState variables
-  // directly from the parent to avoid its redefinition here.
-  const [subteams, setSubteams] = useState({
-    web: true,
-    electrical: true,
-    mechanical: true,
-    lim: true,
-    business: true,
-    infrastructure: true,
-    propulsion: true,
-    bms: true,
-    embedded: true,
-    motorControl: true,
-    communications: true,
-    firmware: true,
-  });
+  const MAX_SUBTEAMS_SHOWN = subteams.length;
+  const MAX_YEARS_SHOWN = years.length;
 
-  const [termTypes, setTermTypes] = useState({
-    study: true,
-    coop: true,
-  });
-
-  const [years, setYear] = useState({
-    _1A: true,
-    _1B: true,
-    _2A: true,
-    _2B: true,
-    _3A: true,
-    _3B: true,
-    _4A: true,
-    _4B: true,
-    _5A: true,
-  });
-
-  // TODO: create constants for minimal subteams and years shown, as well as full subteams + years shown.
-  const [subteamsShown, setSubteamsShown] = useState(6);
-  const [yearsShown, setYearsShown] = useState(2);
-
-  const handleChange = (event) => {
-    if (event.target.name in subteams) {
-      const newChecked = {
-        ...subteams,
-        [event.target.name]: event.target.checked,
-      };
-      setSubteams(newChecked);
-      getSubteam(newChecked);
-    } else if (event.target.name in termTypes) {
-      const newChecked = {
-        ...termTypes,
-        [event.target.name]: event.target.checked,
-      };
-      setTermTypes(newChecked);
-      getTermTypes(newChecked);
-    } else if (event.target.name in years) {
-      const newChecked = {
-        ...years,
-        [event.target.name]: event.target.checked,
-      };
-      setYear(newChecked);
-      getYear(newChecked);
-    }
-  };
+  const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
+  const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
   // TODO: Grab team names from an api call. Do not hardcode it into parameters like this.
-  const {
-    web,
-    electrical,
-    mechanical,
-    lim,
-    business,
-    infrastructure,
-    propulsion,
-    bms,
-    embedded,
-    motorControl,
-    communications,
-    firmware,
-  } = subteams;
-
-  const { study, coop } = termTypes;
-
-  const { _1A, _1B, _2A, _2B, _3A, _3B, _4A, _4B, _5A } = years;
-
   return (
     <Container>
       <Grid
@@ -125,10 +44,12 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
           <FormLabel component="legend">Filters</FormLabel>
           <FormHelperText>Subteam</FormHelperText>
           <FormGroup>
-            {allSubteams.slice(0, subteamsShown).map((team, index) => (
+            {/* NOTE: May not need to define MAX elements to show. */}
+            {subteams.slice(0, subteamsShown).map((team, index) => (
               <FormControlLabel
                 control={
                   <Checkbox
+                    // NOTE: DO NOT USE eval!!!!
                     checked={eval(team)}
                     onChange={handleChange}
                     name={team}
@@ -136,6 +57,7 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
                   />
                 }
                 label={
+                  // TODO: This capitalization should be done while preprocessing the data coming from the server BEFORE using it here.
                   team.charAt(0).toUpperCase() +
                   team
                     .slice(1)
@@ -146,21 +68,21 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
               />
             ))}
           </FormGroup>
-          {subteamsShown < 12 && (
+          {subteamsShown < MAX_SUBTEAMS_SHOWN && (
             <Button
               variant="text"
               onClick={() => {
-                setSubteamsShown(12);
+                setSubteamsShown(MAX_SUBTEAMS_SHOWN);
               }}
             >
               Show all...
             </Button>
           )}
-          {subteamsShown == 12 && (
+          {subteamsShown === MAX_SUBTEAMS_SHOWN && (
             <Button
               variant="text"
               onClick={() => {
-                setSubteamsShown(6);
+                setSubteamsShown(MIN_SUBTEAMS_SHOWN);
               }}
             >
               Show less...
@@ -178,6 +100,7 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
           <FormHelperText>Term</FormHelperText>
           <FormGroup>
+            {/* TODO: Use map to dynamically load content. */}
             <FormControlLabel
               control={
                 <Checkbox
@@ -207,45 +130,41 @@ export default function CheckboxesGroup({ getSubteam, getTermTypes, getYear }) {
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
           <FormHelperText>Year of Study</FormHelperText>
           <FormGroup>
-            {allYears.slice(0, yearsShown).map((year, index) => (
+            {allYears.slice(0, yearsShown).map((year) => (
               <FormControlLabel
                 control={
                   <Checkbox
-                    // TODO: DO NOT USE eval(), it's generally considered bad practice.
-                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!
-                    checked={eval('_' + year)}
-                    onChange={handleChange}
-                    name={'_' + year}
-                    key={index + 1000}
+                    checked={years[year]}
+                    onChange={() => {
+                      setYearsChecked({
+                        ...years,
+                        year: !years[year],
+                      });
+                    }}
+                    name={year}
                   />
                 }
                 label={year}
-                key={index + 2000}
+                key={year}
               />
             ))}
           </FormGroup>
-          {yearsShown < 9 && (
-            <Button
-              variant="text"
-              onClick={() => {
-                setYearsShown(9);
-              }}
-            >
-              Show all...
-            </Button>
-          )}
-          {yearsShown == 9 && (
-            <Button
-              variant="text"
-              onClick={() => {
-                setYearsShown(2);
-              }}
-            >
-              Show less...
-            </Button>
-          )}
+          <Button
+            variant="text"
+            onClick={() => {
+              setYearsShown(
+                yearsShown === MAX_YEARS_SHOWN
+                  ? MIN_YEARS_SHOWN
+                  : MAX_YEARS_SHOWN,
+              );
+            }}
+          >
+            {yearsShown === MAX_YEARS_SHOWN ? 'Show less...' : 'Show more...'}
+          </Button>
         </FormControl>
       </Grid>
     </Container>
   );
-}
+};
+
+export default CheckboxesGroup;
