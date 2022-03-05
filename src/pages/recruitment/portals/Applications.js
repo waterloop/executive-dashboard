@@ -14,7 +14,7 @@ import CheckboxesGroup from './Filter';
 
 import { makeTruthTable } from '../../../utils';
 
-import * as filterConstants from './Constants';
+import { SUBTEAM_OPTIONS, TERM_TYPE_OPTIONS, YEAR_OPTIONS } from './Constants';
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -50,12 +50,6 @@ const a11yProps = (index) => ({
   id: `simple-tab-${index}`,
   'aria-controls': `simple-tabpanel-${index}`,
 });
-
-// TODO: move these constants to a different file called Constants.js that can be used by all 3 portals. [DONE]
-// TODO: change to UPPER_CASE and follow convention below for other 2 constants (+ any other global non-changing constants)
-const { SUBTEAM_OPTIONS } =  filterConstants;
-const { TERM_TYPE_OPTIONS } =  filterConstants;
-const { YEAR_OPTIONS } =  filterConstants;
 
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.

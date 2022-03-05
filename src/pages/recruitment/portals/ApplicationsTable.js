@@ -77,25 +77,25 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 function CustomizedTables({ status, subteams, termTypes, years }) {
   const [page, setPage] = React.useState(0);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const rowsShown = rows
-    .filter((row) => row.status === status)
-    .filter((row) => subteams[row.subteam])
-    .filter((row) => termTypes[row.term])
-    .filter((row) => years['_' + row.year]);
+  const rowsShown = rows.filter(
+    (row) =>
+      row.status === status &&
+      subteams[row.subteam] &&
+      termTypes[row.term] &&
+      years[row.year],
+  );
 
   return (
     <TableContainer component={Paper}>
       <Table aria-label="customized table">
         <TableHead>
           <TableRow>
-            {/* TODO: Like tabs, customize so it supports values dynamically. [DONE] */}
             {colNames.map((col) => (
-              <StyledTableCell align ="center">{col}</StyledTableCell>
+              <StyledTableCell align="center">{col}</StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
