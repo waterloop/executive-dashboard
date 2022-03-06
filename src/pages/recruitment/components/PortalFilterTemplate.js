@@ -14,7 +14,7 @@ import { SUBTEAM_OPTIONS, TERM_TYPE_OPTIONS, YEAR_OPTIONS } from './Constants';
 const MIN_SUBTEAMS_SHOWN = 6;
 const MIN_YEARS_SHOWN = 2;
 
-const CheckboxesGroup = ({
+const PortalFilterTemplate = ({
   subteams,
   termTypes,
   years,
@@ -22,15 +22,12 @@ const CheckboxesGroup = ({
   setTermTypesChecked,
   setYearsChecked,
 }) => {
-  // TODO (JEFF): Go over all changes you made to make component more reusable and dynamic, and also go over
-  // which constants can be used.
-
   const MAX_SUBTEAMS_SHOWN = subteams.length;
   const MAX_YEARS_SHOWN = years.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
-  // TODO: Grab team names from an api call. Do not hardcode it into parameters like this.
+
   return (
     <Container>
       <Grid
@@ -42,7 +39,7 @@ const CheckboxesGroup = ({
       >
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
           <FormLabel component="legend">Filters</FormLabel>
-          {/* TODO: Put me in a for loop! */}
+          {/* TODO: use a map to generate components for each of subteams, ....! */}
           <FormHelperText>Subteam</FormHelperText>
           <FormGroup>
             {/* NOTE: May not need to define MAX elements to show. */}
@@ -167,4 +164,4 @@ const CheckboxesGroup = ({
   );
 };
 
-export default CheckboxesGroup;
+export default PortalFilterTemplate;

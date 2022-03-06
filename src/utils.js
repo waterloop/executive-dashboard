@@ -14,3 +14,15 @@ export const makeTruthTable = (values) => {
   });
   return res;
 };
+
+/**
+ * Creates mock data from an array of values:
+ */
+export const createData = (name, year, term, subteam, position, status) => ({
+  name,
+  year,
+  term,
+  subteam,
+  position,
+  status,
+});

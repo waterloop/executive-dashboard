@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@material-ui/core/Grid';
 
-import BasicTable from './ApplicationsTable';
-import CheckboxesGroup from './Filter';
+import PortalTableTemplate from './PortalTableTemplate';
+import PortalFilterTemplate from './PortalFilterTemplate';
 
 import { makeTruthTable } from '../../../utils';
 
@@ -28,7 +28,6 @@ const TabPanel = (props) => {
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`} // TODO: Don't need this, but leave it if it works.
       {...other}
     >
       {value === index && (
@@ -40,22 +39,11 @@ const TabPanel = (props) => {
   );
 };
 
-// TODO: consider removing  propTypes as we most likely don't need it.
-// TabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.number.isRequired,
-//   value: PropTypes.number.isRequired,
-// };
-const a11yProps = (index) => ({
-  id: `simple-tab-${index}`,
-  'aria-controls': `simple-tabpanel-${index}`,
-});
-
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.
 const tabs = ['pending', 'interview', 'rejected', 'undecided'];
 
-const Applications = () => {
+const PortalTemplate = () => {
   const [currentTab, setCurrentTab] = React.useState(0);
 
   // Used for filtering applications
@@ -72,8 +60,6 @@ const Applications = () => {
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
   };
-
-  // TODO (OPTIONAL): Make grids react responsively when in mobile mode (make it look good in mobile view).
   // TODO: fix console errors on browser.
   return (
     <Container>
@@ -93,7 +79,7 @@ const Applications = () => {
           alignItems="stretch"
         >
           <Container>
-            <CheckboxesGroup
+            <PortalFilterTemplate
               subteams={subteamsChecked}
               termTypes={termTypesChecked}
               years={yearsChecked}
@@ -113,21 +99,16 @@ const Applications = () => {
         >
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs
-                value={currentTab}
-                onChange={handleTabChange}
-                aria-label="application status tabs"
-              >
-                {/* TODO: Dynamically define tabs using the .map function [DONE] */}
+              <Tabs value={currentTab} onChange={handleTabChange}>
                 {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
-                {tabs.map((tab, index) => (
-                  <Tab label={tab} {...a11yProps(index)} />
+                {tabs.map((tab) => (
+                  <Tab label={tab} />
                 ))}
               </Tabs>
             </Box>
             {tabs.map((tab, index) => (
               <TabPanel value={currentTab} index={index} key={tab}>
-                <BasicTable
+                <PortalTableTemplate
                   status={tab}
                   subteams={subteamsChecked}
                   termTypes={termTypesChecked}
@@ -142,4 +123,4 @@ const Applications = () => {
   );
 };
 
-export default Applications;
+export default PortalTemplate;
