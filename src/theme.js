@@ -29,6 +29,7 @@ const greys = {
 
 const greens = {
   green1: '#BCDDD7',
+  green2: '#8BC34A',
 };
 
 const purples = {
