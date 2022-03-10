@@ -1,6 +1,8 @@
-import server from './server';
+import { serverDashboard, serverCMS } from './server';
 import applications from './applications';
+import teams from './teams';
 
 export default {
-  applications: applications(server),
+  applications: applications(serverDashboard),
+  teams: teams(serverCMS),
 };
