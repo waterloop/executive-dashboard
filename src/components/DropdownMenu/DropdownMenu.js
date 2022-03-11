@@ -11,6 +11,9 @@ const options = [
   'Rejected',
   'Undecided',
   'Interview Set Up',
+  'Interview Pending',
+  'Interview Rejected',
+  'Interview Undecided',
   'Accepted',
 ];
 
@@ -19,6 +22,9 @@ const backgrounds = [
   theme.colours.reds.red1,
   theme.colours.greys.grey2,
   theme.colours.blues.blue2,
+  theme.colours.yellows.yellow1,
+  theme.colours.reds.red1,
+  theme.colours.greys.grey2,
   theme.colours.greens.green2,
 ];
 
@@ -46,7 +52,14 @@ export default function SimpleListMenu({ initialStatus }) {
       <List
         component="nav"
         aria-label="dropdown"
-        sx={{ backgroundColor: backgrounds[selectedIndex] }}
+        sx={{
+          backgroundColor: backgrounds[selectedIndex],
+          width: 'max-content',
+          borderRadius: '30px',
+          height: '20px',
+          padding: '0.5rem 1.25rem',
+          display: 'flex',
+        }}
       >
         <ListItem
           button

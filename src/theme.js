@@ -8,6 +8,7 @@ const blues = {
   blue1: '#232535',
   blue2: '#82B0FD',
   blue3: '#B4BFED',
+  blue4: '#1B8FF5',
 };
 
 const yellows = {
