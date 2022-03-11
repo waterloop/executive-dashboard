@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import theme from '../../../theme';
@@ -59,6 +60,8 @@ const PostingButton = styled.button`
 `;
 
 const ApplicationProfilePage = () => {
+  const history = useHistory();
+
   const mockData = {
     name: 'John Smith',
     demographic: {
