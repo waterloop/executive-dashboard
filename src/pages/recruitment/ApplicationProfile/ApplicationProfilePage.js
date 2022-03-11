@@ -6,15 +6,7 @@ import DropDownMenu from '../../../components/DropdownMenu';
 import theme from '../../../theme';
 import resumeIcon from '../../../assets/svg/recruitment/application/resume-click.svg';
 import backArrowIcon from '../../../assets/svg/recruitment/application/back-arrow.svg';
-import {
-  blobIcon1,
-  blobIcon2,
-  blobIcon3,
-  blobIcon4,
-  blobIcon5,
-  blobIcon6,
-  blobIcon7,
-} from '../../../assets/svg/recruitment/application';
+import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 
 const Container = styled.div`
   margin: 0;
@@ -37,12 +29,14 @@ const BackArrow = styled.button`
   margin: 1rem 0;
 `;
 
-const Blob = styled.img`
-  position: absolute;
-  top: ${({ top }) => top}
-  left: ${({ left }) => left}
+const Blobs = styled.img`
+  position: fixed;
   width: ${({ width }) => width}
-  height: ${({ height }) => height}
+  z-index: 2;
+  src: ${blobs};
+  height: 13.438rem;
+  top: 4rem;
+  left: 11rem;
 `;
 
 const HeaderGrid = styled(Grid)`
@@ -55,7 +49,7 @@ const HeaderGrid = styled(Grid)`
 
 const ContentGrid = styled(Grid)`
   position: relative;
-  top: 10rem;
+  top: 11rem;
   z-index: 0;
   padding: 64px 82px 10px 82px;
 `;
@@ -182,57 +176,13 @@ Ut magna irure eu nostrud irure ad ullamco exercitation sint. Ad irure eu eu Lor
 
   const prevPostings = postingGenerator(mockData.previousPostings);
 
-  const blobInfo = [
-    {
-      top: '177.21px;',
-      left: '482.13px',
-      src: blobIcon1,
-      width: '128.48px',
-      height: '111.6px',
-    },
-    {
-      top: '142.45px',
-      left: '507px',
-      src: blobIcon2,
-    },
-    {
-      top: '278.27px',
-      left: '898px',
-      src: blobIcon3,
-    },
-    {
-      top: '285.29px',
-      left: '677px',
-      src: blobIcon4,
-    },
-    {
-      top: '168.11px',
-      left: '1372.1px',
-      src: blobIcon5,
-    },
-    {
-      top: '123.41px',
-      left: '1395.09px',
-      src: blobIcon6,
-    },
-    {
-      top: '77px',
-      left: '1301px',
-      src: blobIcon7,
-    },
-  ];
-
-  const blobs = blobInfo.map(({ src, left, top, width, height }) => (
-    <Blob src={src} left={left} top={top} width={width} height={height} />
-  ));
-
   return (
     <Container>
       <BackArrow onClick={() => handleBackClick()} />
       {/* entire page */}
       {/* header takes up 1/4 of the height */}
-      {blobs}
       <HeaderGrid item xs={12}>
+        <Blobs src={blobs} width="100%" />
         <Name>{mockData.name}</Name>
         <DemographicText>
           {mockData.currentPostings.join(' | ')}
