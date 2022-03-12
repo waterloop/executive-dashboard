@@ -18,18 +18,6 @@ export const makeTruthTable = (values) => {
 };
 
 /**
- * Creates mock data from an array of values:
- */
-export const createData = (name, year, term, subteam, position, status) => ({
-  name,
-  year,
-  term,
-  subteam,
-  position,
-  status,
-});
-
-/**
  * Gets season/term from date
  */
 export const getTermSeason = (date) => {
