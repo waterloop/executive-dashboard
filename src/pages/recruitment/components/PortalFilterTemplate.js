@@ -28,138 +28,109 @@ const PortalFilterTemplate = ({
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
+
+  const filterCategories = [
+    {
+      name: 'subteams',
+      formattedName: 'Subteams',
+      currentShown: subteamsShown,
+      checked: subteams,
+      maxShown: MAX_SUBTEAMS_SHOWN,
+      minShown: MIN_SUBTEAMS_SHOWN,
+      options: SUBTEAM_OPTIONS,
+      setCategoryChecked: (checkboxName) => {
+        setSubteamsChecked({
+          ...subteams,
+          [checkboxName.target.name]: !subteams[checkboxName.target.name],
+        });
+      },
+      setCategoryShown: () => {
+        setSubteamsShown(
+          subteamsShown === MAX_SUBTEAMS_SHOWN
+            ? MIN_SUBTEAMS_SHOWN
+            : MAX_SUBTEAMS_SHOWN,
+        );
+      },
+    },
+    {
+      name: 'termTypes',
+      formattedName: 'Term',
+      currentShown: termTypes.length,
+      checked: termTypes,
+      maxShown: termTypes.length,
+      minShown: termTypes.length,
+      options: TERM_TYPE_OPTIONS,
+      setCategoryChecked: (checkboxName) => {
+        setTermTypesChecked({
+          ...termTypes,
+          [checkboxName.target.name]: !termTypes[checkboxName.target.name],
+        });
+      },
+      setCategoryShown: () => {
+      },
+    },
+    {
+      name: 'years',
+      formattedName: 'Year of Study',
+      currentShown: yearsShown,
+      checked: years,
+      maxShown: MAX_YEARS_SHOWN,
+      minShown: MIN_YEARS_SHOWN,
+      options: YEAR_OPTIONS,
+      setCategoryChecked: (checkboxName) => {
+        setYearsChecked({
+          ...years,
+          [checkboxName.target.name]: !years[checkboxName.target.name],
+        });
+      },
+      setCategoryShown: () => {
+        setYearsShown(
+          yearsShown === MAX_YEARS_SHOWN ? MIN_YEARS_SHOWN : MAX_YEARS_SHOWN,
+        );
+      },
+    },
+  ];
+
   return (
     <Container>
-      <Grid
-        container
-        direction="row"
-        md={12}
-        justifyContent="left"
-        alignItems="stretch"
-      >
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-          <FormLabel component="legend">Filters</FormLabel>
-          {/* TODO: use a map to generate components for each of subteams, ....! */}
-          <FormHelperText>Subteam</FormHelperText>
-          <FormGroup>
-            {/* NOTE: May not need to define MAX elements to show. */}
-            {SUBTEAM_OPTIONS.slice(0, subteamsShown).map((team) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={subteams[team]}
-                    onChange={() => {
-                      setSubteamsChecked({
-                        ...subteams,
-                        [team]: !subteams[team],
-                      });
-                    }}
-                    name={team}
-                  />
-                }
-                label={
-                  // TODO: This capitalization should be done while preprocessing the data coming from the server BEFORE using it here.
-                  // team.charAt(0).toUpperCase() +
-                  // team
-                  //   .slice(1)
-                  //   .replace(/([A-Z])/g, ' $1')
-                  //   .trim()
-                  team
-                }
-                key={team}
-              />
-            ))}
-          </FormGroup>
-          <Button
-            variant="text"
-            onClick={() => {
-              setSubteamsShown(
-                subteamsShown === MAX_SUBTEAMS_SHOWN
-                  ? MIN_SUBTEAMS_SHOWN
-                  : MAX_SUBTEAMS_SHOWN,
-              );
-            }}
-          >
-            {subteamsShown === MAX_SUBTEAMS_SHOWN
-              ? 'Show less...'
-              : 'Show more...'}
-          </Button>
-        </FormControl>
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        md={12}
-        justifyContent="left"
-        alignItems="stretch"
-      >
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-          <FormHelperText>Term</FormHelperText>
-          <FormGroup>
-            {/* TODO: Use map to dynamically load content. */}
-            {TERM_TYPE_OPTIONS.map((termType) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={termTypes[termType]}
-                    onChange={() => {
-                      setTermTypesChecked({
-                        ...termTypes,
-                        [termType]: !termTypes[termType],
-                      });
-                    }}
-                    name={termType}
-                  />
-                }
-                label={termType}
-              />
-            ))}
-          </FormGroup>
-        </FormControl>
-      </Grid>
-      <Grid
-        container
-        direction="row"
-        md={12}
-        justifyContent="left"
-        alignItems="stretch"
-      >
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-          <FormHelperText>Year of Study</FormHelperText>
-          <FormGroup>
-            {YEAR_OPTIONS.slice(0, yearsShown).map((year) => (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={years[year]}
-                    onChange={() => {
-                      setYearsChecked({
-                        ...years,
-                        [year]: !years[year],
-                      });
-                    }}
-                    name={year}
-                  />
-                }
-                label={year}
-                key={year}
-              />
-            ))}
-          </FormGroup>
-          <Button
-            variant="text"
-            onClick={() => {
-              setYearsShown(
-                yearsShown === MAX_YEARS_SHOWN
-                  ? MIN_YEARS_SHOWN
-                  : MAX_YEARS_SHOWN,
-              );
-            }}
-          >
-            {yearsShown === MAX_YEARS_SHOWN ? 'Show less...' : 'Show more...'}
-          </Button>
-        </FormControl>
-      </Grid>
+      <FormLabel component="legend">Filters</FormLabel>
+      {filterCategories.map((category) => (
+        <Grid
+          container
+          direction="row"
+          md={12}
+          item
+          justifyContent="flex-start"
+          alignItems="stretch"
+          key={category.name}
+        >
+          <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+            <FormHelperText>{category.formattedName}</FormHelperText>
+            <FormGroup>
+              {category.options.slice(0, category.currentShown).map((checkboxName) => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={category.checked[checkboxName]}
+                      onChange={(checkboxName) => category.setCategoryChecked(checkboxName)}
+                      name={checkboxName}
+                    />
+                  }
+                  label={checkboxName}
+                  key={checkboxName}
+                />
+              ))}
+            </FormGroup>
+            {category.minShown !== category.maxShown && (
+              <Button variant="text" onClick={category.setCategoryShown}>
+                {category.currentShown === category.maxShown
+                  ? 'Show less...'
+                  : 'Show more...'}
+              </Button>
+            )}
+          </FormControl>
+        </Grid>
+      ))}
     </Container>
   );
 };

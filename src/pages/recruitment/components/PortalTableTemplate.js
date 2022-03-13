@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import { rows, colNames } from './Constants';
 
 import theme2 from '../../../theme';
 
@@ -47,7 +48,7 @@ const PortalTableTemplate = ({ status, subteams, termTypes, years }) => {
 
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="customized table">
+      <Table aria-label="customized table" component="table">
         <TableHead>
           <TableRow>
             {colNames.map((col) => (

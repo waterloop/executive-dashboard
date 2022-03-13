@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import Grid from '@material-ui/core/Grid';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -68,6 +67,7 @@ const PortalTemplate = () => {
         container
         direction="row"
         md={12}
+        item
         justifyContent="flex-start"
         alignItems="stretch"
       >
@@ -75,6 +75,7 @@ const PortalTemplate = () => {
           container
           direction="row"
           md={4}
+          item
           justifyContent="center"
           alignItems="stretch"
         >
@@ -94,6 +95,7 @@ const PortalTemplate = () => {
           direction="row"
           spacing={1}
           md={8}
+          item
           justifyContent="center"
           alignItems="stretch"
         >
