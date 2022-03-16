@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-import { rows, colNames } from './Constants';
+import { rows } from './Constants';
 
 import theme2 from '../../../theme';
 
@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const PortalTableTemplate = ({ status, subteams, termTypes, years }) => {
+const PortalTableTemplate = ({ status, subteams, termTypes, years, columns }) => {
   const [page, setPage] = React.useState(0);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -51,7 +51,8 @@ const PortalTableTemplate = ({ status, subteams, termTypes, years }) => {
       <Table aria-label="customized table" component="table">
         <TableHead>
           <TableRow>
-            {colNames.map((col) => (
+            {/* TODO: Format the strings (Upper-case) */}
+            {columns.map((col) => (
               <StyledTableCell align="center">{col}</StyledTableCell>
             ))}
           </TableRow>
@@ -64,10 +65,9 @@ const PortalTableTemplate = ({ status, subteams, termTypes, years }) => {
                 <StyledTableCell component="th" scope="row">
                   {`${row.name}${status}`}
                 </StyledTableCell>
-                <TableCell align="center">{row.year}</TableCell>
-                <TableCell align="center">{row.term}</TableCell>
-                <TableCell align="center">{row.subteam}</TableCell>
-                <TableCell align="left">{row.position}</TableCell>
+                {columns.slice(1).map((col) => (
+                  <TableCell align="center">{row[col]}</TableCell>
+                ))}
               </TableRow>
             ))}
         </TableBody>

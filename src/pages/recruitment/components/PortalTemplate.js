@@ -40,9 +40,9 @@ const TabPanel = (props) => {
 
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.
-const tabs = ['pending', 'interview', 'rejected', 'undecided'];
+// const tabs = ['pending', 'interview', 'rejected', 'undecided'];
 
-const PortalTemplate = () => {
+const PortalTemplate = ({ portalName, tabs, tableColumns }) => {
   const [currentTab, setCurrentTab] = React.useState(0);
 
   // Used for filtering applications
@@ -99,6 +99,7 @@ const PortalTemplate = () => {
           justifyContent="center"
           alignItems="stretch"
         >
+          <h1>{portalName}</h1>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs value={currentTab} onChange={handleTabChange}>
@@ -115,6 +116,7 @@ const PortalTemplate = () => {
                   subteams={subteamsChecked}
                   termTypes={termTypesChecked}
                   years={yearsChecked}
+                  columns={tableColumns}
                 />
               </TabPanel>
             ))}
