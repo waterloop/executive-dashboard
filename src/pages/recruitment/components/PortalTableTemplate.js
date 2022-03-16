@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-import { rows } from './Constants';
+// import { rows } from './Constants';
 
 import theme2 from '../../../theme';
 
@@ -32,7 +32,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const PortalTableTemplate = ({ status, subteams, termTypes, years, columns }) => {
+const PortalTableTemplate = ({ status, subteams, termTypes, years, columns, rows }) => {
   const [page, setPage] = React.useState(0);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

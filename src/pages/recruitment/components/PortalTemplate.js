@@ -42,7 +42,7 @@ const TabPanel = (props) => {
 // Design doesn't have term or year of study for decision portal.
 // const tabs = ['pending', 'interview', 'rejected', 'undecided'];
 
-const PortalTemplate = ({ portalName, tabs, tableColumns }) => {
+const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
   const [currentTab, setCurrentTab] = React.useState(0);
 
   // Used for filtering applications
@@ -117,6 +117,7 @@ const PortalTemplate = ({ portalName, tabs, tableColumns }) => {
                   termTypes={termTypesChecked}
                   years={yearsChecked}
                   columns={tableColumns}
+                  rows = {rows}
                 />
               </TabPanel>
             ))}

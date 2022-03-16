@@ -5,8 +5,8 @@ import NotFoundPage from '../general/NotFound';
 
 // remove portal template soon
 // import PortalTemplate from './components/PortalTemplate';
-import ApplicationPage from './ApplicationPage/ApplicationPage';
-
+import ApplicationPage from './ApplicationPage';
+import InterviewPage from './InterviewPage';
 
 /**
  * Controls routes based off recruitment page route (i.e. /recruitment).
@@ -20,7 +20,7 @@ const LandingPage = () => {
         <ApplicationPage />
       </Route>
       <Route path={`${match.url}/interview`}>
-        <h1>Interview Page</h1>
+      <InterviewPage />
       </Route>
       <Route path={`${match.url}/decision`}>
         <h1>Decision Page</h1>
