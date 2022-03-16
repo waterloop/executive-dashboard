@@ -16,13 +16,18 @@ export const makeTruthTable = (values) => {
 };
 
 /**
- * Creates mock data from an array of values:
+ * Gets season/term from date
  */
-export const createData = (name, year, term, subteam, position, status) => ({
-  name,
-  year,
-  term,
-  subteam,
-  position,
-  status,
-});
+export const getTermSeason = (date) => {
+  const month = date.getMonth() + 1;
+  let season = '';
+  if (month <= 4) {
+    season = 'WINTER';
+  } else if (month <= 8) {
+    season = 'SPRING';
+  } else {
+    season = 'FALL';
+  }
+
+  return season;
+};

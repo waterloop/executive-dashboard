@@ -1,4 +1,5 @@
-import * as actionTypes from '../action-types';
+import * as actionTypes from '../actionTypes';
+
 const initialState = {
   id: null,
   picture: '',
