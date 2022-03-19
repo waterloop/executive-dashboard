@@ -42,6 +42,7 @@ const NavDropdown = ({ dropdown }) => {
           id="nav-dropdown-select"
           label={dropdown.section}
           onChange={handleChange}
+          defaultValue=""
         >
           {mapRoutes()}
         </MUISelect>

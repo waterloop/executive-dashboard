@@ -31,7 +31,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <Typography component = 'div'>{children}</Typography>
         </Box>
       )}
     </div>
@@ -40,7 +40,6 @@ const TabPanel = (props) => {
 
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.
-// const tabs = ['pending', 'interview', 'rejected', 'undecided'];
 
 const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
   const [currentTab, setCurrentTab] = React.useState(0);
@@ -59,7 +58,7 @@ const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
   };
-  // TODO: fix console errors on browser.
+  
   return (
     <Container>
       <h1>Recruitment</h1>
@@ -105,7 +104,7 @@ const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
               <Tabs value={currentTab} onChange={handleTabChange}>
                 {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
                 {tabs.map((tab) => (
-                  <Tab label={tab} />
+                  <Tab label={tab} key={tab} />
                 ))}
               </Tabs>
             </Box>

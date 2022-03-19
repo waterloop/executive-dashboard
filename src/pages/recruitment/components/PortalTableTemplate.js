@@ -8,14 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-// import { rows } from './Constants';
-
-import theme2 from '../../../theme';
 
 const ROWS_PER_PAGE = 11;
-
-// TODO: (optional): Move to separate file (hooks.js) that grabs relevant data from backend
-// TODO: and gives us only data that needs to be used in ApplicationsTable.js.
 
 // TODO: consider overriding css styling directly using backticks ``. Stick with MatUI if this is too difficult.
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,17 +17,23 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#E1D9F6',
     color: theme.palette.common.black,
     fontWeight: 600,
-    font: theme2.medium18,
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    font: theme2.medium18,
     fontWeight: 600,
   },
 }));
 
-const PortalTableTemplate = ({ status, subteams, termTypes, years, columns, rows }) => {
+const PortalTableTemplate = ({
+  status,
+  subteams,
+  termTypes,
+  years,
+  columns,
+  rows,
+}) => {
   const [page, setPage] = React.useState(0);
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -51,9 +51,10 @@ const PortalTableTemplate = ({ status, subteams, termTypes, years, columns, rows
       <Table aria-label="customized table" component="table">
         <TableHead>
           <TableRow>
-            {/* TODO: Format the strings (Upper-case) */}
             {columns.map((col) => (
-              <StyledTableCell align="center">{col}</StyledTableCell>
+              <StyledTableCell align="center" key={col.columnName}>
+                {col.formattedName}
+              </StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -62,11 +63,17 @@ const PortalTableTemplate = ({ status, subteams, termTypes, years, columns, rows
             .slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE)
             .map((row) => (
               <TableRow key={row.name}>
-                <StyledTableCell component="th" scope="row">
-                  {`${row.name}${status}`}
+                <StyledTableCell
+                  component="th"
+                  scope="row"
+                  key={`${row.name}1`}
+                >
+                  {`${row.name}`}
                 </StyledTableCell>
                 {columns.slice(1).map((col) => (
-                  <TableCell align="center">{row[col]}</TableCell>
+                  <TableCell align="center" key={col.columnName}>
+                    {row[col.columnName]}
+                  </TableCell>
                 ))}
               </TableRow>
             ))}

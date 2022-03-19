@@ -28,7 +28,6 @@ const PortalFilterTemplate = ({
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
-
   const filterCategories = [
     {
       name: 'subteams',
@@ -65,8 +64,6 @@ const PortalFilterTemplate = ({
           ...termTypes,
           [checkboxName.target.name]: !termTypes[checkboxName.target.name],
         });
-      },
-      setCategoryShown: () => {
       },
     },
     {
@@ -107,21 +104,25 @@ const PortalFilterTemplate = ({
           <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
             <FormHelperText>{category.formattedName}</FormHelperText>
             <FormGroup>
-              {category.options.slice(0, category.currentShown).map((checkboxName) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={category.checked[checkboxName]}
-                      onChange={(checkboxName) => category.setCategoryChecked(checkboxName)}
-                      name={checkboxName}
-                    />
-                  }
-                  label={checkboxName}
-                  key={checkboxName}
-                />
-              ))}
+              {category.options
+                .slice(0, category.currentShown)
+                .map((checkboxName) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={category.checked[checkboxName]}
+                        onChange={(checkboxName) =>
+                          category.setCategoryChecked(checkboxName)
+                        }
+                        name={checkboxName}
+                      />
+                    }
+                    label={checkboxName}
+                    key={checkboxName}
+                  />
+                ))}
             </FormGroup>
-            {category.minShown !== category.maxShown && (
+            {category.setCategoryShown && (
               <Button variant="text" onClick={category.setCategoryShown}>
                 {category.currentShown === category.maxShown
                   ? 'Show less...'
