@@ -1,9 +1,6 @@
 import React from 'react';
 import PortalTemplate from '../components/PortalTemplate';
-import { rows } from './Constants';
-
-const tabs = ['pending', 'accept', 'rejected', 'undecided'];
-const tableColumns = ['name', 'year', 'term', 'subteam', 'position'];
+import { rows, tabs, tableColumns } from './Constants'
 
 const InterviewPage = () => (
   <PortalTemplate
