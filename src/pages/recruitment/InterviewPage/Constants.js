@@ -1,63 +1,39 @@
 import { createData } from '../../../utils';
 
+export const tableColumns = ['name', 'year of study', 'term', 'subteam', 'position', 'status'];
+
 export const rows = [
-  createData('MichaelINT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('John', '1B', 'coop', 'web', 'Backend Developer', 'pending'),
-  createData(
-    'Michael1 really INT',
-    '1A',
+  createData(tableColumns, ['m1int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m2int', '1B', 'coop', 'web', 'Backend', 'pending']),
+  createData(tableColumns, ['m3int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m4int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m5int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m6int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m7int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m8int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m9int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m10int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m11int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m12int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m13int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m14int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, ['m15int', '1A', 'study', 'web', 'Frontend', 'pending']),
+  createData(tableColumns, [
+    'Jeanint',
+    '4A',
     'study',
     'web',
-    'Frontend Developer',
-    'pending',
-  ),
-  createData('Michael2INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael3INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael4INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael5INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael6INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael7INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael8INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('Michael9INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael10INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael11INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael12INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael13INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael14INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael15INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData('ichael16INT', '1A', 'study', 'web', 'Frontend Developer', 'pending'),
-  createData(
-    'JackINT',
+    'Frontend',
+    'rejected',
+  ]),
+  createData(tableColumns, [
+    'Jack',
     '3A',
     'study',
     'electrical',
-    'Zip Zap Developer',
+    'Zip Zap',
     'accept',
-  ),
-  createData('JeanINT', '4A', 'study', 'web', 'Frontend Developer', 'rejected'),
+  ]),
 ];
 
 export const tabs = ['pending', 'accept', 'rejected', 'undecided'];
-
-export const tableColumns = [
-  {
-    columnName: 'name',
-    formattedName: 'NAME',
-  },
-  {
-    columnName: 'year',
-    formattedName: 'YEAR',
-  },
-  {
-    columnName: 'term',
-    formattedName: 'TERM',
-  },
-  {
-    columnName: 'subteam',
-    formattedName: 'SUBTEAM',
-  },
-  {
-    columnName: 'position',
-    formattedName: 'POSITION',
-  },
-];

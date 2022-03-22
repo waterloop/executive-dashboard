@@ -7,10 +7,10 @@ export const sanitizeUrlPrefix = (url) =>
 /**
  * Converts array to JSON object with array values as keys and `true` assigned to each key.
  * */
-export const makeTruthTable = (values) => {
+export const makeTruthTable = (values, isSelected) => {
   const res = {};
   values.forEach((val) => {
-    res[val] = true;
+    res[val] = isSelected;
   });
   return res;
 };
@@ -35,11 +35,17 @@ export const getTermSeason = (date) => {
 /**
  * Creates mock data from an array of values:
  */
- export const createData = (name, year, term, subteam, position, status) => ({
+/*  export const createData = (name, year, term, subteam, position, status) => ({
   name,
   year,
   term,
   subteam,
   position,
   status,
-});
+}); */
+
+export const createData = (keys, values) => {
+  const res = {}
+  keys.forEach((kval, idx) => {res[kval] = values[idx]})
+  return res;
+};

@@ -38,12 +38,12 @@ const PortalTableTemplate = ({
     setPage(newPage);
   };
 
-  const rowsShown = rows.filter(
+  const rowsVisible = rows.filter(
     (row) =>
       row.status === status &&
       subteams[row.subteam] &&
       termTypes[row.term] &&
-      years[row.year],
+      years[row['year of study']],
   );
 
   return (
@@ -52,27 +52,27 @@ const PortalTableTemplate = ({
         <TableHead>
           <TableRow>
             {columns.map((col) => (
-              <StyledTableCell align="center" key={col.columnName}>
-                {col.formattedName}
+              <StyledTableCell align="center" key={col}>
+                {col.toUpperCase()}
               </StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsShown
+          {rowsVisible
             .slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE)
             .map((row) => (
               <TableRow key={row.name}>
                 <StyledTableCell
                   component="th"
                   scope="row"
-                  key={`${row.name}1`}
+                  key={`${row.name}-fullname`}
                 >
                   {`${row.name}`}
                 </StyledTableCell>
                 {columns.slice(1).map((col) => (
-                  <TableCell align="center" key={col.columnName}>
-                    {row[col.columnName]}
+                  <TableCell align="center" key={col}>
+                    {row[col]}
                   </TableCell>
                 ))}
               </TableRow>
@@ -82,7 +82,7 @@ const PortalTableTemplate = ({
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}
-        count={rowsShown.length}
+        count={rowsVisible.length}
         rowsPerPage={ROWS_PER_PAGE}
         page={page}
         onPageChange={handleChangePage}

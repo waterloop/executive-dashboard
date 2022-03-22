@@ -34,3 +34,6 @@ export const YEAR_OPTIONS = [
   '4B',
   '5A',
 ];
+
+export const MIN_SUBTEAMS_SHOWN = 6;
+export const MIN_YEARS_SHOWN = 2;

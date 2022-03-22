@@ -11,9 +11,12 @@ import Grid from '@material-ui/core/Grid';
 import PortalTableTemplate from './PortalTableTemplate';
 import PortalFilterTemplate from './PortalFilterTemplate';
 
-import { makeTruthTable } from '../../../utils';
-
-import { SUBTEAM_OPTIONS, TERM_TYPE_OPTIONS, YEAR_OPTIONS } from './Constants';
+// import { makeTruthTable } from '../../../utils';
+/*
+import {
+  SUBTEAM_OPTIONS, TERM_TYPE_OPTIONS,
+  YEAR_OPTIONS,
+} from './Constants'; */
 
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
@@ -31,7 +34,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography component = 'div'>{children}</Typography>
+          <Typography component="div">{children}</Typography>
         </Box>
       )}
     </div>
@@ -41,24 +44,22 @@ const TabPanel = (props) => {
 // !NOTE: Tab names and decision portal table slightly different (email status button).
 // Design doesn't have term or year of study for decision portal.
 
-const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
-  const [currentTab, setCurrentTab] = React.useState(0);
-
-  // Used for filtering applications
-  const [subteamsChecked, setSubteamsChecked] = useState(
-    makeTruthTable(SUBTEAM_OPTIONS),
-  );
-  const [termTypesChecked, setTermTypesChecked] = useState(
-    makeTruthTable(TERM_TYPE_OPTIONS),
-  );
-  const [yearsChecked, setYearsChecked] = useState(
-    makeTruthTable(YEAR_OPTIONS),
-  );
+const PortalTemplate = ({
+  portalName,
+  tabs,
+  tableColumns,
+  rows,
+  subteamsChecked,
+  termTypesChecked,
+  yearsChecked,
+  filterCategories,
+}) => {
+  const [currentTab, setCurrentTab] = useState(0);
 
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
-  };
-  
+  }; 
+
   return (
     <Container>
       <h1>Recruitment</h1>
@@ -80,12 +81,7 @@ const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
         >
           <Container>
             <PortalFilterTemplate
-              subteams={subteamsChecked}
-              termTypes={termTypesChecked}
-              years={yearsChecked}
-              setSubteamsChecked={setSubteamsChecked}
-              setTermTypesChecked={setTermTypesChecked}
-              setYearsChecked={setYearsChecked}
+              filterCategories={filterCategories}
             />
           </Container>
         </Grid>
@@ -116,7 +112,7 @@ const PortalTemplate = ({ portalName, tabs, tableColumns, rows }) => {
                   termTypes={termTypesChecked}
                   years={yearsChecked}
                   columns={tableColumns}
-                  rows = {rows}
+                  rows={rows}
                 />
               </TabPanel>
             ))}
