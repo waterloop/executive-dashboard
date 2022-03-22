@@ -11,13 +11,6 @@ import Grid from '@material-ui/core/Grid';
 import PortalTableTemplate from './PortalTableTemplate';
 import PortalFilterTemplate from './PortalFilterTemplate';
 
-// import { makeTruthTable } from '../../../utils';
-/*
-import {
-  SUBTEAM_OPTIONS, TERM_TYPE_OPTIONS,
-  YEAR_OPTIONS,
-} from './Constants'; */
-
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
 `;
