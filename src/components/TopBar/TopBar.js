@@ -57,6 +57,10 @@ const TopBar = () => {
           label: 'Decisions',
           path: '/decision',
         },
+        {
+          label: 'Configuration',
+          path: '/configuration',
+        },
       ],
     },
     {

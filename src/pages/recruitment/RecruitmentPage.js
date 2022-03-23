@@ -20,6 +20,9 @@ const LandingPage = () => {
       <Route path={`${match.url}/decision`}>
         <h1>Decision Page</h1>
       </Route>
+      <Route path={`${match.url}/configuration`}>
+        <h1>Configuration Page</h1>
+      </Route>
       <Route path={`${match.url}`} exact>
         <LandingContent />
       </Route>
