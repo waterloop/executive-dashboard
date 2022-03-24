@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import theme from '../../theme';
 
-<<<<<<< HEAD
 // initialStatus is a string of the initial element to display
 // options is an array of strings representing each option to display in the menu
 // backgrounds is an optional array of colours that map to each option
@@ -15,31 +14,6 @@ export default function SimpleListMenu({
   options,
   backgrounds = theme.colours.yellows.yellow1,
 }) {
-=======
-const options = [
-  'Pending',
-  'Rejected',
-  'Undecided',
-  'Interview Set Up',
-  'Interview Pending',
-  'Interview Rejected',
-  'Interview Undecided',
-  'Accepted',
-];
-
-const backgrounds = [
-  theme.colours.yellows.yellow1,
-  theme.colours.reds.red1,
-  theme.colours.greys.grey2,
-  theme.colours.blues.blue2,
-  theme.colours.yellows.yellow1,
-  theme.colours.reds.red1,
-  theme.colours.greys.grey2,
-  theme.colours.greens.green2,
-];
-
-export default function SimpleListMenu({ initialStatus }) {
->>>>>>> styling banner
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(
     options.indexOf(initialStatus) !== -1 ? options.indexOf(initialStatus) : 0,
