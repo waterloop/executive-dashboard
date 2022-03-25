@@ -42,25 +42,29 @@ const GridContainer = styled(Grid)`
   padding-bottom: 16px;
 `;
 const SectionContainer = styled.div`
-  /* background-color: lightgreen; */
   margin: 1rem 3rem;
 `;
 
 const SectionTitle = styled.h1`
   font: ${({ theme }) => theme.fonts.bold24};
   text-align: left;
-  /* background-color: lightblue; */
 `;
 
 const ButtonContainer = styled.div`
-  /* position: absolute;
-  right: 0;
-  bottom: 0; */
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
   padding: 0.5rem 0;
   margin: 2rem;
+  align-self: flex-end;
+`;
+
+const CancelButton = styled(Button)`
+  background-color: #afafaf;
+  color: ${({ theme }) => theme.colours.white};
+  font: ${({ theme }) => theme.fonts.bold18};
+  border: none;
+  text-decoration: none;
 `;
 
 function ConfigurationPage() {
@@ -199,9 +203,11 @@ function ConfigurationPage() {
         </SectionContainer>
 
         <ButtonContainer>
-          <Button onClick={saveForm}>Save</Button>
-          <Button onClick={goBack} cancel="true">
+          <CancelButton onClick={goBack} cancel="true">
             Cancel
+          </CancelButton>
+          <Button onClick={saveForm} tertiary="true">
+            Save
           </Button>
         </ButtonContainer>
       </PlaceholderContainer>

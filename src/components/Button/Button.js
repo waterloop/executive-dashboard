@@ -27,11 +27,10 @@ const TertiaryButton = styled(ButtonBase)`
 `;
 
 const CancelButton = styled(ButtonBase)`
-  background-color: #afafaf;
-  color: ${({ theme }) => theme.colours.white};
-  /* font: ${({ theme }) => theme.fonts.medium18}; */
+  background-color: white;
+  font: ${({ theme }) => theme.fonts.medium18};
   border: none;
-  /* text-decoration: underline; */
+  text-decoration: underline;
 `;
 
 const getButtonComponent = (secondary, tertiary, cancel) => {
