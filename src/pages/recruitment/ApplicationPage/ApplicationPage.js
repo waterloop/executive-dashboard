@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PortalTemplate from '../components/PortalTemplate';
 import { rows, tabs, tableColumns } from './Constants';
-import { makeTruthTable } from '../../../utils';
+import { makeTruthTable /* createData */ } from '../../../utils';
 import {
   SUBTEAM_OPTIONS,
   TERM_TYPE_OPTIONS,
@@ -9,40 +9,62 @@ import {
   MIN_YEARS_SHOWN,
   MIN_SUBTEAMS_SHOWN,
 } from '../components/Constants';
+import { setCheckboxValues, setCheckboxesShown } from '../utils';
 
-// import useApplications from '../../../hooks/applications';
-// import { createData } from '../../../utils';
+/*
+import useApplications from '../../../hooks/applications';
+import usePostingById from '../../../hooks/postingById';
+import useTeams from '../../../hooks/teams';
+
+export const appFields = [
+  'name',
+  'year of study',
+  'term',
+  'subteam',
+  'position',
+  'status',
+];
+
+const getTeamNameById = (teams, id) => {
+  let obj = teams.filter((item) => item.id === id);
+  return obj[0].teamName;
+}; */
 
 const ApplicationPage = () => {
-  /*   const { applications } = useApplications('FALL-2022');
+  /*
+  const { applications } = useApplications('FALL-2022');
+  const { teams } = useTeams();
 
   const tableRows = applications.map((application) => {
+    
     let study = 'study';
     if (!application.in_school) {
       study = 'coop';
     }
-    return createData(
+
+    //appPosting = usePostingById(application.posting_id);
+    //const teamName = getTeamNameById(teams, appPosting.posting.teamId);
+
+    const appValues = [
       `${application.first_name} ${application.last_name}`,
       application.current_year,
       study,
       'web',
-      'frontend',
+      'front',
       application.status.slice(4),
-    );
+    ];
+    return createData(appFields, appValues);
   });
-  console.log(tableRows);
-  console.log(applications); */
+  console.log(tableRows); */
 
-  const setCheckboxValues = (clickedOption, values, setValues) => {
-    setValues({
-      ...values,
-      [clickedOption.target.name]: !values[clickedOption.target.name],
-    });
-  };
-  
-  const setCheckboxesShown = (checkboxesShown, setShown, maxShown, minShown) => {
-    setShown(checkboxesShown === maxShown ? minShown : maxShown);
-  };
+  /* const rowsVisible = rows.filter(
+    (row) =>
+      row.status === status &&
+      subteams[row.subteam] &&
+      termTypes[row.term] &&
+      years[row['year of study']],
+  );
+ */
 
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(SUBTEAM_OPTIONS, false),
@@ -54,6 +76,15 @@ const ApplicationPage = () => {
   const [yearsChecked, setYearsChecked] = useState(
     makeTruthTable(YEAR_OPTIONS, true),
   );
+
+  const filterRows = (status) =>
+    rows.filter(
+      (row) =>
+        row.status === status &&
+        subteamsChecked[row.subteam] &&
+        termTypesChecked[row.term] &&
+        yearsChecked[row['year of study']],
+    );
 
   const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
   const MAX_YEARS_SHOWN = yearsChecked.length;
@@ -121,6 +152,7 @@ const ApplicationPage = () => {
       termTypesChecked={termTypesChecked}
       yearsChecked={yearsChecked}
       filterCategories={filterCategories}
+      filterRows={filterRows}
     />
   );
 };

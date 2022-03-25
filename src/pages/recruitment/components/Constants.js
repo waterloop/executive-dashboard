@@ -37,3 +37,4 @@ export const YEAR_OPTIONS = [
 
 export const MIN_SUBTEAMS_SHOWN = 6;
 export const MIN_YEARS_SHOWN = 2;
+export const ROWS_PER_PAGE = 11;

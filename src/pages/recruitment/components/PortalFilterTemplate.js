@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@material-ui/core/Grid';
-import Button from '@mui/material/Button'; 
+import Button from '@mui/material/Button';
 
 const PortalFilterTemplate = ({ filterCategories }) => (
   <Container>
@@ -25,23 +25,27 @@ const PortalFilterTemplate = ({ filterCategories }) => (
         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
           <FormHelperText>{category.formattedName}</FormHelperText>
           <FormGroup>
-            {category.options
-              .slice(0, category.currentShown)
-              .map((checkboxName) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={category.checked[checkboxName]}
-                      onChange={(checkboxName) =>
-                        category.setCategoryChecked(checkboxName)
-                      }
-                      name={checkboxName}
-                    />
-                  }
-                  label={checkboxName}
-                  key={checkboxName}
-                />
-              ))}
+            {category.options.length > 0 ? (
+              category.options
+                .slice(0, category.currentShown)
+                .map((checkboxName) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={category.checked[checkboxName]}
+                        onChange={(checkboxName) =>
+                          category.setCategoryChecked(checkboxName)
+                        }
+                        name={checkboxName}
+                      />
+                    }
+                    label={checkboxName}
+                    key={checkboxName}
+                  />
+                ))
+            ) : (
+              <h2>{category.noEntriesDefaultText}</h2>
+            )}
           </FormGroup>
           {category.setCategoryShown && (
             <Button variant="text" onClick={category.setCategoryShown}>

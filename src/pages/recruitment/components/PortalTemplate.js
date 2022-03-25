@@ -1,5 +1,4 @@
 // TODO: Design contains "position" section in filter side. Define an API call frontend-side to grab this value (server-side call exists).
-
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tabs from '@mui/material/Tabs';
@@ -41,11 +40,8 @@ const PortalTemplate = ({
   portalName,
   tabs,
   tableColumns,
-  rows,
-  subteamsChecked,
-  termTypesChecked,
-  yearsChecked,
   filterCategories,
+  filterRows,
 }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -100,12 +96,8 @@ const PortalTemplate = ({
             {tabs.map((tab, index) => (
               <TabPanel value={currentTab} index={index} key={tab}>
                 <PortalTableTemplate
-                  status={tab}
-                  subteams={subteamsChecked}
-                  termTypes={termTypesChecked}
-                  years={yearsChecked}
                   columns={tableColumns}
-                  rows={rows}
+                  rows={filterRows(tab)}
                 />
               </TabPanel>
             ))}

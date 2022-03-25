@@ -8,8 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-
-const ROWS_PER_PAGE = 11;
+import { ROWS_PER_PAGE } from './Constants';
 
 // TODO: consider overriding css styling directly using backticks ``. Stick with MatUI if this is too difficult.
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -24,27 +23,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const PortalTableTemplate = ({
-  status,
-  subteams,
-  termTypes,
-  years,
-  columns,
-  rows,
-}) => {
+const PortalTableTemplate = ({ columns, rows }) => {
   const [page, setPage] = React.useState(0);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
-  const rowsVisible = rows.filter(
-    (row) =>
-      row.status === status &&
-      subteams[row.subteam] &&
-      termTypes[row.term] &&
-      years[row['year of study']],
-  );
 
   return (
     <TableContainer component={Paper}>
@@ -59,10 +43,15 @@ const PortalTableTemplate = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {rowsVisible
+          {rows
             .slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE)
             .map((row) => (
-              <TableRow key={row.name}>
+              <TableRow
+                key={row.name}
+                onClick={() =>
+                  row.profileLink && window.history.push(row.profileLink)
+                }
+              >
                 <StyledTableCell
                   component="th"
                   scope="row"
@@ -82,7 +71,7 @@ const PortalTableTemplate = ({
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}
-        count={rowsVisible.length}
+        count={rows.length}
         rowsPerPage={ROWS_PER_PAGE}
         page={page}
         onPageChange={handleChangePage}
