@@ -8,8 +8,9 @@ const Container = styled.div`
   margin: 0;
 `;
 
-const Title = styled.h2`
-  font: ${({ theme }) => theme.fonts.bold24};
+const Title = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold30};
+  padding-bottom: 1rem;
 `;
 
 const DemographicText = styled.p`

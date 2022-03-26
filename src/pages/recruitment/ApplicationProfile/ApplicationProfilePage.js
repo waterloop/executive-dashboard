@@ -22,17 +22,20 @@ const PostingGrid = styled(Grid)`
   z-index: 0;
 `;
 
-const Title = styled.h2`
-  font: ${({ theme }) => theme.fonts.bold24};
+const Title = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold30};
 `;
 
 const Subtitle = styled.h2`
   font: ${({ theme }) => theme.fonts.bold18};
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const ApplicationText = styled.p`
   font: ${({ theme }) => theme.fonts.medium16};
   margin: 0;
+  padding-bottom: 1rem;
 `;
 
 const PostingContainer = styled(Grid)`

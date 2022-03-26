@@ -9,10 +9,12 @@ import theme from '../../theme';
 // initialStatus is a string of the initial element to display
 // options is an array of strings representing each option to display in the menu
 // backgrounds is an optional array of colours that map to each option
+// callback is a function to handle backend data changes
 export default function SimpleListMenu({
   initialStatus,
   options,
-  backgrounds = theme.colours.yellows.yellow1,
+  backgrounds = new Array(options.length).fill(theme.colours.yellows.yellow1),
+  // callback,
 }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(
@@ -26,6 +28,7 @@ export default function SimpleListMenu({
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
+    // callback(options[selectedIndex]);
   };
 
   const handleClose = () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-// import theme from '../../../theme';
 import backArrowIcon from '../../../assets/svg/recruitment/application/back-arrow.svg';
 
 const Container = styled.div`
@@ -26,21 +25,16 @@ const BackArrow = styled.button`
   margin: 1rem 0;
 `;
 
-const Blobs = styled.img`
-  position: fixed;
-  width: ${({ width }) => width}
-  z-index: 2;
-  height: 13.438rem;
-  top: 4rem;
-  left: 11rem;
-`;
-
 const HeaderGrid = styled(Grid)`
   width: 100%;
   position: fixed;
   z-index: 1;
   padding: 64px 82px 10px 82px;
-  background: linear-gradient(91.05deg, #cad4ff 0%, #cef6ff 99.9%);
+  background-color: #a3f4e4;
+  background-image: ${({ blobs }) => `url(${blobs})`},
+    linear-gradient(91.05deg, #cad4ff 0%, #cef6ff 99.9%);
+  background-size: cover;
+  background-position: center;
 `;
 
 const Name = styled.h1`
@@ -62,8 +56,7 @@ const Header = ({ name, currentPostings, blobs }) => {
   return (
     <Container>
       <BackArrow onClick={() => handleBackClick()} />
-      <HeaderGrid item xs={12}>
-        <Blobs src={blobs} width="100%" />
+      <HeaderGrid item xs={12} blobs={blobs}>
         <Name>{name}</Name>
         <DemographicText>{currentPostings.join(' | ')}</DemographicText>
       </HeaderGrid>
