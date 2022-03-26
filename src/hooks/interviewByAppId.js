@@ -4,6 +4,8 @@ import api from '../api';
 import * as interviewActions from '../state/interviews/actions';
 import * as interviewSelectors from '../state/interviews/selectors';
 
+// TODO: Determine whether or not the interviewById logic can be moved to a local hook instead
+// in conjunction with the addOrUpdateInterview logic.
 const useInterviewByAppId = (id) => {
   const dispatch = useDispatch();
   const interviews = useSelector(interviewSelectors.interviews);

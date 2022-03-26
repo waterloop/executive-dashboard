@@ -2,20 +2,12 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import LandingContent from './Landing/LandingContent';
 import NotFoundPage from '../general/NotFound';
-import useInterviews from '../../hooks/interviews';
-import useInterviewByAppId from '../../hooks/interviewByAppId';
 
 /**
  * Controls routes based off recruitment page route (i.e. /recruitment).
  */
 const LandingPage = () => {
   const match = useRouteMatch();
-
-  // const apps = useApplications('WINTER-2022');
-  const { interviews } = useInterviews('WINTER-2022');
-  console.log(interviews);
-  const interviewData = useInterviewByAppId(0);
-  console.log(interviewData);
 
   return (
     <Switch>
