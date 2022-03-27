@@ -7,7 +7,7 @@ export const colNames = [
 ];
 
 export const SUBTEAM_OPTIONS = [
-  'web',
+  'WebTeam',
   'electrical',
   'mechanical',
   'lim',

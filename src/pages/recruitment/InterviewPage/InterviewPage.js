@@ -33,6 +33,15 @@ const InterviewPage = () => {
     makeTruthTable(YEAR_OPTIONS, true),
   );
 
+  const filterRows = (status) =>
+  rows.filter(
+    (row) =>
+      row.status === status &&
+      subteamsChecked[row.subteam] &&
+      termTypesChecked[row.term] &&
+      yearsChecked[row['year of study']],
+  );
+
   const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
   const MAX_YEARS_SHOWN = yearsChecked.length;
 
@@ -100,6 +109,7 @@ const InterviewPage = () => {
       termTypesChecked={termTypesChecked}
       yearsChecked={yearsChecked}
       filterCategories={filterCategories}
+      filterRows={filterRows}
     />
   );
 };
