@@ -1,27 +1,46 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import styled from 'styled-components';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
+import { Typography } from '@material-ui/core';
 import { ROWS_PER_PAGE } from './Constants';
 
-// TODO: consider overriding css styling directly using backticks ``. Stick with MatUI if this is too difficult.
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: '#E1D9F6',
-    color: theme.palette.common.black,
-    fontWeight: 600,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    fontWeight: 600,
-  },
-}));
+const EntryTableRow = styled(TableRow)`
+  background-color: ${({ theme }) => theme.colours.white};
+`;
+
+const StyledTable = styled(Table)`
+  background-color: ${({ theme }) => theme.colours.purples.purple2};
+  border-radius: 0.9375rem;
+`;
+
+const ColumnHeaderCell = styled(TableCell)`
+  background-color: ${({ theme }) => theme.colours.purples.purple2};
+  color: ${({ theme }) => theme.colours.black1};
+`;
+
+const ColumnHeaderText = styled(Typography)`
+  && {
+    font: ${({ theme }) => theme.fonts.bold18};
+  }
+`;
+
+const NameRowText = styled(Typography)`
+  && {
+    font: ${({ theme }) => theme.fonts.bold16};
+  }
+`;
+
+const RowText = styled(Typography)`
+  && {
+    font: ${({ theme }) => theme.fonts.medium16};
+  }
+`;
 
 const PortalTableTemplate = ({ columns, rows }) => {
   const [page, setPage] = React.useState(0);
@@ -31,14 +50,14 @@ const PortalTableTemplate = ({ columns, rows }) => {
   };
 
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="customized table" component="table">
+    <TableContainer>
+      <StyledTable component="table">
         <TableHead>
           <TableRow>
             {columns.map((col) => (
-              <StyledTableCell align="center" key={col}>
-                {col.toUpperCase()}
-              </StyledTableCell>
+              <ColumnHeaderCell align="center" key={col}>
+                <ColumnHeaderText>{col.toUpperCase()}</ColumnHeaderText>
+              </ColumnHeaderCell>
             ))}
           </TableRow>
         </TableHead>
@@ -46,28 +65,28 @@ const PortalTableTemplate = ({ columns, rows }) => {
           {rows
             .slice(page * ROWS_PER_PAGE, (page + 1) * ROWS_PER_PAGE)
             .map((row) => (
-              <TableRow
+              <EntryTableRow
                 key={row.name}
                 onClick={() =>
                   row.profileLink && window.history.push(row.profileLink)
                 }
               >
-                <StyledTableCell
+                <TableCell
                   component="th"
                   scope="row"
                   key={`${row.name}-fullname`}
                 >
-                  {`${row.name}`}
-                </StyledTableCell>
+                  <NameRowText>{`${row.name}`}</NameRowText>
+                </TableCell>
                 {columns.slice(1).map((col) => (
                   <TableCell align="center" key={col}>
-                    {row[col]}
+                    <RowText>{row[col]}</RowText>
                   </TableCell>
                 ))}
-              </TableRow>
+              </EntryTableRow>
             ))}
         </TableBody>
-      </Table>
+      </StyledTable>
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}

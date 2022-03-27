@@ -1,17 +1,61 @@
 import React from 'react';
-import Container from '@mui/material/Container';
-import FormLabel from '@mui/material/FormLabel';
+import styled from 'styled-components';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@material-ui/core/Grid';
 import Button from '@mui/material/Button';
+import { Typography } from '@material-ui/core';
+// TODO: Don't hardcode margin-inline-start
+const FiltersTitle = styled.h1`
+  font: ${({ theme }) => theme.fonts.medium24};
+  margin-inline-start: 24px;
+`;
+
+const CheckboxCategoryName = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold16};
+`;
+
+const CheckboxName = styled(Typography)`
+  && {
+    font: ${({ theme }) => theme.fonts.medium16};
+  }
+`;
+
+const ShowMoreAndLessButton = styled(Button)`
+  && {
+    font: ${({ theme }) => theme.fonts.medium14};
+    text-transform: none;
+    padding: 0;
+    justify-content: flex-start;
+  }
+`;
+
+const CheckboxGroup = styled(FormControl)`
+  && {
+    margin-top: 0;
+  }
+`;
+
+const FiltersContainer = styled.div`
+  background-color: ${({ theme }) => theme.colours.white};
+  border: ${({ theme }) => theme.borders.solidGrey2};
+  border-radius: 0.9375rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+  -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+  box-shadow: ${({ theme }) => theme.shadows.shadow1};
+`;
 
 const PortalFilterTemplate = ({ filterCategories }) => (
-  <Container>
-    <FormLabel component="legend">Filters</FormLabel>
+  <FiltersContainer>
+    <FiltersTitle component="legend">Filters</FiltersTitle>
     {filterCategories.map((category) => (
       <Grid
         container
@@ -19,11 +63,10 @@ const PortalFilterTemplate = ({ filterCategories }) => (
         md={12}
         item
         justifyContent="flex-start"
-        alignItems="stretch"
         key={category.name}
       >
-        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-          <FormHelperText>{category.formattedName}</FormHelperText>
+        <CheckboxGroup sx={{ m: 3 }} component="fieldset" variant="standard">
+          <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
             {category.options.length > 0 ? (
               category.options
@@ -39,7 +82,7 @@ const PortalFilterTemplate = ({ filterCategories }) => (
                         name={checkboxName}
                       />
                     }
-                    label={checkboxName}
+                    label={<CheckboxName>{checkboxName}</CheckboxName>}
                     key={checkboxName}
                   />
                 ))
@@ -48,16 +91,19 @@ const PortalFilterTemplate = ({ filterCategories }) => (
             )}
           </FormGroup>
           {category.setCategoryShown && (
-            <Button variant="text" onClick={category.setCategoryShown}>
+            <ShowMoreAndLessButton
+              variant="text"
+              onClick={category.setCategoryShown}
+            >
               {category.currentShown === category.maxShown
                 ? 'Show less...'
-                : 'Show more...'}
-            </Button>
+                : 'Show all...'}
+            </ShowMoreAndLessButton>
           )}
-        </FormControl>
+        </CheckboxGroup>
       </Grid>
     ))}
-  </Container>
+  </FiltersContainer>
 );
 
 export default PortalFilterTemplate;

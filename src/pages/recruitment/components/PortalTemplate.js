@@ -6,12 +6,81 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@material-ui/core/Grid';
-
 import PortalTableTemplate from './PortalTableTemplate';
 import PortalFilterTemplate from './PortalFilterTemplate';
 
+const PageTitle = styled.h1`
+  font: ${({ theme }) => theme.fonts.bold36};
+`;
+
+const CategoryTitle = styled.h1`
+  font: ${({ theme }) => theme.fonts.medium24};
+  margin-inline-start: 24px;
+`;
+
 const Container = styled.div`
   margin: ${({ theme }) => theme.pageMargin};
+`;
+
+const StyledTableContainer = styled.div`
+  background-color: ${({ theme }) => theme.colours.white};
+  border: ${({ theme }) => theme.borders.solidGrey2};
+  border-radius: 0.9375rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+`;
+
+const StyledTabs = styled((props) => (
+  <Tabs {...props} classes={{ indicator: 'indicator' }}/>
+))`
+  && {
+    margin-inline-start: 24px;
+  }
+  && .indicator {
+    background-color: rgba(0, 0, 0, 0);
+  }
+`;
+
+const StyledTab = styled(Tab)`
+  && {
+    color: ${({ theme }) => theme.colours.blacks.black1};
+    background-color: ${({ theme }) => theme.colours.greys.grey1};
+    border: ${({ theme }) => theme.borders.solidGrey2};
+    border-bottom: 0;
+    border-radius: 0.9375rem 0.9375rem 0 0;
+  }
+  &&.Mui-selected {
+    background-color: ${({ theme }) => theme.colours.white};
+    color: ${({ theme }) => theme.colours.blacks.black1};
+    -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+    -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+    box-shadow: ${({ theme }) => theme.shadows.shadow1};
+  }
+`;
+
+const TabPanelBox = styled(Box)`
+  && {
+    margin-left: 24px;
+    border: ${({ theme }) => theme.borders.solidGrey2};
+    border-top: 0;
+    border-bottom: 0;
+    border-radius: 0.9375rem;
+  }
+`;
+
+const WhiteSpaceBox = styled(Box)`
+  && {
+    padding-top: 24px;
+    margin-left: 24px;
+    background-color: ${({ theme }) => theme.colours.white};
+    border: ${({ theme }) => theme.borders.solidGrey2};
+    border-top: 0;
+    border-bottom: 0;
+    border-radius: 0 0.9375rem 0 0;
+  }
 `;
 
 const TabPanel = (props) => {
@@ -24,10 +93,11 @@ const TabPanel = (props) => {
       id={`simple-tabpanel-${index}`}
       {...other}
     >
+      <WhiteSpaceBox/>
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <TabPanelBox>
           <Typography component="div">{children}</Typography>
-        </Box>
+        </TabPanelBox>
       )}
     </div>
   );
@@ -47,11 +117,11 @@ const PortalTemplate = ({
 
   const handleTabChange = (_, newTab) => {
     setCurrentTab(newTab);
-  }; 
+  };
 
   return (
     <Container>
-      <h1>Recruitment</h1>
+      <PageTitle>Recruitment</PageTitle>
       <Grid
         container
         direction="row"
@@ -63,42 +133,30 @@ const PortalTemplate = ({
         <Grid
           container
           direction="row"
-          md={4}
+          md={3}
           item
           justifyContent="center"
           alignItems="stretch"
         >
-          <Container>
-            <PortalFilterTemplate
-              filterCategories={filterCategories}
-            />
-          </Container>
+          <PortalFilterTemplate filterCategories={filterCategories} />
         </Grid>
-        <Grid
-          container
-          direction="row"
-          spacing={1}
-          md={8}
-          item
-          justifyContent="center"
-          alignItems="stretch"
-        >
-          <h1>{portalName}</h1>
-          <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <Tabs value={currentTab} onChange={handleTabChange}>
-                {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
-                {tabs.map((tab) => (
-                  <Tab label={tab} key={tab} />
-                ))}
-              </Tabs>
-            </Box>
+        <Grid container direction="row" md={9} item justifyContent="flex-start">
+          <CategoryTitle>{portalName}</CategoryTitle>
+          <Box sx={{ width: '95%', height: '100%' }}>
+            <StyledTabs value={currentTab} onChange={handleTabChange}>
+              {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
+              {tabs.map((tab) => (
+                <StyledTab label={tab} key={tab} />
+              ))}
+            </StyledTabs>
             {tabs.map((tab, index) => (
               <TabPanel value={currentTab} index={index} key={tab}>
-                <PortalTableTemplate
-                  columns={tableColumns}
-                  rows={filterRows(tab)}
-                />
+                <StyledTableContainer>
+                  <PortalTableTemplate
+                    columns={tableColumns}
+                    rows={filterRows(tab)}
+                  />
+                </StyledTableContainer>
               </TabPanel>
             ))}
           </Box>

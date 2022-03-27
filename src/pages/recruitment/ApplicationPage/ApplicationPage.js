@@ -83,7 +83,7 @@ const ApplicationPage = () => {
   const filterCategories = [
     {
       name: 'subteams',
-      formattedName: 'Subteams',
+      formattedName: 'Subteam',
       currentShown: subteamsShown,
       checked: subteamsChecked,
       maxShown: MAX_SUBTEAMS_SHOWN,
