@@ -51,6 +51,8 @@ const StyledTab = styled(Tab)`
     border: ${({ theme }) => theme.borders.solidGrey2};
     border-bottom: 0;
     border-radius: 0.9375rem 0.9375rem 0 0;
+    text-transform: none;
+    font: ${({ theme }) => theme.fonts.medium20};
   }
   &&.Mui-selected {
     background-color: ${({ theme }) => theme.colours.white};
@@ -144,17 +146,16 @@ const PortalTemplate = ({
           <CategoryTitle>{portalName}</CategoryTitle>
           <Box sx={{ width: '95%', height: '100%' }}>
             <StyledTabs value={currentTab} onChange={handleTabChange}>
-              {/* TODO: Format the strings (Upper-case, To interview, To reject, Undecided) */}
               {tabs.map((tab) => (
-                <StyledTab label={tab} key={tab} />
+                <StyledTab label={tab.tabName} key={tab.tabName} />
               ))}
             </StyledTabs>
             {tabs.map((tab, index) => (
-              <TabPanel value={currentTab} index={index} key={tab}>
+              <TabPanel value={currentTab} index={index} key={tab.tabName}>
                 <StyledTableContainer>
                   <PortalTableTemplate
                     columns={tableColumns}
-                    rows={filterRows(tab)}
+                    rows={filterRows(tab.status)}
                   />
                 </StyledTableContainer>
               </TabPanel>

@@ -33,19 +33,19 @@ export const getTermSeason = (date) => {
 };
 
 /**
- * Creates mock data from an array of values:
+ * Creates data from an array of values:
  */
-/*  export const createData = (name, year, term, subteam, position, status) => ({
-  name,
-  year,
-  term,
-  subteam,
-  position,
-  status,
-}); */
 
 export const createData = (keys, values) => {
   const res = {}
   keys.forEach((kval, idx) => {res[kval] = values[idx]})
   return res;
+};
+
+/**
+ * Gets item by id in JSON object array
+ */
+ export const getItemById = (arr, id) => {
+  const obj = arr.filter((item) => item.id === id);
+  return obj[0];
 };

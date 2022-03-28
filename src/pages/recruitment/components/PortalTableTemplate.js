@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,9 +15,10 @@ const EntryTableRow = styled(TableRow)`
   background-color: ${({ theme }) => theme.colours.white};
 `;
 
-const StyledTable = styled(Table)`
-  background-color: ${({ theme }) => theme.colours.purples.purple2};
-  border-radius: 0.9375rem;
+const ColumnHeaderRow = styled(TableRow)`
+  -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+  -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
+  box-shadow: ${({ theme }) => theme.shadows.shadow1};
 `;
 
 const ColumnHeaderCell = styled(TableCell)`
@@ -43,6 +45,8 @@ const RowText = styled(Typography)`
 `;
 
 const PortalTableTemplate = ({ columns, rows }) => {
+  const history = useHistory();
+
   const [page, setPage] = React.useState(0);
 
   const handleChangePage = (event, newPage) => {
@@ -51,15 +55,15 @@ const PortalTableTemplate = ({ columns, rows }) => {
 
   return (
     <TableContainer>
-      <StyledTable component="table">
+      <Table component="table">
         <TableHead>
-          <TableRow>
+          <ColumnHeaderRow>
             {columns.map((col) => (
               <ColumnHeaderCell align="center" key={col}>
                 <ColumnHeaderText>{col.toUpperCase()}</ColumnHeaderText>
               </ColumnHeaderCell>
             ))}
-          </TableRow>
+          </ColumnHeaderRow>
         </TableHead>
         <TableBody>
           {rows
@@ -67,9 +71,7 @@ const PortalTableTemplate = ({ columns, rows }) => {
             .map((row) => (
               <EntryTableRow
                 key={row.name}
-                onClick={() =>
-                  row.profileLink && window.history.push(row.profileLink)
-                }
+                onClick={() => row.profileLink && history.push(row.profileLink)}
               >
                 <TableCell
                   component="th"
@@ -86,7 +88,7 @@ const PortalTableTemplate = ({ columns, rows }) => {
               </EntryTableRow>
             ))}
         </TableBody>
-      </StyledTable>
+      </Table>
       <TablePagination
         rowsPerPageOptions={[]}
         component={TableContainer}

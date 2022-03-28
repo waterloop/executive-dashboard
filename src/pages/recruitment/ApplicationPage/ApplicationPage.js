@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PortalTemplate from '../components/PortalTemplate';
-import { rows, tabs, tableColumns } from './Constants';
-import { makeTruthTable, createData } from '../../../utils';
+import { tabs, tableColumns } from './Constants';
+import { makeTruthTable, createData, getItemById } from '../../../utils';
 import {
   SUBTEAM_OPTIONS,
   TERM_TYPE_OPTIONS,
@@ -14,20 +14,6 @@ import { setCheckboxValues, setCheckboxesShown } from '../utils';
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
-export const appFields = [
-  'name',
-  'year of study',
-  'term',
-  'subteam',
-  'position',
-  'status',
-];
-
-const getPostingById = (postings, id) => {
-  const obj = postings.filter((item) => item.id === id);
-  return obj[0];
-};
-
 const ApplicationPage = () => {
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
@@ -38,7 +24,7 @@ const ApplicationPage = () => {
       study = 'coop';
     }
 
-    const appPosting = getPostingById(postings, application.posting_id);
+    const appPosting = getItemById(postings, application.posting_id);
 
     if (appPosting) {
       const appValues = [
@@ -47,11 +33,12 @@ const ApplicationPage = () => {
         study,
         appPosting.team,
         appPosting.title,
-        application.status.slice(4),
+        application.status,
+        `/recruitment/application/${application.id}`,
       ];
-      return createData(appFields, appValues);
+      return createData(tableColumns, appValues);
     }
-    return createData(appFields, []);
+    return createData(tableColumns, []);
   });
 
   const [subteamsChecked, setSubteamsChecked] = useState(
@@ -134,11 +121,7 @@ const ApplicationPage = () => {
     <PortalTemplate
       portalName="Applications Portal"
       tabs={tabs}
-      tableColumns={tableColumns.slice(0, -1)}
-      rows={rows}
-      subteamsChecked={subteamsChecked}
-      termTypesChecked={termTypesChecked}
-      yearsChecked={yearsChecked}
+      tableColumns={tableColumns.slice(0, -2)}
       filterCategories={filterCategories}
       filterRows={filterRows}
     />
