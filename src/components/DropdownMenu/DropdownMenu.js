@@ -1,23 +1,34 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+
 import theme from '../../theme';
+import chevron from '../../assets/svg/recruitment/chevron.svg';
+
+const Chevron = styled.img`
+  src: ${chevron};
+  position: relative;
+  left: 1rem;
+  top: 0.1rem;
+`;
 
 // initialStatus is a string of the initial element to display
 // options is an array of strings representing each option to display in the menu
 // backgrounds is an optional array of colours that map to each option
 // callback is a function to handle backend data changes
-export default function SimpleListMenu({
+const DropdownMenu = ({
   initialStatus,
   options,
   backgrounds = new Array(options.length).fill(theme.colours.yellows.yellow1),
   // callback,
-}) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(
+}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedIndex, setSelectedIndex] = useState(
     options.indexOf(initialStatus) !== -1 ? options.indexOf(initialStatus) : 0,
   );
   const open = Boolean(anchorEl);
@@ -57,8 +68,10 @@ export default function SimpleListMenu({
           aria-label="dropdown-item"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClickListItem}
+          sx={{ right: '0.2rem' }}
         >
           <ListItemText primary={options[selectedIndex]} />
+          <Chevron src={chevron} alt="chevron" />
         </ListItem>
       </List>
       <Menu
@@ -83,4 +96,6 @@ export default function SimpleListMenu({
       </Menu>
     </div>
   );
-}
+};
+
+export default DropdownMenu;

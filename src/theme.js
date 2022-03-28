@@ -53,6 +53,7 @@ const bolds = {
   bold24: '700 24px IBM Plex Sans',
   bold30: '700 30px IBM Plex Sans',
   bold36: '700 36px IBM Plex Sans',
+  bold48: '700 48px IBM Plex Sans',
   bold250: '700 250px IBM Plex Sans',
 };
 

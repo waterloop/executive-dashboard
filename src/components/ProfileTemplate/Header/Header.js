@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import backArrowIcon from '../../../assets/svg/recruitment/application/back-arrow.svg';
+import backArrowIcon from '../../../assets/svg/recruitment/back-arrow.svg';
 
 const Container = styled.div`
   margin: 0;
@@ -18,7 +18,7 @@ const BackArrow = styled.button`
   outline: inherit;
   position: fixed;
   z-index: 2;
-  top: 4rem;
+  top: 5rem;
   left: 1rem;
   width: 1rem;
   height: 1rem;
@@ -38,7 +38,7 @@ const HeaderGrid = styled(Grid)`
 `;
 
 const Name = styled.h1`
-  font: ${({ theme }) => theme.fonts.bold36};
+  font: ${({ theme }) => theme.fonts.bold48};
 `;
 
 const DemographicText = styled.p`

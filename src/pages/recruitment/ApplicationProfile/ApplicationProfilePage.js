@@ -13,9 +13,9 @@ const Container = styled.div`
 
 const ContentGrid = styled(Grid)`
   position: relative;
-  top: 11rem;
+  top: 12rem;
   z-index: 0;
-  padding: 64px 82px 10px 82px;
+  padding: 64px 82px 64px 82px;
 `;
 
 const PostingGrid = styled(Grid)`
@@ -24,11 +24,11 @@ const PostingGrid = styled(Grid)`
 
 const Title = styled.h1`
   font: ${({ theme }) => theme.fonts.bold30};
+  padding-bottom: 1rem;
 `;
 
 const Subtitle = styled.h2`
   font: ${({ theme }) => theme.fonts.bold18};
-  padding-top: 1rem;
   padding-bottom: 1rem;
 `;
 
@@ -70,7 +70,7 @@ const ApplicationProfilePage = () => {
       resumeLink:
         'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
     },
-    status: 'final_accept',
+    status: 'app_undecided',
     why: `Fugiat ad anim laborum et ipsum qui consequat irure. Ipsum ad labore anim ad ipsum do quis fugiat ad commodo ullamco adipisicing. Voluptate anim exercitation do magna minim duis sit laboris sint amet enim laboris. Proident aute labore cillum cillum occaecat est ad labore. Irure nisi proident cillum eiusmod do ut do aute duis laborum occaecat do voluptate.
 
 upidatat deserunt ex in in irure consequat. Incididunt aliqua cillum ea mollit culpa in quis sit ad dolor occaecat nulla do.
@@ -104,20 +104,20 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
     previousPostings: ['UI/UX Design', 'Fullstack Dev'],
   };
 
-  const postingColours = {
-    'UI/UX Design': theme.colours.blues.blue2,
-    'Frontend Dev': theme.colours.greens.green1,
-    'Fullstack Dev': theme.colours.purples.purple1,
-  };
+  const postingColours = [
+    theme.colours.blues.blue2,
+    theme.colours.greens.green1,
+    theme.colours.purples.purple1,
+  ];
 
   const handleClick = (e) => {
     console.log(e.target.textContent);
   };
 
   const postingGenerator = (postings) =>
-    postings.map((posting) => (
-      <PostingContainer item>
-        <PostingBubble key={posting} colour={postingColours[posting]}>
+    postings.map((posting, index) => (
+      <PostingContainer key={posting} item>
+        <PostingBubble colour={postingColours[index % postingColours.length]}>
           <ApplicationText>
             <PostingButton onClick={(e) => handleClick(e)}>
               {posting}

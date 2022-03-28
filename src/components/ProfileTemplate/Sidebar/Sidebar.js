@@ -8,9 +8,13 @@ const Container = styled.div`
   margin: 0;
 `;
 
+const DemographicContainer = styled.div`
+  padding-bottom: 1.5rem;
+`;
+
 const Title = styled.h1`
   font: ${({ theme }) => theme.fonts.bold30};
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 `;
 
 const DemographicText = styled.p`
@@ -28,54 +32,41 @@ const DemographicLink = styled.a`
 // resumeLink is a string containing a link
 // initialStatus is a string representing the initial status to display on the status dropdown menu
 const Sidebar = ({ program, term, resumeLink, initialStatus }) => {
-  const options = [
-    'Pending',
-    'Rejected',
-    'Undecided',
-    'Interview Set Up',
-    'Interview Pending',
-    'Interview Rejected',
-    'Interview Undecided',
-    'Accepted',
-  ];
+  const options = ['Pending', 'To interview', 'To reject', 'Undecided'];
 
   const backgrounds = [
     theme.colours.yellows.yellow1,
-    theme.colours.reds.red1,
-    theme.colours.greys.grey2,
     theme.colours.blues.blue2,
-    theme.colours.yellows.yellow1,
     theme.colours.reds.red1,
     theme.colours.greys.grey2,
-    theme.colours.greens.green2,
   ];
 
   const statuses = {
     app_pending: 'Pending',
-    app_reject: 'Rejected',
+    app_reject: 'To reject',
+    interview_pending: 'To interview',
     app_undecided: 'Undecided',
-    interview_setup: 'Interview Set Up',
-    interview_pending: 'Interview Pending',
-    interview_reject: 'Interview Rejected',
-    interview_undecided: 'Interview Undecided',
-    final_accept: 'Accepted',
   };
 
   return (
     <Container>
-      <Title>Demographic</Title>
-      <DemographicText>{program}</DemographicText>
-      <DemographicText>{term}</DemographicText>
-      <DemographicLink target="_blank" rel="noreferrer" href={resumeLink}>
-        Resume <img alt="click" src={resumeIcon} />
-      </DemographicLink>
-      <Title>Status</Title>
-      <DemographicText>Current Status</DemographicText>
-      <DropdownMenu
-        options={options}
-        backgrounds={backgrounds}
-        initialStatus={statuses[initialStatus]}
-      />
+      <DemographicContainer>
+        <Title>Demographic</Title>
+        <DemographicText>{program}</DemographicText>
+        <DemographicText>{term}</DemographicText>
+        <DemographicLink target="_blank" rel="noreferrer" href={resumeLink}>
+          Resume <img alt="click" src={resumeIcon} />
+        </DemographicLink>
+      </DemographicContainer>
+      <DemographicContainer>
+        <Title>Status</Title>
+        <DemographicText>Current Status</DemographicText>
+        <DropdownMenu
+          options={options}
+          backgrounds={backgrounds}
+          initialStatus={statuses[initialStatus]}
+        />
+      </DemographicContainer>
     </Container>
   );
 };
