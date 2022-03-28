@@ -71,19 +71,19 @@ const PortalFilterTemplate = ({ filterCategories }) => (
             {category.options.length > 0 ? (
               category.options
                 .slice(0, category.currentShown)
-                .map((checkboxName) => (
+                .map((checkbox) => (
                   <FormControlLabel
                     control={
                       <Checkbox
-                        checked={category.checked[checkboxName]}
-                        onChange={(checkboxName) =>
-                          category.setCategoryChecked(checkboxName)
+                        checked={category.checked[checkbox.name]}
+                        onChange={(checkbox) =>
+                          category.setCategoryChecked(checkbox)
                         }
-                        name={checkboxName}
+                        name={checkbox.name}
                       />
                     }
-                    label={<CheckboxName>{checkboxName}</CheckboxName>}
-                    key={checkboxName}
+                    label={<CheckboxName>{checkbox.formattedName}</CheckboxName>}
+                    key={checkbox.name}
                   />
                 ))
             ) : (

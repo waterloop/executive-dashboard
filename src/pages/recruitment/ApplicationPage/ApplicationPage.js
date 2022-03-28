@@ -41,15 +41,19 @@ const ApplicationPage = () => {
     return createData(tableColumns, []);
   });
 
+  const subteamsUnformatted = SUBTEAM_OPTIONS.map(subteam => subteam.name);
+  const termTypesUnformatted = TERM_TYPE_OPTIONS.map(termType => termType.name);
+  const yearsUnformatted = YEAR_OPTIONS.map(year => year.name);
+
   const [subteamsChecked, setSubteamsChecked] = useState(
-    makeTruthTable(SUBTEAM_OPTIONS, false),
+    makeTruthTable(subteamsUnformatted, false),
   );
 
   const [termTypesChecked, setTermTypesChecked] = useState(
-    makeTruthTable(TERM_TYPE_OPTIONS, true),
+    makeTruthTable(termTypesUnformatted, true),
   );
   const [yearsChecked, setYearsChecked] = useState(
-    makeTruthTable(YEAR_OPTIONS, true),
+    makeTruthTable(yearsUnformatted, true),
   );
 
   const filterRows = (status) =>
