@@ -1,25 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
-
-// import * as R from 'ramda';
 import { useHistory } from 'react-router-dom';
-// import api from '../../../api';
-import TextInput from '../../../components/TextInput';
-// import UnstyledTextInput from '../../../components/TextInput';
+import TextField from '@mui/material/TextField';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import TimePicker from '@mui/lab/TimePicker';
+
 import FormContainer from '../../../components/FormContainer';
 import Button from '../../../components/Button';
 
-const PlaceholderContainer = styled.div`
+const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 0.9375rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: stretch;
   height: 100%;
-  width: 100%;
 
   // TODO: remove min-dimension requirements once content is available
   /* min-height: 20rem; */
@@ -38,9 +37,6 @@ const PageTitle = styled.h1`
   font: ${({ theme }) => theme.fonts.bold36};
 `;
 
-const GridContainer = styled(Grid)`
-  padding-bottom: 16px;
-`;
 const SectionContainer = styled.div`
   margin: 1rem 3rem;
 `;
@@ -54,7 +50,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  padding: 0.5rem 0;
   margin: 2rem;
   align-self: flex-end;
 `;
@@ -63,154 +58,196 @@ const CancelButton = styled(Button)`
   background-color: #afafaf;
   color: ${({ theme }) => theme.colours.white};
   font: ${({ theme }) => theme.fonts.bold18};
+  padding: 8px 22px;
   border: none;
   text-decoration: none;
 `;
 
+const SaveButton = styled(Button)`
+  padding: 8px 22px;
+  width: 100px;
+`;
+
+const OuterContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const LineContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const DateContainer = styled.div`
+  display: flex;
+  width: 40%;
+`;
+
+const TimeContainer = styled.div`
+  display: flex;
+  width: 50%;
+`;
+
 function ConfigurationPage() {
+  const [date1, setDate1] = React.useState(new Date());
+  const [date2, setDate2] = React.useState(new Date());
+  const [date3, setDate3] = React.useState(new Date());
+  const [startTime, setStartTime] = React.useState(new Date());
+  const [endTime, setEndTime] = React.useState(new Date());
   const history = useHistory();
 
-  // const [formData, setformData] = useState({
-  //   active: {
-  //     heading: '',
-  //     body: '',
-  //   },
-  //   nonActive: {
-  //     heading: '',
-  //     body: '',
-  //   },
-  // });
+  const handleDate1Change = (newValue) => {
+    setDate1(newValue);
+  };
 
-  // useEffect(() => {
-  //   api.openingsDescription.getDescriptions().then((data) => {
-  //     if (!R.isEmpty(data.data)) {
-  //       setformData(data.data);
-  //     }
-  //   });
-  // }, []);
+  const handleDate2Change = (newValue) => {
+    setDate2(newValue);
+  };
 
-  // const onChange = (type, name) => (text) => {
-  //   const newState = {
-  //     ...formData,
-  //     [type]: { ...formData[type], [name]: text },
-  //   };
-  //   setformData(newState);
-  // };
+  const handleDate3Change = (newValue) => {
+    setDate3(newValue);
+  };
+
+  const handleStartTimeChange = (newValue) => {
+    setStartTime(newValue);
+  };
+
+  const handleEndTimeChange = (newValue) => {
+    setEndTime(newValue);
+  };
 
   const goBack = () => {
-    history.push('/postings');
+    history.push('/');
   };
 
-  const saveForm = () => {
-    // api.openingsDescription
-    //   .updateDescriptions(formData)
-    //   .then(() => history.push('/postings'));
-  };
+  const saveForm = () => {};
 
   return (
     <Container>
       <PageTitle>Configuration</PageTitle>
 
-      <PlaceholderContainer>
+      <CardContainer>
         <SectionContainer>
           <SectionTitle>Interviews</SectionTitle>
-          <GridContainer container spacing={1}>
-            <Grid item xs={12}>
+          <OuterContainer>
+            <LineContainer>
               <FormContainer title="Meeting Link">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="URL"
-                />
+                <TextField placeholder="URL" variant="outlined" />
               </FormContainer>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormContainer title="First Round Deadline">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="Select Date"
-                />
-              </FormContainer>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormContainer title="Second Round Deadline">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="Select Date"
-                />
-              </FormContainer>
-            </Grid>
-          </GridContainer>
+            </LineContainer>
+            <LineContainer>
+              <DateContainer>
+                <FormContainer title="First Round Deadline">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="MM/dd/yyyy"
+                      value={date1}
+                      onChange={handleDate1Change}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+              </DateContainer>
+              <DateContainer>
+                <FormContainer title="Second Round Deadline">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="MM/dd/yyyy"
+                      value={date2}
+                      onChange={handleDate2Change}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+              </DateContainer>
+            </LineContainer>
+          </OuterContainer>
         </SectionContainer>
 
         <SectionContainer>
           <SectionTitle>New Members Orientation</SectionTitle>
-          <GridContainer container spacing={1}>
-            <Grid item xs={12}>
+          <OuterContainer>
+            <LineContainer>
               <FormContainer title="Meeting Link">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
+                <TextField
+                  id="outlined-basic"
                   placeholder="URL"
+                  variant="outlined"
                 />
               </FormContainer>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormContainer title="Date">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="Select Date"
-                />
-              </FormContainer>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormContainer title="Start Time">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="Select Time"
-                />
-              </FormContainer>
-            </Grid>
-          </GridContainer>
+            </LineContainer>
+            <LineContainer>
+              <DateContainer>
+                <FormContainer title="Date">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="MM/dd/yyyy"
+                      value={date1}
+                      onChange={handleDate1Change}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+              </DateContainer>
+              <TimeContainer>
+                <FormContainer title="Start Time">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <TimePicker
+                      label="Time"
+                      value={startTime}
+                      onChange={handleStartTimeChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+                <FormContainer title="End Time">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <TimePicker
+                      value={endTime}
+                      onChange={handleEndTimeChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+              </TimeContainer>
+            </LineContainer>
+          </OuterContainer>
         </SectionContainer>
 
         <SectionContainer>
           <SectionTitle>Member Status Confirmation</SectionTitle>
-          <GridContainer container spacing={1}>
-            <Grid item xs={12}>
+          <OuterContainer>
+            <LineContainer>
               <FormContainer title="Form Link">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="URL"
-                />
+                <TextField placeholder="URL" variant="outlined" />
               </FormContainer>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <FormContainer title="Deadline">
-                <TextInput
-                  // value={title}
-                  // onChange={updateTitle}
-                  placeholder="Select Date"
-                />
-              </FormContainer>
-            </Grid>
-          </GridContainer>
+            </LineContainer>
+            <LineContainer>
+              <DateContainer>
+                <FormContainer title="Deadline">
+                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                      inputFormat="MM/dd/yyyy"
+                      value={date3}
+                      onChange={handleDate3Change}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                  </LocalizationProvider>
+                </FormContainer>
+              </DateContainer>
+            </LineContainer>
+          </OuterContainer>
         </SectionContainer>
 
         <ButtonContainer>
           <CancelButton onClick={goBack} cancel="true">
             Cancel
           </CancelButton>
-          <Button onClick={saveForm} tertiary="true">
+          <SaveButton onClick={saveForm} tertiary="true">
             Save
-          </Button>
+          </SaveButton>
         </ButtonContainer>
-      </PlaceholderContainer>
+      </CardContainer>
     </Container>
   );
 }

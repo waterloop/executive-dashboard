@@ -5,15 +5,13 @@ import styled from 'styled-components';
 const Title = styled.p`
   font: ${({ theme }) => theme.fonts.bold18};
   color: ${({ theme }) => theme.colours.blues.blue1};
-  margin-left: 10px;
 `;
 
 const OuterContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 1284px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  align-items: stretch;
+  margin: 10px 20px;
   width: 100%;
 `;
 
@@ -41,5 +39,5 @@ export default FormContainer;
 // FormContainer.propTypes = {
 //   title: PropTypes.string,
 //   className: PropTypes.string,
-//   requiredText: PropTypes.string
+//   requiredText: PropTypes.string,
 // };

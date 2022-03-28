@@ -59,7 +59,7 @@ const TopBar = () => {
         },
         {
           label: 'Configuration',
-          path: '/configuration',
+          path: '/config',
         },
       ],
     },
