@@ -11,7 +11,7 @@ export const tableColumns = [
 // TO-DO: Confirm tab status names
 export const tabs = [
   { status: 'app_pending', tabName: 'Pending' },
-  { status: 'app_interview', tabName: 'To interview' },
+  { status: 'interview_pending', tabName: 'To interview' },
   { status: 'app_rejected', tabName: 'To reject' },
   { status: 'app_undecided', tabName: 'Undecided' },
 ];
