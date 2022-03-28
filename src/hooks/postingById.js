@@ -1,3 +1,5 @@
+// NOTE: This entire file is currently unused.
+
 import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '../api';
