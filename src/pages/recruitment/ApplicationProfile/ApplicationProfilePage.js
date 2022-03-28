@@ -104,6 +104,22 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
     previousPostings: ['UI/UX Design', 'Fullstack Dev'],
   };
 
+  const options = ['Pending', 'To interview', 'To reject', 'Undecided'];
+
+  const backgrounds = [
+    theme.colours.yellows.yellow1,
+    theme.colours.blues.blue2,
+    theme.colours.reds.red1,
+    theme.colours.greys.grey2,
+  ];
+
+  const statuses = {
+    app_pending: 'Pending',
+    app_reject: 'To reject',
+    interview_pending: 'To interview',
+    app_undecided: 'Undecided',
+  };
+
   const postingColours = [
     theme.colours.blues.blue2,
     theme.colours.greens.green1,
@@ -147,6 +163,9 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
             term={mockData.demographic.term}
             resumeLink={mockData.demographic.resumeLink}
             initialStatus={mockData.status}
+            options={options}
+            backgrounds={backgrounds}
+            statuses={statuses}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
