@@ -1,7 +1,12 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import LandingContent from './Landing/LandingContent';
+import LandingContent from './Landing';
 import NotFoundPage from '../general/NotFound';
+
+// remove portal template soon
+// import PortalTemplate from './components/PortalTemplate';
+import ApplicationPage from './ApplicationPage';
+import InterviewPage from './InterviewPage';
 
 /**
  * Controls routes based off recruitment page route (i.e. /recruitment).
@@ -12,10 +17,10 @@ const LandingPage = () => {
   return (
     <Switch>
       <Route path={`${match.url}/application`}>
-        <h1>Applications Page</h1>
+        <ApplicationPage />
       </Route>
       <Route path={`${match.url}/interview`}>
-        <h1>Interview Page</h1>
+      <InterviewPage />
       </Route>
       <Route path={`${match.url}/decision`}>
         <h1>Decision Page</h1>

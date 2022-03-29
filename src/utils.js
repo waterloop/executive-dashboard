@@ -1,18 +1,16 @@
 /**
  * Appends a backslash to the prefix URL if there isn't one.
- * TODO: remove eslint check after another function is added.
  */
-/* eslint-disable import/prefer-default-export */
 export const sanitizeUrlPrefix = (url) =>
   url + (url.slice(-1) === '/' ? '' : '/');
 
 /**
  * Converts array to JSON object with array values as keys and `true` assigned to each key.
  * */
-export const makeTruthTable = (values) => {
+export const makeTruthTable = (values, isSelected) => {
   const res = {};
   values.forEach((val) => {
-    res[val] = true;
+    res[val] = isSelected;
   });
   return res;
 };
@@ -32,4 +30,22 @@ export const getTermSeason = (date) => {
   }
 
   return season;
+};
+
+/**
+ * Creates data from an array of values:
+ */
+
+export const createData = (keys, values) => {
+  const res = {}
+  keys.forEach((kval, idx) => {res[kval] = values[idx]})
+  return res;
+};
+
+/**
+ * Gets item by id in JSON object array
+ */
+ export const getItemById = (arr, id) => {
+  const obj = arr.filter((item) => item.id === id);
+  return obj[0];
 };

@@ -33,6 +33,7 @@ const greens = {
 
 const purples = {
   purple1: '#C1B1E9',
+  purple2: '#E1D9F6',
 };
 
 const white = '#FFFFFF';
@@ -47,6 +48,7 @@ const breakpoints = {
 
 const bolds = {
   bold14: '700 14px IBM Plex Sans',
+  bold16: '700 16px IBM Plex Sans',
   bold18: '700 18px IBM Plex Sans',
   bold20: '700 20px IBM Plex Sans',
   bold24: '700 24px IBM Plex Sans',
