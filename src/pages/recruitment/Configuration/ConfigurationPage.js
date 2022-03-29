@@ -88,10 +88,11 @@ const TimeContainer = styled.div`
   width: 50%;
 `;
 
-function ConfigurationPage() {
+const ConfigurationPage = () => {
   const [date1, setDate1] = React.useState(new Date());
   const [date2, setDate2] = React.useState(new Date());
   const [date3, setDate3] = React.useState(new Date());
+  const [date4, setDate4] = React.useState(new Date());
   const [startTime, setStartTime] = React.useState(new Date());
   const [endTime, setEndTime] = React.useState(new Date());
   const history = useHistory();
@@ -108,6 +109,10 @@ function ConfigurationPage() {
     setDate3(newValue);
   };
 
+  const handleDate4Change = (newValue) => {
+    setDate4(newValue);
+  };
+
   const handleStartTimeChange = (newValue) => {
     setStartTime(newValue);
   };
@@ -120,7 +125,10 @@ function ConfigurationPage() {
     history.push('/');
   };
 
-  const saveForm = () => {};
+  const saveForm = () => {
+    /* TODO: Handle submit form when user clicks save */
+    history.push('/');
+  };
 
   return (
     <Container>
@@ -182,8 +190,8 @@ function ConfigurationPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date1}
-                      onChange={handleDate1Change}
+                      value={date3}
+                      onChange={handleDate3Change}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -228,8 +236,8 @@ function ConfigurationPage() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date3}
-                      onChange={handleDate3Change}
+                      value={date4}
+                      onChange={handleDate4Change}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -250,6 +258,6 @@ function ConfigurationPage() {
       </CardContainer>
     </Container>
   );
-}
+};
 
 export default ConfigurationPage;

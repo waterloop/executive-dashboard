@@ -37,6 +37,7 @@ const usePostings = () => {
       );
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
         console.log(err);
       }
       throw err;
@@ -46,9 +47,11 @@ const usePostings = () => {
   const load = useCallback(async () => {
     try {
       dispatch(postingActions.setPostings(await getPostings()));
+      // eslint-disable-next-line no-console
       console.log('posting load success');
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
         console.log('Failed to load postings');
       }
     }

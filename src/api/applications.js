@@ -1,18 +1,25 @@
-const addApplication = (server) => (formData) =>
-  server.post('/api/applications/', formData);
+// Applications
+const getApplications = (server) => (term) =>
+  server.get(`/api/applications?term=${term}`);
 
 const getApplicationByEmail = (server) => (email) =>
   server.get(`/api/applications/applicant/${email}`);
 
-const getApplications = (server) => (term) =>
-  server.get(`/api/applications?term=${term}`);
+// NOTE: May not need addApplication here.
+const addApplication = (server) => (formData) =>
+  server.post('/api/applications/', formData);
 
 const updateApplicationStatus = (server) => (id, status) =>
   server.patch('/api/applications/applicant/status', { id, status });
 
+// Application statuses:
+const getApplicationStatuses = (server) => () =>
+  server.get('/api/applications/statuses');
+
 export default (server) => ({
-  addApplication: addApplication(server),
-  getApplicationByEmail: getApplicationByEmail(server),
   getApplications: getApplications(server),
+  getApplicationByEmail: getApplicationByEmail(server),
+  addApplication: addApplication(server),
   updateApplicationStatus: updateApplicationStatus(server),
+  getApplicationStatuses: getApplicationStatuses(server),
 });

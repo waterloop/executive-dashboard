@@ -8,6 +8,7 @@ const blues = {
   blue1: '#232535',
   blue2: '#82B0FD',
   blue3: '#B4BFED',
+  blue4: '#1B8FF5',
 };
 
 const yellows = {
@@ -29,10 +30,12 @@ const greys = {
 
 const greens = {
   green1: '#BCDDD7',
+  green2: '#8BC34A',
 };
 
 const purples = {
   purple1: '#C1B1E9',
+  purple2: '#E1D9F6',
 };
 
 const white = '#FFFFFF';
@@ -47,10 +50,13 @@ const breakpoints = {
 
 const bolds = {
   bold14: '700 14px IBM Plex Sans',
+  bold16: '700 16px IBM Plex Sans',
   bold18: '700 18px IBM Plex Sans',
+  bold20: '700 20px IBM Plex Sans',
   bold24: '700 24px IBM Plex Sans',
   bold30: '700 30px IBM Plex Sans',
   bold36: '700 36px IBM Plex Sans',
+  bold48: '700 48px IBM Plex Sans',
   bold250: '700 250px IBM Plex Sans',
 };
 
@@ -66,8 +72,9 @@ const mediums = {
 };
 
 const shadows = {
-  shadow1: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
-  shadow2: '0 8px 8px 0 rgba(0, 0, 0, 0.75)',
+  shadow1: '0 2px 2px 0 rgba(0, 0, 0, 0.10)',
+  shadow2: '0 4px 4px 0 rgba(0, 0, 0, 0.25)',
+  shadow3: '0 8px 8px 0 rgba(0, 0, 0, 0.75)',
 };
 
 const borders = {

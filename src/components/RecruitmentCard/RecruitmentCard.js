@@ -8,7 +8,7 @@ const CardContainer = styled.div`
   cursor: pointer;
 
   max-width: 13rem;
-  padding: 1rem 2rem;
+  padding: 3.5rem 2rem 1rem 2rem;
 
   display: flex;
   flex-direction: column;
@@ -35,19 +35,19 @@ const CardGrid = styled(Grid)`
 `;
 
 const CardTitle = styled.h1`
-  font: ${({ theme }) => theme.fonts.bold24};
+  font: ${({ theme }) => theme.fonts.bold20};
   text-align: center;
 `;
 
 const CardIcon = styled.img`
-  width: 6rem;
-  height: 6rem;
+  width: 7rem;
+  height: 7rem;
   margin: 1rem 0;
 `;
 
 const CardDescription = styled.p`
   font: ${({ theme }) => theme.fonts.medium16};
-  color: ${({ theme }) => theme.colours.blacks.black3}};
+  color: ${({ theme }) => theme.colours.greys.grey3}};
   text-align: center;
 `;
 
@@ -58,8 +58,8 @@ const RecruitmentCard = (props) => {
   return (
     <CardGrid item>
       <CardContainer {...props} onClick={() => history.push(to)}>
-        <CardTitle>{name}</CardTitle>
         <CardIcon src={icon} />
+        <CardTitle>{name}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardContainer>
     </CardGrid>
