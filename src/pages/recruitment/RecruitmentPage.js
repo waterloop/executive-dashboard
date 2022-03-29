@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import LandingContent from './Landing';
 import NotFoundPage from '../general/NotFound';
+import ApplicationProfilePage from './ApplicationProfile/ApplicationProfilePage';
 
 // remove portal template soon
 // import PortalTemplate from './components/PortalTemplate';
@@ -16,6 +17,9 @@ const LandingPage = () => {
 
   return (
     <Switch>
+      <Route path={`${match.url}/application/:application_id`}>
+        <ApplicationProfilePage />
+      </Route>
       <Route path={`${match.url}/application`}>
         <ApplicationPage />
       </Route>
