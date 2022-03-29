@@ -8,7 +8,6 @@ export const tableColumns = [
   'profileLink',
 ];
 
-// TO-DO: Confirm tab status names
 export const tabs = [
   { status: 'app_pending', tabName: 'Pending' },
   { status: 'interview_pending', tabName: 'To interview' },
