@@ -13,6 +13,10 @@ import { ROWS_PER_PAGE } from './Constants';
 
 const EntryTableRow = styled(TableRow)`
   background-color: ${({ theme }) => theme.colours.white};
+
+  &.link {
+    cursor: pointer;
+  }
 `;
 
 const ColumnHeaderRow = styled(TableRow)`
@@ -72,6 +76,7 @@ const PortalTableTemplate = ({ columns, rows }) => {
               <EntryTableRow
                 key={row.name}
                 onClick={() => row.profileLink && history.push(row.profileLink)}
+                className={row.profileLink && 'link'}
               >
                 <TableCell
                   component="th"

@@ -11,17 +11,14 @@ import {
 } from '../components/Constants';
 import { setCheckboxValues, setCheckboxesShown } from '../utils';
 
-import useInterviews from '../../../hooks/interviews';
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
 
 const InterviewPage = () => {
-  const { interviews } = useInterviews('FALL-2022');
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
 
-  const tableRows = interviews.map((interview) => {
-    const application = getItemById(applications, interview.application_id);
+  const tableRows = applications.map((application) => {
     let study = 'study';
     if (application) {
       if (!application.in_school) {
@@ -37,7 +34,7 @@ const InterviewPage = () => {
           appPosting.team,
           appPosting.title,
           application.status,
-          `/recruitment/interviews/${interview.application_id}`,
+          `/recruitment/interview/${application.id}`,
         ];
         return createData(tableColumns, appValues);
       }
@@ -45,9 +42,11 @@ const InterviewPage = () => {
     return createData(tableColumns, []);
   });
 
-  const subteamsUnformatted = SUBTEAM_OPTIONS.map(subteam => subteam.name);
-  const termTypesUnformatted = TERM_TYPE_OPTIONS.map(termType => termType.name);
-  const yearsUnformatted = YEAR_OPTIONS.map(year => year.name);
+  const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
+  const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
+    (termType) => termType.name,
+  );
+  const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
 
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
