@@ -16,7 +16,6 @@ export const SUBTEAM_OPTIONS = [
   { name: 'Propulsion', formattedName: 'Propulsion' },
   { name: 'BMS', formattedName: 'BMS' },
   { name: 'Embedded', formattedName: 'Embedded' },
-  { name: 'Embedded', formattedName: 'Embedded' },
   { name: 'MotorControl', formattedName: 'Motor Control' },
   { name: 'Communications', formattedName: 'Communications' },
 ];
