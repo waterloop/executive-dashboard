@@ -15,7 +15,7 @@ import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
 const ApplicationPage = () => {
-  const { applications } = useApplications('FALL-2022');
+  const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
   const { postings } = usePostings();
 
   const tableRows = applications.map((application) => {
