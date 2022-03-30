@@ -17,14 +17,21 @@ const Chevron = styled.img`
   top: 0.1rem;
 `;
 
+const Error = styled.p`
+  font: ${({ theme }) => theme.fonts.medium14};
+  color: ${({ theme }) => theme.colours.reds.red1};
+`;
+
 // initialStatus is a string of the initial element to display
 // options is an array of strings representing each option to display in the menu
 // backgrounds is an optional array of colours that map to each option
 // callback is a function to handle backend data changes
+// locked is a boolean indicating whether to prevent changing statuses or not
 const DropdownMenu = ({
   initialStatus,
   options,
   backgrounds = new Array(options.length).fill(theme.colours.yellows.yellow1),
+  locked,
   // callback,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -32,7 +39,13 @@ const DropdownMenu = ({
     options.indexOf(initialStatus) !== -1 ? options.indexOf(initialStatus) : 0,
   );
   const open = Boolean(anchorEl);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleClickListItem = (event) => {
+    if (locked) {
+      setErrorMessage('Please change in interview profile!');
+      return;
+    }
     setAnchorEl(event.currentTarget);
   };
 
@@ -94,6 +107,7 @@ const DropdownMenu = ({
           </MenuItem>
         ))}
       </Menu>
+      {errorMessage && <Error>{errorMessage}</Error>}
     </div>
   );
 };
