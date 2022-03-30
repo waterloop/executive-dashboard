@@ -153,6 +153,7 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
         name={mockData.name}
         currentPostings={mockData.currentPostings}
         blobs={blobs}
+        background="linear-gradient(91.05deg, #CAD4FF 0%, #CEF6FF 99.9%)"
       />
       {/* application info takes up 3/4 of height */}
       <ContentGrid justifyContent="flex-start" item xs={12} container>
