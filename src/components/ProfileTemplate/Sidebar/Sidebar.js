@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DropdownMenu from '../../DropdownMenu';
-import resumeIcon from '../../../assets/svg/recruitment/application/resume-click.svg';
+import resumeIcon from '../../../assets/svg/recruitment/resume-click.svg';
 
 const Container = styled.div`
   margin: 0;
