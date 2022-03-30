@@ -27,11 +27,13 @@ const Error = styled.p`
 // backgrounds is an optional array of colours that map to each option
 // callback is a function to handle backend data changes
 // locked is a boolean indicating whether to prevent changing statuses or not
+// errorMessage is an optional string error message to display when someone clicks a locked menu
 const DropdownMenu = ({
   initialStatus,
   options,
   backgrounds = new Array(options.length).fill(theme.colours.yellows.yellow1),
   locked,
+  errorMessage = 'This menu is locked!',
   // callback,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,11 +41,11 @@ const DropdownMenu = ({
     options.indexOf(initialStatus) !== -1 ? options.indexOf(initialStatus) : 0,
   );
   const open = Boolean(anchorEl);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorText, setErrorText] = useState('');
 
   const handleClickListItem = (event) => {
     if (locked) {
-      setErrorMessage('Please change in interview profile!');
+      setErrorText(errorMessage);
       return;
     }
     setAnchorEl(event.currentTarget);
@@ -107,7 +109,7 @@ const DropdownMenu = ({
           </MenuItem>
         ))}
       </Menu>
-      {errorMessage && <Error>{errorMessage}</Error>}
+      {errorText && <Error>{errorText}</Error>}
     </div>
   );
 };

@@ -179,6 +179,7 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
             backgrounds={backgrounds}
             statuses={statuses}
             locked={locked(mockData.status)}
+            errorMessage="Please change in interview profile!"
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
