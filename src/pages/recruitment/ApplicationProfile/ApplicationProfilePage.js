@@ -70,7 +70,7 @@ const ApplicationProfilePage = () => {
       resumeLink:
         'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
     },
-    status: 'final_accept',
+    status: 'interview_undecided',
     why: `Fugiat ad anim laborum et ipsum qui consequat irure. Ipsum ad labore anim ad ipsum do quis fugiat ad commodo ullamco adipisicing. Voluptate anim exercitation do magna minim duis sit laboris sint amet enim laboris. Proident aute labore cillum cillum occaecat est ad labore. Irure nisi proident cillum eiusmod do ut do aute duis laborum occaecat do voluptate.
 
 upidatat deserunt ex in in irure consequat. Incididunt aliqua cillum ea mollit culpa in quis sit ad dolor occaecat nulla do.
@@ -118,9 +118,9 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
     app_reject: 'To reject',
     interview_pending: 'To interview',
     app_undecided: 'Undecided',
-    interview_reject: 'To reject',
-    final_accept: 'To accept',
-    interview_undecided: 'Undecided',
+    interview_reject: 'To interview',
+    final_accept: 'To interview',
+    interview_undecided: 'To interview',
   };
 
   const interviewStatuses = [
