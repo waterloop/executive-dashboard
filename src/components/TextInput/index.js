@@ -39,14 +39,6 @@ const ContentEditableContainer = styled.div`
   border: 1px solid #c4c4c4;
   box-shadow: 0px 4px 10px #e0e5f3;
   border-radius: 15px;
-
-  ${
-    '' /* ::placeholder,
-  ::-webkit-input-placeholder {
-    font: ${({ theme }) => theme.fonts.medium18};
-    color: ${({ theme }) => theme.colours.greys.grey2};
-  } */
-  }
 `;
 
 const emailSignatureLogo = {
