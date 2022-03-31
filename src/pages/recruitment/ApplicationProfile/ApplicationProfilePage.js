@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
@@ -7,6 +7,7 @@ import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
 import useApplications from '../../../hooks/applications';
+import usePostings from '../../../hooks/postings';
 
 import { mockData } from '../../../tests/recruitment/application-profile/mocks';
 
@@ -76,8 +77,8 @@ const PostingButton = styled.button`
 
 const backgrounds = {
   app_pending: theme.colours.yellows.yellow1,
-  app_reject: theme.colours.blues.blue2,
-  interview_pending: theme.colours.reds.red1,
+  interview_pending: theme.colours.blues.blue2,
+  app_reject: theme.colours.reds.red1,
   app_undecided: theme.colours.greys.grey2,
 };
 
@@ -93,6 +94,19 @@ const postingColours = [
   theme.colours.greens.green1,
   theme.colours.purples.purple1,
 ];
+
+const postingGenerator = (postings, handleClick) =>
+  postings.map((posting, index) => (
+    <PostingContainer key={posting} item>
+      <PostingBubble colour={postingColours[index % postingColours.length]}>
+        <ApplicationText>
+          <PostingButton onClick={(e) => handleClick(e)}>
+            {posting}
+          </PostingButton>
+        </ApplicationText>
+      </PostingBubble>
+    </PostingContainer>
+  ));
 
 // Functions:
 const makeProfileData = (app) =>
@@ -112,10 +126,21 @@ const makeProfileData = (app) =>
 const ApplicationProfilePage = () => {
   // TODO: redirect user to 404 page if application not found. Use useHistory hook
   const match = useRouteMatch('/recruitment/application/:id');
-  const { applications, updateAppStatus } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+  const { postings } = usePostings();
+  const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
+    useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+
+  console.log(postings);
+  console.log(appsByEmail);
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
   );
+
+  useEffect(() => {
+    if (application && application.email_address) {
+      getApplicationsByEmail(application.email_address);
+    }
+  }, [getApplicationsByEmail, application]);
 
   // Curry updateAppStatus function:
   const updateAppStatusCurried = (appID) => (newStatus) => {
@@ -128,22 +153,9 @@ const ApplicationProfilePage = () => {
     console.log(e.target);
   };
 
-  const postingGenerator = (postings) =>
-    postings.map((posting, index) => (
-      <PostingContainer key={posting} item>
-        <PostingBubble colour={postingColours[index % postingColours.length]}>
-          <ApplicationText>
-            <PostingButton onClick={(e) => handleClick(e)}>
-              {posting}
-            </PostingButton>
-          </ApplicationText>
-        </PostingBubble>
-      </PostingContainer>
-    ));
+  const currPostings = postingGenerator(mockData.currentPostings, handleClick);
 
-  const currPostings = postingGenerator(mockData.currentPostings);
-
-  const prevPostings = postingGenerator(mockData.previousPostings);
+  const prevPostings = postingGenerator(mockData.previousPostings, handleClick);
 
   return (
     <Container>

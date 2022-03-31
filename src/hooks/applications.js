@@ -9,6 +9,7 @@ import * as applicationSelectors from '../state/applications/selectors';
 const useApplications = (termQuery) => {
   const dispatch = useDispatch();
   const applications = useSelector(applicationSelectors.applications);
+  const appsByEmail = useSelector(applicationSelectors.applicationsByEmail);
   const appStatuses = useSelector(applicationSelectors.appStatuses);
 
   const getApplications = useCallback(async () => {
@@ -42,6 +43,30 @@ const useApplications = (termQuery) => {
     }
   }, []);
 
+  const getApplicationsByEmail = useCallback(
+    async (email) => {
+      try {
+        const applications = await api.applications.getApplicationsByEmail(
+          email,
+        );
+        if (applications.status !== 200) {
+          throw new Error(
+            `Could not fetch applications for email ${email}, HTTP ${applications.status}`,
+          );
+        }
+        dispatch(
+          applicationActions.setApplicationsByEmail(email, applications.data),
+        );
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
+      }
+    },
+    [dispatch],
+  );
+
   const updateAppStatus = useCallback(
     async (appID, newStatus) => {
       try {
@@ -58,7 +83,7 @@ const useApplications = (termQuery) => {
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
           // eslint-disable-next-line no-console
-          console.log(err);
+          console.error(err);
         }
       }
     },
@@ -75,6 +100,8 @@ const useApplications = (termQuery) => {
 
   return {
     applications,
+    appsByEmail,
+    getApplicationsByEmail,
     appStatuses,
     updateAppStatus,
   };
