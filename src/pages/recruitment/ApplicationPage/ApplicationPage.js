@@ -41,9 +41,11 @@ const ApplicationPage = () => {
     return createData(tableColumns, []);
   });
 
-  const subteamsUnformatted = SUBTEAM_OPTIONS.map(subteam => subteam.name);
-  const termTypesUnformatted = TERM_TYPE_OPTIONS.map(termType => termType.name);
-  const yearsUnformatted = YEAR_OPTIONS.map(year => year.name);
+  const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
+  const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
+    (termType) => termType.name,
+  );
+  const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
 
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
@@ -64,7 +66,6 @@ const ApplicationPage = () => {
         termTypesChecked[row.term] &&
         yearsChecked[row['year of study']],
     );
-
   const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
   const MAX_YEARS_SHOWN = yearsChecked.length;
 
