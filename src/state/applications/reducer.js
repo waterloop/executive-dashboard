@@ -18,6 +18,16 @@ export default (state = initialState, { type, payload }) => {
         appStatuses: payload.appStatuses,
       };
 
+    case actionTypes.APPLICATIONS_UPDATE_APP_STATUS:
+      return {
+        appStatuses: state.appStatuses,
+        allApplications: [
+          ...state.allApplications.filter(
+            (app) => app.id !== payload.newApp.id,
+          ),
+          payload.newApp,
+        ],
+      };
     default:
       return { ...state };
   }

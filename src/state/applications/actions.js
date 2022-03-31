@@ -12,3 +12,10 @@ export const setApplicationStatuses = (appStatuses) => ({
     appStatuses,
   },
 });
+
+export const updateAppStatus = (newApp) => ({
+  type: actionTypes.APPLICATIONS_UPDATE_APP_STATUS,
+  payload: {
+    newApp,
+  },
+});

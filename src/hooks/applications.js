@@ -42,6 +42,29 @@ const useApplications = (termQuery) => {
     }
   }, []);
 
+  const updateAppStatus = useCallback(
+    async (appID, newStatus) => {
+      try {
+        const res = await api.applications.updateApplicationStatus(
+          appID,
+          newStatus,
+        );
+        if (res.status !== 200) {
+          throw new Error(
+            `Could not update application status, HTTP ${res.status}`,
+          );
+        }
+        dispatch(applicationActions.updateAppStatus(res.data));
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        }
+      }
+    },
+    [dispatch],
+  );
+
   useEffect(() => {
     (async () => {
       const { applications, appStatuses } = await getApplications();
@@ -53,6 +76,7 @@ const useApplications = (termQuery) => {
   return {
     applications,
     appStatuses,
+    updateAppStatus,
   };
 };
 

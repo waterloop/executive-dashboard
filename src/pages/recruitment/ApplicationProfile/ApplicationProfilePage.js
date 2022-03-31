@@ -18,6 +18,7 @@ import {
   postingColours,
 } from './Constants';
 import updateAppStatus from '../hooks/modify-status';
+// import updateAppStatus from '../hooks/modify-status';
 
 const Container = styled.div`
   margin: 0;
@@ -111,10 +112,15 @@ const makeProfileData = (app) =>
 const ApplicationProfilePage = () => {
   // TODO: redirect user to 404 page if application not found. Use useHistory hook
   const match = useRouteMatch('/recruitment/application/:id');
-  const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+  const { applications, updateAppStatus } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
   );
+
+  // Curry updateAppStatus function:
+  const updateAppStatusCurried = (appID) => (newStatus) => {
+    updateAppStatus(appID, newStatus);
+  };
 
   const profileData = makeProfileData(application);
 
@@ -160,7 +166,7 @@ const ApplicationProfilePage = () => {
             locked={locked(mockData.status)}
             errorMessage="Please change in interview profile!"
             initialStatus={profileData.status}
-            updateStatus={updateAppStatus(profileData.id)}
+            updateStatus={updateAppStatusCurried(profileData.id)}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
