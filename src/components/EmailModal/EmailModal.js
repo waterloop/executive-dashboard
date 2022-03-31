@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import UnstyledTextInput from '../TextInput';
 import Button from '../Button';
 import EmailTemplate from './EmailTemplate.json';
+import WaterloopLogo from '../../assets/svg/recruitment/logo-signature.svg';
 
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -67,14 +68,22 @@ const EmailModal = ({ status, subject }) => (
     </InputGroup>
     <InputGroup>
       <InputLabel>SUBJECT: </InputLabel>
-      <TextInput paddingLeft="90px" initialValue={EmailTemplate.filter((item) => item.status === status)[0].subject} />
+      <TextInput
+        paddingLeft="90px"
+        initialValue={
+          EmailTemplate.filter((item) => item.status === status)[0].subject
+        }
+      />
     </InputGroup>
     <TextMultilineInput
       multiLine
-      subjectLine = {subject}
+      hasImage
+      imgURL={WaterloopLogo}
+      subjectLine={subject}
       initialValue={
         EmailTemplate.filter((item) => item.status === status)[0].text
       }
+      textAfterImg={EmailTemplate.filter((item) => item.status === status)[0].textAfterImg}
     />
     <Cancel cancel>cancel</Cancel>
     <Send tertiary>send</Send>

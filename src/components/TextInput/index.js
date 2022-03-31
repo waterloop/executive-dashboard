@@ -6,13 +6,12 @@ const Container = styled.div`
   width: 100%;
 `;
 
-// TODO: Only change to red when user clicks away from the text box.
 const TextInputContainer = styled.input`
   height: 47px;
   width: 100%;
   background-color: ${({ theme }) => theme.colours.white};
   font: ${({ theme }) => theme.fonts.medium14};
-  padding-left: ${props => (props.paddingLeft)};
+  padding-left: ${(props) => props.paddingLeft};
   padding-right: 16px;
   box-sizing: border-box;
 
@@ -25,20 +24,45 @@ const TextInputContainer = styled.input`
   border-radius: 15px;
 `;
 
-const TextAreaContainer = styled.textarea`
+// const TextAreaContainer = styled.textarea`
+//   box-sizing: border-box;
+//   width: 100%;
+//   min-height: 300px;
+//   background-color: ${({ theme }) => theme.colours.white};
+//   font: ${({ theme }) => theme.fonts.medium14};
+//   resize: none;
+
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding-top: 16px;
+//   padding-left: 16px;
+//   padding-right: 16px;
+
+//   border: 1px solid #c4c4c4;
+//   box-shadow: 0px 4px 10px #e0e5f3;
+//   border-radius: 15px;
+
+//   ${
+//     '' /* ::placeholder,
+//   ::-webkit-input-placeholder {
+//     font: ${({ theme }) => theme.fonts.medium18};
+//     color: ${({ theme }) => theme.colours.greys.grey2};
+//   } */
+//   }
+// `;
+
+const ContentEditableContainer = styled.div`
+  white-space: pre-wrap;
+  overflow : scroll;
   box-sizing: border-box;
   width: 100%;
-  min-height: 300px;
+  height: 400px;
   background-color: ${({ theme }) => theme.colours.white};
   font: ${({ theme }) => theme.fonts.medium14};
-  resize: none;
 
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-top: 16px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 16px;
 
   border: 1px solid #c4c4c4;
   box-shadow: 0px 4px 10px #e0e5f3;
@@ -52,6 +76,11 @@ const TextAreaContainer = styled.textarea`
   } */
   }
 `;
+
+const emailSignatureLogo = {
+  width: '150px',
+  margin: '15px 0 15px 0',
+};
 
 /* 
 To implement the richText support in textinput:
@@ -69,16 +98,25 @@ const TextInput = ({
   paddingLeft,
   initialValue,
   width,
+  hasImage,
+  imgURL='',
+  textAfterImg='',
 }) => {
   const [input, setName] = useState(initialValue);
   return (
     <Container width={width} className={className}>
       {multiLine ? (
-        <TextAreaContainer
+        <ContentEditableContainer
+          contentEditable="true"
           rows={rows}
-          value={input}
+          paddingLeft={paddingLeft}
           onChange={(e) => setName(e.target.value)}
-        />
+        >
+          {' '}
+          {input}{' '}
+          {hasImage ? <img src={imgURL} alt="Waterloop Logo" style={emailSignatureLogo}/> : '' }
+          {textAfterImg}
+        </ContentEditableContainer>
       ) : (
         <TextInputContainer
           paddingLeft={paddingLeft}

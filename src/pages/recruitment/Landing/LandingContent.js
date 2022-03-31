@@ -116,7 +116,7 @@ const RecruitmentLanding = () => {
       </Grid>
       <Grid item xs={12}>
         {/* Remove this later (just for testing) */}
-        <EmailModal status="final_accept" />
+        <EmailModal status="interview_reject" />
       </Grid>
     </Container>
   );
