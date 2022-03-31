@@ -65,12 +65,12 @@ const SaveButton = styled(Button)`
   width: 100px;
 `;
 
-const OuterContainer = styled.div`
+const InnerSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const LineContainer = styled.div`
+const RowContainer = styled.div`
   display: flex;
   justify-content: space-between;
 `;
@@ -110,13 +110,13 @@ const ConfigurationPage = () => {
       <CardContainer>
         <SectionContainer>
           <SectionTitle>Interviews</SectionTitle>
-          <OuterContainer>
-            <LineContainer>
+          <InnerSectionContainer>
+            <RowContainer>
               <FormContainer title="Meeting Link">
                 <TextField placeholder="URL" variant="outlined" />
               </FormContainer>
-            </LineContainer>
-            <LineContainer>
+            </RowContainer>
+            <RowContainer>
               <DateContainer>
                 <FormContainer title="First Round Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -141,14 +141,14 @@ const ConfigurationPage = () => {
                   </LocalizationProvider>
                 </FormContainer>
               </DateContainer>
-            </LineContainer>
-          </OuterContainer>
+            </RowContainer>
+          </InnerSectionContainer>
         </SectionContainer>
 
         <SectionContainer>
           <SectionTitle>New Members Orientation</SectionTitle>
-          <OuterContainer>
-            <LineContainer>
+          <InnerSectionContainer>
+            <RowContainer>
               <FormContainer title="Meeting Link">
                 <TextField
                   id="outlined-basic"
@@ -156,8 +156,8 @@ const ConfigurationPage = () => {
                   variant="outlined"
                 />
               </FormContainer>
-            </LineContainer>
-            <LineContainer>
+            </RowContainer>
+            <RowContainer>
               <DateContainer>
                 <FormContainer title="Date">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -190,19 +190,19 @@ const ConfigurationPage = () => {
                   </LocalizationProvider>
                 </FormContainer>
               </TimeContainer>
-            </LineContainer>
-          </OuterContainer>
+            </RowContainer>
+          </InnerSectionContainer>
         </SectionContainer>
 
         <SectionContainer>
           <SectionTitle>Member Status Confirmation</SectionTitle>
-          <OuterContainer>
-            <LineContainer>
+          <InnerSectionContainer>
+            <RowContainer>
               <FormContainer title="Form Link">
                 <TextField placeholder="URL" variant="outlined" />
               </FormContainer>
-            </LineContainer>
-            <LineContainer>
+            </RowContainer>
+            <RowContainer>
               <DateContainer>
                 <FormContainer title="Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -215,8 +215,8 @@ const ConfigurationPage = () => {
                   </LocalizationProvider>
                 </FormContainer>
               </DateContainer>
-            </LineContainer>
-          </OuterContainer>
+            </RowContainer>
+          </InnerSectionContainer>
         </SectionContainer>
 
         <ButtonContainer>
