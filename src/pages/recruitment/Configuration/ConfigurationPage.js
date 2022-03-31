@@ -20,9 +20,6 @@ const CardContainer = styled.div`
   align-items: stretch;
   height: 100%;
 
-  // TODO: remove min-dimension requirements once content is available
-  /* min-height: 20rem; */
-
   -webkit-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   -moz-box-shadow: ${({ theme }) => theme.shadows.shadow1};
   box-shadow: ${({ theme }) => theme.shadows.shadow1};
@@ -89,37 +86,13 @@ const TimeContainer = styled.div`
 `;
 
 const ConfigurationPage = () => {
-  const [date1, setDate1] = React.useState(new Date());
-  const [date2, setDate2] = React.useState(new Date());
-  const [date3, setDate3] = React.useState(new Date());
-  const [date4, setDate4] = React.useState(new Date());
+  const [firstDeadline, setFirstDeadline] = React.useState(new Date());
+  const [secondDeadline, setSecondDeadline] = React.useState(new Date());
+  const [orientationDate, setOrientationDate] = React.useState(new Date());
+  const [confirmDeadline, setConfirmDeadline] = React.useState(new Date());
   const [startTime, setStartTime] = React.useState(new Date());
   const [endTime, setEndTime] = React.useState(new Date());
   const history = useHistory();
-
-  const handleDate1Change = (newValue) => {
-    setDate1(newValue);
-  };
-
-  const handleDate2Change = (newValue) => {
-    setDate2(newValue);
-  };
-
-  const handleDate3Change = (newValue) => {
-    setDate3(newValue);
-  };
-
-  const handleDate4Change = (newValue) => {
-    setDate4(newValue);
-  };
-
-  const handleStartTimeChange = (newValue) => {
-    setStartTime(newValue);
-  };
-
-  const handleEndTimeChange = (newValue) => {
-    setEndTime(newValue);
-  };
 
   const goBack = () => {
     history.push('/');
@@ -149,8 +122,8 @@ const ConfigurationPage = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date1}
-                      onChange={handleDate1Change}
+                      value={firstDeadline}
+                      onChange={setFirstDeadline}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -161,8 +134,8 @@ const ConfigurationPage = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date2}
-                      onChange={handleDate2Change}
+                      value={secondDeadline}
+                      onChange={setSecondDeadline}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -190,8 +163,8 @@ const ConfigurationPage = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date3}
-                      onChange={handleDate3Change}
+                      value={orientationDate}
+                      onChange={setOrientationDate}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -201,9 +174,8 @@ const ConfigurationPage = () => {
                 <FormContainer title="Start Time">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
-                      label="Time"
                       value={startTime}
-                      onChange={handleStartTimeChange}
+                      onChange={setStartTime}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -212,7 +184,7 @@ const ConfigurationPage = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
                       value={endTime}
-                      onChange={handleEndTimeChange}
+                      onChange={setEndTime}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -236,8 +208,8 @@ const ConfigurationPage = () => {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
-                      value={date4}
-                      onChange={handleDate4Change}
+                      value={confirmDeadline}
+                      onChange={setConfirmDeadline}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
