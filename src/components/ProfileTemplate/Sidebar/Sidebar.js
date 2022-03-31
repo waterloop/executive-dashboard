@@ -33,6 +33,8 @@ const DemographicLink = styled.a`
 // options is an array of strings for each status option display text
 // backgrounds is an optional array of colours for each option's display background
 // statuses is a json mapping of status codes to status text
+// locked is a boolean indicating if the status is mutable or not (e.g. if the status is locked in application profile because it's in interview stage)
+// errorMessage is an optional string error message to display when someone clicks a locked menu
 const Sidebar = ({
   program,
   term,
@@ -41,6 +43,8 @@ const Sidebar = ({
   options,
   backgrounds,
   statuses,
+  locked,
+  errorMessage,
 }) => (
   <Container>
     <DemographicContainer>
@@ -58,6 +62,8 @@ const Sidebar = ({
         options={options}
         backgrounds={backgrounds || undefined}
         initialStatus={statuses[initialStatus]}
+        locked={locked}
+        errorMessage={errorMessage}
       />
     </DemographicContainer>
   </Container>
