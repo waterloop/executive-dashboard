@@ -69,8 +69,7 @@ const TextInput = ({
           paddingLeft={paddingLeft}
           onChange={(e) => setName(e.target.value)}
         >
-          {' '}
-          {input}{' '}
+          {input}
           {hasImage ? (
             <img src={imgURL} alt="Waterloop Logo" style={emailSignatureLogo} />
           ) : (
