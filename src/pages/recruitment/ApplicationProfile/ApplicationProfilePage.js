@@ -17,6 +17,7 @@ import {
   interviewStatuses,
   postingColours,
 } from './Constants';
+import updateAppStatus from '../hooks/modify-status';
 
 const Container = styled.div`
   margin: 0;
@@ -72,14 +73,12 @@ const PostingButton = styled.button`
   outline: inherit;
 `;
 
-const options = ['Pending', 'To interview', 'To reject', 'Undecided']; // TODO: Tie with taboptions
-
-const backgrounds = [
-  theme.colours.yellows.yellow1,
-  theme.colours.blues.blue2,
-  theme.colours.reds.red1,
-  theme.colours.greys.grey2,
-];
+const backgrounds = {
+  app_pending: theme.colours.yellows.yellow1,
+  app_reject: theme.colours.blues.blue2,
+  interview_pending: theme.colours.reds.red1,
+  app_undecided: theme.colours.greys.grey2,
+};
 
 const statuses = {
   app_pending: 'Pending',
@@ -98,6 +97,7 @@ const postingColours = [
 const makeProfileData = (app) =>
   app
     ? {
+        id: app.id,
         fullName: `${app.first_name} ${app.last_name}`,
         program: app.program,
         term: `${app.current_year} ${app.in_school ? 'Study' : 'Co-op'}`,
@@ -155,12 +155,12 @@ const ApplicationProfilePage = () => {
             program={profileData.program}
             term={profileData.term}
             resumeLink={profileData.resumeLink}
-            initialStatus={profileData.status}
-            options={options}
             backgrounds={backgrounds}
             statuses={statuses}
             locked={locked(mockData.status)}
             errorMessage="Please change in interview profile!"
+            initialStatus={profileData.status}
+            updateStatus={updateAppStatus(profileData.id)}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
