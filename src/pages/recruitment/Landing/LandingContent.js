@@ -7,7 +7,6 @@ import ApplicantPortalIcon from '../../../assets/svg/recruitment/application-por
 import InterviewPortalIcon from '../../../assets/svg/recruitment/interview-portal-icon.svg';
 import DecisionPortalIcon from '../../../assets/svg/recruitment/decision-portal-icon.svg';
 import RecruitmentCard from '../../../components/RecruitmentCard';
-import EmailModal from '../../../components/EmailModal';
 
 import { sanitizeUrlPrefix } from '../../../utils';
 
