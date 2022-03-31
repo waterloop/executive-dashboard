@@ -24,40 +24,12 @@ const TextInputContainer = styled.input`
   border-radius: 15px;
 `;
 
-// const TextAreaContainer = styled.textarea`
-//   box-sizing: border-box;
-//   width: 100%;
-//   min-height: 300px;
-//   background-color: ${({ theme }) => theme.colours.white};
-//   font: ${({ theme }) => theme.fonts.medium14};
-//   resize: none;
-
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   padding-top: 16px;
-//   padding-left: 16px;
-//   padding-right: 16px;
-
-//   border: 1px solid #c4c4c4;
-//   box-shadow: 0px 4px 10px #e0e5f3;
-//   border-radius: 15px;
-
-//   ${
-//     '' /* ::placeholder,
-//   ::-webkit-input-placeholder {
-//     font: ${({ theme }) => theme.fonts.medium18};
-//     color: ${({ theme }) => theme.colours.greys.grey2};
-//   } */
-//   }
-// `;
-
 const ContentEditableContainer = styled.div`
   white-space: pre-wrap;
-  overflow : scroll;
+  overflow: scroll;
   box-sizing: border-box;
   width: 100%;
-  height: 400px;
+  height: 300px;
   background-color: ${({ theme }) => theme.colours.white};
   font: ${({ theme }) => theme.fonts.medium14};
 
@@ -82,13 +54,6 @@ const emailSignatureLogo = {
   margin: '15px 0 15px 0',
 };
 
-/* 
-To implement the richText support in textinput:
-- need to set richText to true for the textinput component,
-- import getRichText and submitRichText (from rich text utils) into respective hook for first getting the info from database and saving it 
-https://docs.google.com/document/d/1_C9twf66rjGkE7HPAsEid-_ZddWcbDoLNw9e2EEkAA8/edit?usp=sharing 
-*/
-
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
@@ -99,8 +64,8 @@ const TextInput = ({
   initialValue,
   width,
   hasImage,
-  imgURL='',
-  textAfterImg='',
+  imgURL = '',
+  textAfterImg = '',
 }) => {
   const [input, setName] = useState(initialValue);
   return (
@@ -114,7 +79,11 @@ const TextInput = ({
         >
           {' '}
           {input}{' '}
-          {hasImage ? <img src={imgURL} alt="Waterloop Logo" style={emailSignatureLogo}/> : '' }
+          {hasImage ? (
+            <img src={imgURL} alt="Waterloop Logo" style={emailSignatureLogo} />
+          ) : (
+            ''
+          )}
           {textAfterImg}
         </ContentEditableContainer>
       ) : (

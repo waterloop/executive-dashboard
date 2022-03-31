@@ -114,10 +114,6 @@ const RecruitmentLanding = () => {
           </PlaceholderContainer>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
-        {/* Remove this later (just for testing) */}
-        <EmailModal status="interview_reject" />
-      </Grid>
     </Container>
   );
 };

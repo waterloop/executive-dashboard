@@ -83,7 +83,9 @@ const EmailModal = ({ status, subject }) => (
       initialValue={
         EmailTemplate.filter((item) => item.status === status)[0].text
       }
-      textAfterImg={EmailTemplate.filter((item) => item.status === status)[0].textAfterImg}
+      textAfterImg={
+        EmailTemplate.filter((item) => item.status === status)[0].textAfterImg
+      }
     />
     <Cancel cancel>cancel</Cancel>
     <Send tertiary>send</Send>
