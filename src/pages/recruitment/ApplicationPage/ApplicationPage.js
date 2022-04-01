@@ -8,8 +8,9 @@ import {
   YEAR_OPTIONS,
   MIN_YEARS_SHOWN,
   MIN_SUBTEAMS_SHOWN,
+  POSITION_OPTIONS, // REMOVE LATER
 } from '../components/Constants';
-import { setCheckboxValues, setCheckboxesShown } from '../utils';
+import { setCheckboxValues, setCheckboxesShown, oneTrue } from '../utils';
 
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
@@ -41,14 +42,46 @@ const ApplicationPage = () => {
     return createData(tableColumns, []);
   });
 
+  // postings stuff
+  /*
+  const positionCategories = ['name', 'subteam'];
+
+  let allPositions = [];
+
+  let positions = tableRows.map((row) => {
+    let positionAndSubteam = [];
+    if (allPositions.indexOf(row.position) === -1) {
+      positionAndSubteam.push(row.position);
+      positionAndSubteam.push(row.subteam);
+      allPositions.push(row.position);
+      return createData(positionCategories, positionAndSubteam);
+    }
+  });
+
+  positions = positions.slice(0, allPositions.length);
+
+  const positionsFormattedNames = ['name', 'formattedName'];
+
+  let positionsOptions = positions.map((position) => {
+    const nameAndFormattedName = [position.name, position.name];
+    return createData(positionsFormattedNames, nameAndFormattedName);
+  }); */
+
   const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
   const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
+  const positionsUnformatted = POSITION_OPTIONS.map(
+    (position) => position.name,
+  );
 
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
+  );
+
+  const [positionsChecked, setPositionsChecked] = useState(
+    makeTruthTable(positionsUnformatted, true),
   );
 
   const [termTypesChecked, setTermTypesChecked] = useState(
@@ -63,13 +96,15 @@ const ApplicationPage = () => {
       (row) =>
         row.status === status &&
         subteamsChecked[row.subteam] &&
+        positionsChecked[row.position] &&
         termTypesChecked[row.term] &&
         yearsChecked[row['year of study']],
     );
-  const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
-  const MAX_YEARS_SHOWN = yearsChecked.length;
+  const MAX_SUBTEAMS_SHOWN = SUBTEAM_OPTIONS.length;
+  const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
+  const [positionsShown, setPositionsShown] = useState(0);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
   const filterCategories = [
@@ -81,8 +116,15 @@ const ApplicationPage = () => {
       maxShown: MAX_SUBTEAMS_SHOWN,
       minShown: MIN_SUBTEAMS_SHOWN,
       options: SUBTEAM_OPTIONS,
-      setCategoryChecked: (clickedOption) =>
-        setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked),
+      setCategoryChecked: (clickedOption) => {
+        setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked);
+
+        if (oneTrue(subteamsChecked, clickedOption)) {
+          setPositionsShown(POSITION_OPTIONS.length);
+        } else {
+          setPositionsShown(0);
+        }
+      },
       setCategoryShown: () =>
         setCheckboxesShown(
           subteamsShown,
@@ -92,12 +134,26 @@ const ApplicationPage = () => {
         ),
     },
     {
+      name: 'positions',
+      formattedName: 'Positions',
+      currentShown: positionsShown,
+      checked: positionsChecked,
+      maxShown: POSITION_OPTIONS.length,
+      minShown: POSITION_OPTIONS.length,
+      options: POSITION_OPTIONS,
+      subteamsChecked,
+      setCategoryChecked: (clickedOption) =>
+        setCheckboxValues(clickedOption, positionsChecked, setPositionsChecked),
+      noEntriesDefaultText:
+        'Please select a Subteam to view available positions',
+    },
+    {
       name: 'termTypes',
       formattedName: 'Term',
-      currentShown: termTypesChecked.length,
+      currentShown: TERM_TYPE_OPTIONS.length,
       checked: termTypesChecked,
-      maxShown: termTypesChecked.length,
-      minShown: termTypesChecked.length,
+      maxShown: TERM_TYPE_OPTIONS.length,
+      minShown: TERM_TYPE_OPTIONS.length,
       options: TERM_TYPE_OPTIONS,
       setCategoryChecked: (clickedOption) =>
         setCheckboxValues(clickedOption, termTypesChecked, setTermTypesChecked),

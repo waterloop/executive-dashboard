@@ -7,7 +7,7 @@ export const colNames = [
 ];
 
 export const SUBTEAM_OPTIONS = [
-  { name: 'Web Team', formattedName: 'Web' },
+  { name: 'WebTeam', formattedName: 'Web' },
   { name: 'Electrical', formattedName: 'Electrical' },
   { name: 'Mechanical', formattedName: 'Mechanical' },
   { name: 'LIM', formattedName: 'LIM' },
@@ -18,6 +18,11 @@ export const SUBTEAM_OPTIONS = [
   { name: 'Embedded', formattedName: 'Embedded' },
   { name: 'MotorControl', formattedName: 'Motor Control' },
   { name: 'Communications', formattedName: 'Communications' },
+];
+
+export const POSITION_OPTIONS = [
+  { name: 'Front End developer', formattedName: 'Front End developer', team: 'WebTeam' },
+  { name: 'Back End developer', formattedName: 'Back End developer', team: 'WebTeam' },
 ];
 
 export const TERM_TYPE_OPTIONS = [

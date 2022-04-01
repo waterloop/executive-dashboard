@@ -32,6 +32,11 @@ const ShowMoreAndLessButton = styled(Button)`
   }
 `;
 
+const NoEntriesDefaultText = styled.p`
+  font: ${({ theme }) => theme.fonts.medium12};
+  color: #76797C;
+`;
+
 const CheckboxGroup = styled(FormControl)`
   && {
     margin-top: 0;
@@ -68,26 +73,32 @@ const PortalFilterTemplate = ({ filterCategories }) => (
         <CheckboxGroup sx={{ m: 3 }} component="fieldset" variant="standard">
           <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
-            {category.options.length > 0 ? (
+            {category.currentShown !== 0 ? (
               category.options
                 .slice(0, category.currentShown)
-                .map((checkbox) => (
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={category.checked[checkbox.name]}
-                        onChange={(checkbox) =>
-                          category.setCategoryChecked(checkbox)
+                .map(
+                  (checkbox) =>
+                    (!(category.name === 'positions') ||
+                      category.subteamsChecked[checkbox.team]) && (
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={category.checked[checkbox.name]}
+                            onChange={(checkbox) =>
+                              category.setCategoryChecked(checkbox)
+                            }
+                            name={checkbox.name}
+                          />
                         }
-                        name={checkbox.name}
+                        label={
+                          <CheckboxName>{checkbox.formattedName}</CheckboxName>
+                        }
+                        key={checkbox.name}
                       />
-                    }
-                    label={<CheckboxName>{checkbox.formattedName}</CheckboxName>}
-                    key={checkbox.name}
-                  />
-                ))
+                    ),
+                )
             ) : (
-              <h2>{category.noEntriesDefaultText}</h2>
+              <NoEntriesDefaultText>{category.noEntriesDefaultText}</NoEntriesDefaultText>
             )}
           </FormGroup>
           {category.setCategoryShown && (
