@@ -4,9 +4,7 @@ import LandingContent from './Landing';
 import ConfigurationPage from './Configuration';
 import NotFoundPage from '../general/NotFound';
 import ApplicationProfilePage from './ApplicationProfile/ApplicationProfilePage';
-
-// remove portal template soon
-// import PortalTemplate from './components/PortalTemplate';
+import InterviewProfilePage from './InterviewProfile/InterviewProfilePage';
 import ApplicationPage from './ApplicationPage';
 import InterviewPage from './InterviewPage';
 
@@ -23,6 +21,9 @@ const LandingPage = () => {
       </Route>
       <Route path={`${match.url}/application`}>
         <ApplicationPage />
+      </Route>
+      <Route path={`${match.url}/interview/:interview_id`}>
+        <InterviewProfilePage />
       </Route>
       <Route path={`${match.url}/interview`}>
         <InterviewPage />

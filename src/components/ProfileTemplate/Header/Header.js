@@ -32,7 +32,7 @@ const HeaderGrid = styled(Grid)`
   padding: 64px 82px 10px 82px;
   background-color: #a3f4e4;
   background-image: ${({ blobs }) => `url(${blobs})`},
-    linear-gradient(91.05deg, #cad4ff 0%, #cef6ff 99.9%);
+    ${({ background }) => background};
   background-size: cover;
   background-position: center;
 `;
@@ -46,7 +46,7 @@ const DemographicText = styled.p`
 `;
 
 // name is a string, current postings is an array of strings containing names of postings, blobs is the file path to an svg
-const Header = ({ name, currentPostings, blobs }) => {
+const Header = ({ name, currentPostings, background, blobs }) => {
   const history = useHistory();
 
   const handleBackClick = () => {
@@ -56,9 +56,11 @@ const Header = ({ name, currentPostings, blobs }) => {
   return (
     <Container>
       <BackArrow onClick={() => handleBackClick()} />
-      <HeaderGrid item xs={12} blobs={blobs}>
+      <HeaderGrid item xs={12} background={background} blobs={blobs}>
         <Name>{name}</Name>
-        <DemographicText>{currentPostings.join(' | ')}</DemographicText>
+        {currentPostings && currentPostings.length > 0 && (
+          <DemographicText>{currentPostings.join(' | ')}</DemographicText>
+        )}
       </HeaderGrid>
     </Container>
   );
