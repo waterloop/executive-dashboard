@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns } from './Constants';
@@ -42,48 +43,44 @@ const ApplicationPage = () => {
     return createData(tableColumns, []);
   });
 
-  // postings stuff
-  /*
-  const positionCategories = ['name', 'subteam'];
+  // GRAB POSITIONS FROM APPLICATIONS DATA
+  let allPositionNames = [];
+  const positionCategories = ['name', 'formattedName', 'team'];
 
-  let allPositions = [];
-
-  let positions = tableRows.map((row) => {
-    let positionAndSubteam = [];
-    if (allPositions.indexOf(row.position) === -1) {
-      positionAndSubteam.push(row.position);
-      positionAndSubteam.push(row.subteam);
-      allPositions.push(row.position);
-      return createData(positionCategories, positionAndSubteam);
+  let positionOptions = tableRows.map((row) => {
+    if (allPositionNames.indexOf(row.position) === -1) {
+      allPositionNames.push(row.position);
+      return createData(positionCategories, [row.position, row.position, row.subteam]);
     }
   });
+  positionOptions = positionOptions.slice(0, allPositionNames.length);
 
-  positions = positions.slice(0, allPositions.length);
+  console.log(positionOptions);
 
-  const positionsFormattedNames = ['name', 'formattedName'];
+  console.log(allPositionNames);
 
-  let positionsOptions = positions.map((position) => {
-    const nameAndFormattedName = [position.name, position.name];
-    return createData(positionsFormattedNames, nameAndFormattedName);
-  }); */
+  // HARD-CODED USING POSITION_OPTIONS from Constants.js
+  const positionsUnformatted = POSITION_OPTIONS.map(
+    (position) => position.name,
+  );
+
+  const [positionsChecked, setPositionsChecked] = useState(
+    makeTruthTable(allPositionNames, true),
+  );
+
+  const [positionsShown, setPositionsShown] = useState(0);
+
+  // END OF POSITIONS STUFF 
 
   const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
   const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
-  const positionsUnformatted = POSITION_OPTIONS.map(
-    (position) => position.name,
-  );
-
+  
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
   );
-
-  const [positionsChecked, setPositionsChecked] = useState(
-    makeTruthTable(positionsUnformatted, true),
-  );
-
   const [termTypesChecked, setTermTypesChecked] = useState(
     makeTruthTable(termTypesUnformatted, true),
   );
@@ -104,7 +101,7 @@ const ApplicationPage = () => {
   const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
-  const [positionsShown, setPositionsShown] = useState(0);
+  
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
   const filterCategories = [

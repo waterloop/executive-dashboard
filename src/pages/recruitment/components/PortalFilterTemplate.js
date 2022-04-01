@@ -15,6 +15,7 @@ const FiltersTitle = styled.h1`
 
 const CheckboxCategoryName = styled.h1`
   font: ${({ theme }) => theme.fonts.bold16};
+  margin-top: 0;
 `;
 
 const CheckboxName = styled(Typography)`
@@ -34,7 +35,9 @@ const ShowMoreAndLessButton = styled(Button)`
 
 const NoEntriesDefaultText = styled.p`
   font: ${({ theme }) => theme.fonts.medium12};
-  color: #76797C;
+  color: #76797c;
+  margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const CheckboxGroup = styled(FormControl)`
@@ -74,31 +77,36 @@ const PortalFilterTemplate = ({ filterCategories }) => (
           <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
             {category.currentShown !== 0 ? (
-              category.options
-                .slice(0, category.currentShown)
-                .map(
-                  (checkbox) =>
-                    (!(category.name === 'positions') ||
-                      category.subteamsChecked[checkbox.team]) && (
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={category.checked[checkbox.name]}
-                            onChange={(checkbox) =>
-                              category.setCategoryChecked(checkbox)
-                            }
-                            name={checkbox.name}
-                          />
-                        }
-                        label={
-                          <CheckboxName>{checkbox.formattedName}</CheckboxName>
-                        }
-                        key={checkbox.name}
-                      />
-                    ),
-                )
+              category.options.slice(0, category.currentShown).map(
+                (checkbox) =>
+                  (!(category.name === 'positions') ||
+                    category.subteamsChecked[checkbox.team]) && (
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={category.checked[checkbox.name]}
+                          onChange={(checkbox) =>
+                            category.setCategoryChecked(checkbox)
+                          }
+                          name={checkbox.name}
+                          sx={{
+                            '&.Mui-checked': {
+                              color: '#1B8FF4',
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <CheckboxName>{checkbox.formattedName}</CheckboxName>
+                      }
+                      key={checkbox.name}
+                    />
+                  ),
+              )
             ) : (
-              <NoEntriesDefaultText>{category.noEntriesDefaultText}</NoEntriesDefaultText>
+              <NoEntriesDefaultText>
+                {category.noEntriesDefaultText}
+              </NoEntriesDefaultText>
             )}
           </FormGroup>
           {category.setCategoryShown && (
