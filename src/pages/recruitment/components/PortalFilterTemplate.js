@@ -77,32 +77,30 @@ const PortalFilterTemplate = ({ filterCategories }) => (
           <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
             {category.currentShown !== 0 ? (
-              category.options.slice(0, category.currentShown).map(
-                (checkbox) =>
-                  (!(category.name === 'positions') ||
-                    category.subteamsChecked[checkbox.team]) && (
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={category.checked[checkbox.name]}
-                          onChange={(checkbox) =>
-                            category.setCategoryChecked(checkbox)
-                          }
-                          name={checkbox.name}
-                          sx={{
-                            '&.Mui-checked': {
-                              color: '#1B8FF4',
-                            },
-                          }}
-                        />
-                      }
-                      label={
-                        <CheckboxName>{checkbox.formattedName}</CheckboxName>
-                      }
-                      key={checkbox.name}
-                    />
-                  ),
-              )
+              category.options
+                .slice(0, category.currentShown)
+                .map((checkbox) => (
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={category.checked[checkbox.name]}
+                        onChange={(checkbox) =>
+                          category.setCategoryChecked(checkbox)
+                        }
+                        name={checkbox.name}
+                        sx={{
+                          '&.Mui-checked': {
+                            color: '#1B8FF4',
+                          },
+                        }}
+                      />
+                    }
+                    label={
+                      <CheckboxName>{checkbox.formattedName}</CheckboxName>
+                    }
+                    key={checkbox.name}
+                  />
+                ))
             ) : (
               <NoEntriesDefaultText>
                 {category.noEntriesDefaultText}

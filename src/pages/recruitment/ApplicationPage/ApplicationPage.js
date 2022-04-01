@@ -9,7 +9,12 @@ import {
   MIN_YEARS_SHOWN,
   MIN_SUBTEAMS_SHOWN,
 } from '../components/Constants';
-import { setCheckboxValues, setCheckboxesShown, oneTrue, getItemByName } from '../utils';
+import {
+  setCheckboxValues,
+  setCheckboxesShown,
+  oneTrue,
+  getItemByName,
+} from '../utils';
 
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
@@ -88,11 +93,15 @@ const ApplicationPage = () => {
         termTypesChecked[row.term] &&
         yearsChecked[row['year of study']],
     );
+
+  const filteredPositions = positionOptions.filter(
+    (position) => subteamsChecked[position.team],
+  );
+
   const MAX_SUBTEAMS_SHOWN = SUBTEAM_OPTIONS.length;
   const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
-  const [positionsShown, setPositionsShown] = useState(0);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
   const filterCategories = [
@@ -118,12 +127,6 @@ const ApplicationPage = () => {
             true,
           ),
         }));
-
-        if (oneTrue(subteamsChecked, clickedOption)) {
-          setPositionsShown(allPositionNames.length);
-        } else {
-          setPositionsShown(0);
-        }
       },
       setCategoryShown: () =>
         setCheckboxesShown(
@@ -136,17 +139,17 @@ const ApplicationPage = () => {
     {
       name: 'positions',
       formattedName: 'Position',
-      currentShown: positionsShown,
+      currentShown: filteredPositions.length,
       checked: positionsChecked,
       maxShown: allPositionNames.length,
       minShown: allPositionNames.length,
-      options: positionOptions,
-      subteamsChecked,
+      options: filteredPositions,
       setCategoryChecked: (clickedOption) => {
         setCheckboxValues(clickedOption, positionsChecked, setPositionsChecked);
       },
-      noEntriesDefaultText:
-        'Please select a Subteam to view available positions',
+      noEntriesDefaultText: !oneTrue(subteamsChecked)
+        ? 'Please select a Subteam to view available positions'
+        : 'No available positions',
     },
     {
       name: 'termTypes',
