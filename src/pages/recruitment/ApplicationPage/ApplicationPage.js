@@ -43,20 +43,25 @@ const ApplicationPage = () => {
     return createData(tableColumns, []);
   });
 
+  //================================================================================
   // GRAB POSITIONS FROM APPLICATIONS DATA
+  //================================================================================
   let allPositionNames = [];
   const positionCategories = ['name', 'formattedName', 'team'];
 
   let positionOptions = tableRows.map((row) => {
     if (allPositionNames.indexOf(row.position) === -1) {
       allPositionNames.push(row.position);
-      return createData(positionCategories, [row.position, row.position, row.subteam]);
+      return createData(positionCategories, [
+        row.position,
+        row.position,
+        row.subteam,
+      ]);
     }
   });
   positionOptions = positionOptions.slice(0, allPositionNames.length);
 
   console.log(positionOptions);
-
   console.log(allPositionNames);
 
   // HARD-CODED USING POSITION_OPTIONS from Constants.js
@@ -64,20 +69,24 @@ const ApplicationPage = () => {
     (position) => position.name,
   );
 
+  // Want to makeTruthTable using allPositionNames instead of positionsUnformatted,
+  // but allPositionNames is empty on first render.
   const [positionsChecked, setPositionsChecked] = useState(
-    makeTruthTable(allPositionNames, true),
+    makeTruthTable(positionsUnformatted, true),
   );
 
   const [positionsShown, setPositionsShown] = useState(0);
 
-  // END OF POSITIONS STUFF 
+  //================================================================================
+  // END OF POSITIONS STUFF
+  //================================================================================
 
   const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
   const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
-  
+
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
   );
@@ -101,7 +110,7 @@ const ApplicationPage = () => {
   const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
-  
+
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
 
   const filterCategories = [
