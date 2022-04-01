@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import LandingContent from './Landing';
+import ConfigurationPage from './Configuration';
 import NotFoundPage from '../general/NotFound';
 import ApplicationProfilePage from './ApplicationProfile/ApplicationProfilePage';
 
@@ -24,10 +25,13 @@ const LandingPage = () => {
         <ApplicationPage />
       </Route>
       <Route path={`${match.url}/interview`}>
-      <InterviewPage />
+        <InterviewPage />
       </Route>
       <Route path={`${match.url}/decision`}>
         <h1>Decision Page</h1>
+      </Route>
+      <Route path={`${match.url}/config`}>
+        <ConfigurationPage />
       </Route>
       <Route path={`${match.url}`} exact>
         <LandingContent />
