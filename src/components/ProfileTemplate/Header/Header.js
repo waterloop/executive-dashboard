@@ -58,7 +58,7 @@ const Header = ({ name, currentPostings, background, blobs }) => {
       <BackArrow onClick={() => handleBackClick()} />
       <HeaderGrid item xs={12} background={background} blobs={blobs}>
         <Name>{name}</Name>
-        {currentPostings && (
+        {currentPostings && currentPostings.length > 0 && (
           <DemographicText>{currentPostings.join(' | ')}</DemographicText>
         )}
       </HeaderGrid>

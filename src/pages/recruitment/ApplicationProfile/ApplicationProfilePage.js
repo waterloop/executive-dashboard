@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import theme from '../../../theme';
 import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+
+import {
+  options,
+  backgrounds,
+  statuses,
+  interviewStatuses,
+  postingColours,
+} from './Constants';
 
 const Container = styled.div`
   margin: 0;
@@ -70,7 +77,7 @@ const ApplicationProfilePage = () => {
       resumeLink:
         'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
     },
-    status: 'interview_undecided',
+    status: 'app_reject',
     why: `Fugiat ad anim laborum et ipsum qui consequat irure. Ipsum ad labore anim ad ipsum do quis fugiat ad commodo ullamco adipisicing. Voluptate anim exercitation do magna minim duis sit laboris sint amet enim laboris. Proident aute labore cillum cillum occaecat est ad labore. Irure nisi proident cillum eiusmod do ut do aute duis laborum occaecat do voluptate.
 
 upidatat deserunt ex in in irure consequat. Incididunt aliqua cillum ea mollit culpa in quis sit ad dolor occaecat nulla do.
@@ -104,38 +111,7 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
     previousPostings: ['UI/UX Design', 'Fullstack Dev'],
   };
 
-  const options = ['Pending', 'To interview', 'To reject', 'Undecided'];
-
-  const backgrounds = [
-    theme.colours.yellows.yellow1,
-    theme.colours.blues.blue2,
-    theme.colours.reds.red1,
-    theme.colours.greys.grey2,
-  ];
-
-  const statuses = {
-    app_pending: 'Pending',
-    app_reject: 'To reject',
-    interview_pending: 'To interview',
-    app_undecided: 'Undecided',
-    interview_reject: 'To interview',
-    final_accept: 'To interview',
-    interview_undecided: 'To interview',
-  };
-
-  const interviewStatuses = [
-    'interview_reject',
-    'final_accept',
-    'interview_undecided',
-  ];
-
   const locked = (status) => interviewStatuses.includes(status);
-
-  const postingColours = [
-    theme.colours.blues.blue2,
-    theme.colours.greens.green1,
-    theme.colours.purples.purple1,
-  ];
 
   const handleClick = (e) => {
     console.log(e.target.textContent);

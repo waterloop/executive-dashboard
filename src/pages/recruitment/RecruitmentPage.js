@@ -4,9 +4,6 @@ import LandingContent from './Landing';
 import NotFoundPage from '../general/NotFound';
 import ApplicationProfilePage from './ApplicationProfile/ApplicationProfilePage';
 import InterviewProfilePage from './InterviewProfile/InterviewProfilePage';
-
-// remove portal template soon
-// import PortalTemplate from './components/PortalTemplate';
 import ApplicationPage from './ApplicationPage';
 import InterviewPage from './InterviewPage';
 
@@ -18,17 +15,17 @@ const LandingPage = () => {
 
   return (
     <Switch>
-      <Route path={`${match.url}/interview/:interview_id`}>
-        <InterviewProfilePage />
-      </Route>
       <Route path={`${match.url}/application/:application_id`}>
         <ApplicationProfilePage />
       </Route>
       <Route path={`${match.url}/application`}>
         <ApplicationPage />
       </Route>
+      <Route path={`${match.url}/interview/:interview_id`}>
+        <InterviewProfilePage />
+      </Route>
       <Route path={`${match.url}/interview`}>
-      <InterviewPage />
+        <InterviewPage />
       </Route>
       <Route path={`${match.url}/decision`}>
         <h1>Decision Page</h1>

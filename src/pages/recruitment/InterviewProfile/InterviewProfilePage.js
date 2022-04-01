@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import theme from '../../../theme';
 import blobs from '../../../assets/svg/recruitment/interview/blobs.svg';
+
+import { options, backgrounds, statuses } from './Constants';
 
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
@@ -59,22 +60,6 @@ const InterviewProfilePage = () => {
         'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
     },
     status: 'interview_undecided',
-  };
-
-  const options = ['Pending', 'To accept', 'To reject', 'Undecided'];
-
-  const backgrounds = [
-    theme.colours.yellows.yellow1,
-    theme.colours.greens.green2,
-    theme.colours.reds.red1,
-    theme.colours.greys.grey2,
-  ];
-
-  const statuses = {
-    interview_pending: 'Pending',
-    interview_reject: 'To reject',
-    final_accept: 'To accept',
-    interview_undecided: 'Undecided',
   };
 
   return (
