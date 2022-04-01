@@ -20,13 +20,6 @@ export const SUBTEAM_OPTIONS = [
   { name: 'Communications', formattedName: 'Communications' },
 ];
 
-export const POSITION_OPTIONS = [
-  { name: 'Front End developer', formattedName: 'Front End developer', team: 'WebTeam' },
-  { name: 'Back End developer', formattedName: 'Back End developer', team: 'WebTeam' },
-  { name: 'Zip Zap developer', formattedName: 'Zip Zap developer', team: 'Electrical' },
-  { name: 'Gears guy', formattedName: 'Gears guy', team: 'Mechanical' },
-];
-
 export const TERM_TYPE_OPTIONS = [
   { name: 'study', formattedName: 'Study' },
   { name: 'coop', formattedName: 'Co-op' },

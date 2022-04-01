@@ -33,3 +33,8 @@ export const oneTrue = (subteamsChecked, clickedOption) => {
   }
   return false;
 };
+
+export const getItemByName = (arr, name) => {
+  const obj = arr.filter((item) => item.name === name);
+  return obj[0];
+};
