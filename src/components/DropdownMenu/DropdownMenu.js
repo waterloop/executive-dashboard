@@ -16,6 +16,11 @@ const Chevron = styled.img`
   top: 0.1rem;
 `;
 
+const Error = styled.p`
+  font: ${({ theme }) => theme.fonts.medium14};
+  color: ${({ theme }) => theme.colours.reds.red1};
+`;
+
 /**
  * Dropdown selector.
  *
