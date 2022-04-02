@@ -1,4 +1,7 @@
-import React, { useEffect } from 'react';
+/* eslint-disable */
+// TODO: remove eslint-disable above once postings are correctly retrieved.
+
+import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
@@ -11,15 +14,7 @@ import usePostings from '../../../hooks/postings';
 
 import { mockData } from '../../../tests/recruitment/application-profile/mocks';
 
-import {
-  options,
-  backgrounds,
-  statuses,
-  interviewStatuses,
-  postingColours,
-} from './Constants';
-import updateAppStatus from '../hooks/modify-status';
-// import updateAppStatus from '../hooks/modify-status';
+import { backgrounds, statuses, postingColours } from './Constants';
 
 const Container = styled.div`
   margin: 0;
@@ -75,26 +70,6 @@ const PostingButton = styled.button`
   outline: inherit;
 `;
 
-const backgrounds = {
-  app_pending: theme.colours.yellows.yellow1,
-  interview_pending: theme.colours.blues.blue2,
-  app_reject: theme.colours.reds.red1,
-  app_undecided: theme.colours.greys.grey2,
-};
-
-const statuses = {
-  app_pending: 'Pending',
-  app_reject: 'To reject',
-  interview_pending: 'To interview',
-  app_undecided: 'Undecided',
-};
-
-const postingColours = [
-  theme.colours.blues.blue2,
-  theme.colours.greens.green1,
-  theme.colours.purples.purple1,
-];
-
 const postingGenerator = (postings, handleClick) =>
   postings.map((posting, index) => (
     <PostingContainer key={posting} item>
@@ -123,6 +98,16 @@ const makeProfileData = (app) =>
       }
     : {};
 
+const makePostingData = (apps, postings) =>
+  apps.map((app) => {
+    const res = postings.find((posting) => posting.id === app.posting_id);
+
+    return {
+      appID: app.id,
+      title: res.title,
+    };
+  });
+
 const ApplicationProfilePage = () => {
   // TODO: redirect user to 404 page if application not found. Use useHistory hook
   const match = useRouteMatch('/recruitment/application/:id');
@@ -130,14 +115,14 @@ const ApplicationProfilePage = () => {
   const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
     useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
 
-  console.log(postings);
-  console.log(appsByEmail);
+  // const [appsByEmail, setAppsByEmail] = useState([]);
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
   );
 
   useEffect(() => {
     if (application && application.email_address) {
+      // setEmail(application.email_address);
       getApplicationsByEmail(application.email_address);
     }
   }, [getApplicationsByEmail, application]);
@@ -152,6 +137,17 @@ const ApplicationProfilePage = () => {
   const handleClick = (e) => {
     console.log(e.target);
   };
+
+  // const currPostings = postingGenerator(
+  //   // This is the one that broke.
+  //   // TODO: don't hardcode term.
+  //   makePostingData(
+  //     appsByEmail[email].filter((app) => app.term === 'FALL-2022'),
+  //     postings,
+  //   ),
+  //   handleClick,
+  // );
+  console.log(appsByEmail);
 
   const currPostings = postingGenerator(mockData.currentPostings, handleClick);
 
@@ -175,9 +171,13 @@ const ApplicationProfilePage = () => {
             resumeLink={profileData.resumeLink}
             backgrounds={backgrounds}
             statuses={statuses}
-            locked={locked(mockData.status)}
+            locked={!statuses[profileData.status]}
             errorMessage="Please change in interview profile!"
-            initialStatus={profileData.status}
+            initialStatus={
+              statuses[profileData.status]
+                ? profileData.status
+                : 'interview_pending'
+            }
             updateStatus={updateAppStatusCurried(profileData.id)}
           />
         </Grid>
