@@ -2,7 +2,7 @@
 // TODO: remove eslint-disable above once postings are correctly retrieved.
 
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
@@ -12,9 +12,14 @@ import Sidebar from '../../../components/ProfileTemplate/Sidebar';
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
+import { backgrounds, statuses, postingColours } from './Constants';
+
+import { getTermDate } from '../../../utils';
+
 import { mockData } from '../../../tests/recruitment/application-profile/mocks';
 
-import { backgrounds, statuses, postingColours } from './Constants';
+// TODO: Make this a mock test variable.
+const FALL_2022 = new Date(1662352157000);
 
 const Container = styled.div`
   margin: 0;
@@ -70,13 +75,13 @@ const PostingButton = styled.button`
   outline: inherit;
 `;
 
-const postingGenerator = (postings, handleClick) =>
+const makePostingComponents = (postings, handleClick) =>
   postings.map((posting, index) => (
-    <PostingContainer key={posting} item>
+    <PostingContainer key={posting.appID} item>
       <PostingBubble colour={postingColours[index % postingColours.length]}>
         <ApplicationText>
-          <PostingButton onClick={(e) => handleClick(e)}>
-            {posting}
+          <PostingButton onClick={() => handleClick(posting)}>
+            {posting.title}
           </PostingButton>
         </ApplicationText>
       </PostingBubble>
@@ -111,21 +116,48 @@ const makePostingData = (apps, postings) =>
 const ApplicationProfilePage = () => {
   // TODO: redirect user to 404 page if application not found. Use useHistory hook
   const match = useRouteMatch('/recruitment/application/:id');
+  const history = useHistory();
   const { postings } = usePostings();
   const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
-    useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+    useApplications(getTermDate(FALL_2022)); // TODO: in production, replace with Date.now().
 
-  // const [appsByEmail, setAppsByEmail] = useState([]);
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
   );
 
+  const [currPostings, setCurrPostings] = useState([]);
+  const [prevPostings, setPrevPostings] = useState([]);
+
   useEffect(() => {
     if (application && application.email_address) {
-      // setEmail(application.email_address);
       getApplicationsByEmail(application.email_address);
     }
   }, [getApplicationsByEmail, application]);
+
+  useEffect(() => {
+    if (appsByEmail && application && appsByEmail[application.email_address]) {
+      // Call posting functions here.
+      const allUserApps = appsByEmail[application.email_address];
+
+      const currTermDate = getTermDate(FALL_2022);
+      const prevTermDate = getTermDate(
+        new Date(new Date(FALL_2022).setMonth(FALL_2022.getMonth() - 4)),
+      );
+
+      setCurrPostings(
+        makePostingData(
+          allUserApps.filter((app) => app.application_term === currTermDate),
+          postings,
+        ),
+      );
+      setPrevPostings(
+        makePostingData(
+          allUserApps.filter((app) => app.application_term === prevTermDate),
+          postings,
+        ),
+      );
+    }
+  }, [appsByEmail, application, postings]);
 
   // Curry updateAppStatus function:
   const updateAppStatusCurried = (appID) => (newStatus) => {
@@ -134,24 +166,9 @@ const ApplicationProfilePage = () => {
 
   const profileData = makeProfileData(application);
 
-  const handleClick = (e) => {
-    console.log(e.target);
+  const handleClick = (posting) => {
+    history.push(`/recruitment/application/${posting.appID}`);
   };
-
-  // const currPostings = postingGenerator(
-  //   // This is the one that broke.
-  //   // TODO: don't hardcode term.
-  //   makePostingData(
-  //     appsByEmail[email].filter((app) => app.term === 'FALL-2022'),
-  //     postings,
-  //   ),
-  //   handleClick,
-  // );
-  console.log(appsByEmail);
-
-  const currPostings = postingGenerator(mockData.currentPostings, handleClick);
-
-  const prevPostings = postingGenerator(mockData.previousPostings, handleClick);
 
   return (
     <Container>
@@ -190,11 +207,11 @@ const ApplicationProfilePage = () => {
           <ApplicationText>{profileData.additionalInfo}</ApplicationText>
           <Subtitle>Current Postings</Subtitle>
           <PostingGrid container spacing={1}>
-            {currPostings}
+            {makePostingComponents(currPostings, handleClick)}
           </PostingGrid>
           <Subtitle>Previous Postings</Subtitle>
           <PostingGrid container spacing={1}>
-            {prevPostings}
+            {makePostingComponents(prevPostings, handleClick)}
           </PostingGrid>
         </Grid>
       </ContentGrid>
