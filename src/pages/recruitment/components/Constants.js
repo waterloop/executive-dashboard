@@ -7,7 +7,7 @@ export const colNames = [
 ];
 
 export const SUBTEAM_OPTIONS = [
-  { name: 'Web Team', formattedName: 'Web' },
+  { name: 'WebTeam', formattedName: 'Web' },
   { name: 'Electrical', formattedName: 'Electrical' },
   { name: 'Mechanical', formattedName: 'Mechanical' },
   { name: 'LIM', formattedName: 'LIM' },

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 
 import UnstyledTextInput from '../TextInput';
@@ -59,37 +59,52 @@ const Cancel = styled(Button)`
   text-decoration: none;
 `;
 
-const EmailModal = ({ status, subject }) => (
-  <ModalContainer>
-    <WarningMessage>Are you sure you want to send this message?</WarningMessage>
-    <InputGroup>
-      <InputLabel>TO: </InputLabel>
-      <TextInput paddingLeft="45px" initialValue="Autofill EMAIL" />
-    </InputGroup>
-    <InputGroup>
-      <InputLabel>SUBJECT: </InputLabel>
-      <TextInput
-        paddingLeft="90px"
-        initialValue={
-          EmailTemplate.filter((item) => item.status === status)[0].subject
-        }
-      />
-    </InputGroup>
-    <TextMultilineInput
-      multiLine
-      hasImage
-      imgURL={WaterloopLogo}
-      subjectLine={subject}
-      initialValue={
-        EmailTemplate.filter((item) => item.status === status)[0].text
-      }
-      textAfterImg={
-        EmailTemplate.filter((item) => item.status === status)[0].textAfterImg
-      }
-    />
-    <Cancel cancel>cancel</Cancel>
-    <Send tertiary>send</Send>
-  </ModalContainer>
-);
+const emailSignatureLogo = {
+  width: '150px',
+  margin: '15px 0 15px 0',
+};
+
+const EmailModal = ({ status, subject }) => {
+  const bodyRef = useRef();
+
+  const template = EmailTemplate.find((item) => item.status === status);
+
+  return (
+    <ModalContainer>
+      <WarningMessage>
+        Are you sure you want to send this message?
+      </WarningMessage>
+      <InputGroup>
+        <InputLabel>TO: </InputLabel>
+        <TextInput paddingLeft="45px">Autofill EMAIL</TextInput>
+      </InputGroup>
+      <InputGroup>
+        <InputLabel>SUBJECT: </InputLabel>
+        <TextInput paddingLeft="90px">{template.subject}</TextInput>
+      </InputGroup>
+      <TextMultilineInput multiLine subjectLine={subject}>
+        {/* NOTE: ref doesn't work with styled-components, so we have to define an extra div here. */}
+        <div ref={bodyRef}>
+          {template.text}
+          <img
+            src={WaterloopLogo}
+            alt="Waterloop Logo"
+            style={emailSignatureLogo}
+          />
+          {template.textAfterImg}
+        </div>
+      </TextMultilineInput>
+      <Cancel cancel>cancel</Cancel>
+      <Send
+        tertiary
+        onClick={() => {
+          console.log(bodyRef.current.innerHTML);
+        }}
+      >
+        send
+      </Send>
+    </ModalContainer>
+  );
+};
 
 export default EmailModal;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const Container = styled.div`
   width: 100%;
@@ -41,11 +40,6 @@ const ContentEditableContainer = styled.div`
   border-radius: 15px;
 `;
 
-const emailSignatureLogo = {
-  width: '150px',
-  margin: '15px 0 15px 0',
-};
-
 const TextInput = ({
   className /* Allows for external styles to be applied to the component
                 using the styled components library
@@ -53,13 +47,10 @@ const TextInput = ({
   multiLine,
   rows = 10,
   paddingLeft,
-  initialValue,
+  children,
   width,
-  hasImage,
-  imgURL = '',
-  textAfterImg = '',
 }) => {
-  const [input, setName] = useState(initialValue);
+  const [input, setInput] = useState(children);
   return (
     <Container width={width} className={className}>
       {multiLine ? (
@@ -67,21 +58,16 @@ const TextInput = ({
           contentEditable="true"
           rows={rows}
           paddingLeft={paddingLeft}
-          onChange={(e) => setName(e.target.value)}
         >
           {input}
-          {hasImage ? (
-            <img src={imgURL} alt="Waterloop Logo" style={emailSignatureLogo} />
-          ) : (
-            ''
-          )}
-          {textAfterImg}
         </ContentEditableContainer>
       ) : (
         <TextInputContainer
           paddingLeft={paddingLeft}
           value={input}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setInput(e.target.value);
+          }}
         />
       )}
     </Container>

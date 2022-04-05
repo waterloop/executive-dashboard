@@ -14,6 +14,8 @@ import { setCheckboxValues, setCheckboxesShown } from '../utils';
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
+import EmailModal from '../../../components/EmailModal';
+
 const ApplicationPage = () => {
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
@@ -123,13 +125,16 @@ const ApplicationPage = () => {
   ];
 
   return (
-    <PortalTemplate
-      portalName="Applications Portal"
-      tabs={tabs}
-      tableColumns={tableColumns.slice(0, -2)}
-      filterCategories={filterCategories}
-      filterRows={filterRows}
-    />
+    <>
+      <PortalTemplate
+        portalName="Applications Portal"
+        tabs={tabs}
+        tableColumns={tableColumns.slice(0, -2)}
+        filterCategories={filterCategories}
+        filterRows={filterRows}
+      />
+      <EmailModal status="interview_pending" subject="jello" />
+    </>
   );
 };
 export default ApplicationPage;
