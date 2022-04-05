@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: remove eslint-disable above once postings are correctly retrieved.
-
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,8 +12,6 @@ import usePostings from '../../../hooks/postings';
 import { backgrounds, statuses, postingColours } from './Constants';
 
 import { getTermDate } from '../../../utils';
-
-import { mockData } from '../../../tests/recruitment/application-profile/mocks';
 
 // TODO: Make this a mock test variable.
 const FALL_2022 = new Date(1662352157000);
@@ -99,7 +94,7 @@ const makeProfileData = (app) =>
         resumeLink: app.resume_link,
         status: app.status,
         reasonToJoin: app.reason_to_join || '(none provided)',
-        additionalInfo: app.additional_info || '(none provided)',
+        additionalInfo: app.additional_information || '(none provided)',
       }
     : {};
 
@@ -120,6 +115,7 @@ const ApplicationProfilePage = () => {
   const { postings } = usePostings();
   const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
     useApplications(getTermDate(FALL_2022)); // TODO: in production, replace with Date.now().
+  // TODO: Currently logic doesn't support loading page info for a previous posting.
 
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
@@ -174,7 +170,7 @@ const ApplicationProfilePage = () => {
     <Container>
       <Header
         name={profileData.fullName}
-        currentPostings={mockData.currentPostings}
+        currentPostings={[...new Set(currPostings.map((a) => a.title))]}
         blobs={blobs}
         background="linear-gradient(91.05deg, #CAD4FF 0%, #CEF6FF 99.9%)"
       />
@@ -211,7 +207,7 @@ const ApplicationProfilePage = () => {
           </PostingGrid>
           <Subtitle>Previous Postings</Subtitle>
           <PostingGrid container spacing={1}>
-            {makePostingComponents(prevPostings, handleClick)}
+            {makePostingComponents(prevPostings, () => {})}
           </PostingGrid>
         </Grid>
       </ContentGrid>
