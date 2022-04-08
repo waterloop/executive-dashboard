@@ -15,6 +15,7 @@ const FiltersTitle = styled.h1`
 
 const CheckboxCategoryName = styled.h1`
   font: ${({ theme }) => theme.fonts.bold16};
+  margin-top: 0;
 `;
 
 const CheckboxName = styled(Typography)`
@@ -30,6 +31,13 @@ const ShowMoreAndLessButton = styled(Button)`
     padding: 0;
     justify-content: flex-start;
   }
+`;
+
+const NoEntriesDefaultText = styled.p`
+  font: ${({ theme }) => theme.fonts.medium12};
+  color: #76797c;
+  margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const CheckboxGroup = styled(FormControl)`
@@ -68,7 +76,7 @@ const PortalFilterTemplate = ({ filterCategories }) => (
         <CheckboxGroup sx={{ m: 3 }} component="fieldset" variant="standard">
           <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
-            {category.options.length > 0 ? (
+            {category.currentShown !== 0 ? (
               category.options
                 .slice(0, category.currentShown)
                 .map((checkbox) => (
@@ -80,14 +88,23 @@ const PortalFilterTemplate = ({ filterCategories }) => (
                           category.setCategoryChecked(checkbox)
                         }
                         name={checkbox.name}
+                        sx={{
+                          '&.Mui-checked': {
+                            color: '#1B8FF4',
+                          },
+                        }}
                       />
                     }
-                    label={<CheckboxName>{checkbox.formattedName}</CheckboxName>}
+                    label={
+                      <CheckboxName>{checkbox.formattedName}</CheckboxName>
+                    }
                     key={checkbox.name}
                   />
                 ))
             ) : (
-              <h2>{category.noEntriesDefaultText}</h2>
+              <NoEntriesDefaultText>
+                {category.noEntriesDefaultText}
+              </NoEntriesDefaultText>
             )}
           </FormGroup>
           {category.setCategoryShown && (

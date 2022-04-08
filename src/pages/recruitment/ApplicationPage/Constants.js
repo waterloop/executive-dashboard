@@ -14,3 +14,5 @@ export const tabs = [
   { status: 'app_reject', tabName: 'To reject' },
   { status: 'app_undecided', tabName: 'Undecided' },
 ];
+
+export const positionFields = ['name', 'formattedName', 'team'];

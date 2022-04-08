@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PortalTemplate from '../components/PortalTemplate';
-import { tabs, tableColumns } from './Constants';
+import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
 import {
   SUBTEAM_OPTIONS,
@@ -9,7 +9,12 @@ import {
   MIN_YEARS_SHOWN,
   MIN_SUBTEAMS_SHOWN,
 } from '../components/Constants';
-import { setCheckboxValues, setCheckboxesShown } from '../utils';
+import {
+  setCheckboxValues,
+  setCheckboxesShown,
+  oneTrue,
+  getItemByName,
+} from '../utils';
 
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
@@ -18,29 +23,46 @@ const InterviewPage = () => {
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
 
+  // Grab applications data from backend
   const tableRows = applications.map((application) => {
     let study = 'study';
-    if (application) {
-      if (!application.in_school) {
-        study = 'coop';
-      }
-      const appPosting = getItemById(postings, application.posting_id);
-
-      if (appPosting) {
-        const appValues = [
-          `${application.first_name} ${application.last_name}`,
-          application.current_year,
-          study,
-          appPosting.team,
-          appPosting.title,
-          application.status,
-          `/recruitment/interview/${application.id}`,
-        ];
-        return createData(tableColumns, appValues);
-      }
+    if (!application.in_school) {
+      study = 'coop';
     }
+    const appPosting = getItemById(postings, application.posting_id);
+
+    if (appPosting) {
+      const appValues = [
+        `${application.first_name} ${application.last_name}`,
+        application.current_year,
+        study,
+        appPosting.team,
+        appPosting.title,
+        application.status,
+        `/recruitment/interview/${application.id}`,
+      ];
+      return createData(tableColumns, appValues);
+    }
+
     return createData(tableColumns, []);
   });
+
+  // Grab positions from applications data
+  const allPositionNames = [];
+
+  const positionOptions = tableRows
+    .map((row) => {
+      if (allPositionNames.indexOf(row.position) === -1) {
+        allPositionNames.push(row.position);
+        return createData(positionFields, [
+          row.position,
+          row.position,
+          row.subteam,
+        ]);
+      }
+      return createData(positionFields, []);
+    })
+    .filter((position) => position.name !== undefined);
 
   const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
@@ -51,7 +73,7 @@ const InterviewPage = () => {
   const [subteamsChecked, setSubteamsChecked] = useState(
     makeTruthTable(subteamsUnformatted, false),
   );
-
+  const [positionsChecked, setPositionsChecked] = useState({});
   const [termTypesChecked, setTermTypesChecked] = useState(
     makeTruthTable(termTypesUnformatted, true),
   );
@@ -64,9 +86,14 @@ const InterviewPage = () => {
       (row) =>
         row.status === status &&
         subteamsChecked[row.subteam] &&
+        positionsChecked[row.position] &&
         termTypesChecked[row.term] &&
         yearsChecked[row['year of study']],
     );
+
+  const filteredPositions = positionOptions.filter(
+    (position) => subteamsChecked[position.team],
+  );
 
   const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
   const MAX_YEARS_SHOWN = yearsChecked.length;
@@ -83,8 +110,21 @@ const InterviewPage = () => {
       maxShown: MAX_SUBTEAMS_SHOWN,
       minShown: MIN_SUBTEAMS_SHOWN,
       options: SUBTEAM_OPTIONS,
-      setCategoryChecked: (clickedOption) =>
-        setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked),
+      setCategoryChecked: (clickedOption) => {
+        setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked);
+
+        setPositionsChecked((prevState) => ({
+          ...prevState,
+          ...makeTruthTable(
+            allPositionNames.filter(
+              (position) =>
+                getItemByName(positionOptions, position).team ===
+                clickedOption.target.name,
+            ),
+            true,
+          ),
+        }));
+      },
       setCategoryShown: () =>
         setCheckboxesShown(
           subteamsShown,
@@ -92,6 +132,21 @@ const InterviewPage = () => {
           MAX_SUBTEAMS_SHOWN,
           MIN_SUBTEAMS_SHOWN,
         ),
+    },
+    {
+      name: 'positions',
+      formattedName: 'Position',
+      currentShown: filteredPositions.length,
+      checked: positionsChecked,
+      maxShown: allPositionNames.length,
+      minShown: allPositionNames.length,
+      options: filteredPositions,
+      setCategoryChecked: (clickedOption) => {
+        setCheckboxValues(clickedOption, positionsChecked, setPositionsChecked);
+      },
+      noEntriesDefaultText: !oneTrue(subteamsChecked)
+        ? 'Please select a Subteam to view available positions'
+        : 'No available positions',
     },
     {
       name: 'termTypes',
