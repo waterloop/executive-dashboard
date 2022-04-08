@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+import useApplications from '../../../hooks/applications';
+import usePostings from '../../../hooks/postings';
 
-import {
-  options,
-  backgrounds,
-  statuses,
-  interviewStatuses,
-  postingColours,
-} from './Constants';
+import { backgrounds, statuses, postingColours } from './Constants';
+
+import { getTermDate } from '../../../utils';
+
+// TODO: Make this a mock test variable.
+const FALL_2022 = new Date(1662352157000);
 
 const Container = styled.div`
   margin: 0;
@@ -68,77 +70,107 @@ const PostingButton = styled.button`
   outline: inherit;
 `;
 
+const makePostingComponents = (postings, handleClick) =>
+  postings.map((posting, index) => (
+    <PostingContainer key={posting.appID} item>
+      <PostingBubble colour={postingColours[index % postingColours.length]}>
+        <ApplicationText>
+          <PostingButton onClick={() => handleClick(posting)}>
+            {posting.title}
+          </PostingButton>
+        </ApplicationText>
+      </PostingBubble>
+    </PostingContainer>
+  ));
+
+// Functions:
+const makeProfileData = (app) =>
+  app
+    ? {
+        id: app.id,
+        fullName: `${app.first_name} ${app.last_name}`,
+        program: app.program,
+        term: `${app.current_year} ${app.in_school ? 'Study' : 'Co-op'}`,
+        resumeLink: app.resume_link,
+        status: app.status,
+        reasonToJoin: app.reason_to_join || '(none provided)',
+        additionalInfo: app.additional_information || '(none provided)',
+      }
+    : {};
+
+const makePostingData = (apps, postings) =>
+  apps.map((app) => {
+    const res = postings.find((posting) => posting.id === app.posting_id);
+
+    return {
+      appID: app.id,
+      title: res.title,
+    };
+  });
+
 const ApplicationProfilePage = () => {
-  const mockData = {
-    name: 'John Smith',
-    demographic: {
-      term: '1A Co-op',
-      program: 'Mechatronics Eng',
-      resumeLink:
-        'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
-    },
-    status: 'app_reject',
-    why: `Fugiat ad anim laborum et ipsum qui consequat irure. Ipsum ad labore anim ad ipsum do quis fugiat ad commodo ullamco adipisicing. Voluptate anim exercitation do magna minim duis sit laboris sint amet enim laboris. Proident aute labore cillum cillum occaecat est ad labore. Irure nisi proident cillum eiusmod do ut do aute duis laborum occaecat do voluptate.
+  // TODO: redirect user to 404 page if application not found. Use useHistory hook
+  const match = useRouteMatch('/recruitment/application/:id');
+  const history = useHistory();
+  const { postings } = usePostings();
+  const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
+    useApplications(getTermDate(FALL_2022)); // TODO: in production, replace with Date.now().
+  // TODO: Currently logic doesn't support loading page info for a previous posting.
 
-upidatat deserunt ex in in irure consequat. Incididunt aliqua cillum ea mollit culpa in quis sit ad dolor occaecat nulla do.
+  const application = applications.find(
+    (app) => `${app.id}` === match.params.id,
+  );
 
-Voluptate eiusmod duis veniam ipsum est qui officia voluptate quis. Eu proident tempor dolore reprehenderit amet et aute esse Lorem dolor aliquip. Laboris consectetur laborum mollit proident aliqua anim ad occaecat aute excepteur cillum aliqua. Ut aliqua esse mollit cillum nisi in deserunt labore do excepteur excepteur ex.`,
-    additionalInfo: `Adipisicing Lorem sint commodo ad nisi velit irure. Veniam eiusmod tempor do sunt ipsum ullamco amet nisi consectetur ut aute. Do tempor dolore ex ullamco irure non officia magna ipsum irure laboris minim. Adipisicing mollit enim enim aliquip magna ullamco aliquip nisi duis velit laboris.
+  const [currPostings, setCurrPostings] = useState([]);
+  const [prevPostings, setPrevPostings] = useState([]);
 
-Do est cillum laborum commodo proident magna do ullamco aliquip quis aliqua dolor proident. Voluptate ipsum excepteur velit ullamco commodo voluptate ex ad dolore qui enim. Duis eu proident anim fugiat Lorem reprehenderit dolore officia incididunt in. Aute sit nostrud cillum labore eu irure sit ea id dolor deserunt. Magna et consectetur est incididunt aliquip ullamco sunt non proident consequat ea proident aliqua qui.
+  useEffect(() => {
+    if (application && application.email_address) {
+      getApplicationsByEmail(application.email_address);
+    }
+  }, [getApplicationsByEmail, application]);
 
-Ut magna irure eu nostrud irure ad ullamco exercitation sint. Ad irure eu eu Lorem adipisicing. Pariatur laborum irure elit consequat elit. Veniam pariatur do elit irure fugiat velit amet ea. Eu nisi ad veniam id duis officia aute Lorem cupidatat.
-Laborum excepteur labore reprehenderit aute aliqua veniam. Ipsum qui irure voluptate do fugiat Lorem minim cupidatat irure quis pariatur labore elit eu. Ut eiusmod aliqua nisi in sint deserunt sint proident excepteur esse magna. Do laborum qui consequat laborum Lorem ipsum cillum ullamco Lorem mollit esse et enim. Occaecat qui quis aute proident reprehenderit ut sit commodo et sit dolor fugiat occaecat.
+  useEffect(() => {
+    if (appsByEmail && application && appsByEmail[application.email_address]) {
+      // Call posting functions here.
+      const allUserApps = appsByEmail[application.email_address];
 
-Nisi cupidatat ut culpa eiusmod magna dolor et. Anim eiusmod minim in nostrud tempor. Ullamco sit ullamco adipisicing dolor exercitation mollit consequat sunt laborum nisi magna est aute. Officia aliqua commodo sint reprehenderit non ipsum.
+      const currTermDate = getTermDate(FALL_2022);
+      const prevTermDate = getTermDate(
+        new Date(new Date(FALL_2022).setMonth(FALL_2022.getMonth() - 4)),
+      );
 
-Ea pariatur dolore ad anim non ea pariatur reprehenderit in laborum est duis. Consectetur amet duis veniam qui voluptate aliquip do dolore. Sit aliquip nostrud minim reprehenderit commodo ut labore velit cupidatat dolor nulla. Pariatur esse ut mollit esse. Id deserunt aliqua Lorem dolore veniam fugiat aute laboris occaecat culpa Lorem eiusmod. Anim cillum voluptate irure aliqua aliqua qui sint elit.
+      setCurrPostings(
+        makePostingData(
+          allUserApps.filter((app) => app.application_term === currTermDate),
+          postings,
+        ),
+      );
+      setPrevPostings(
+        makePostingData(
+          allUserApps.filter((app) => app.application_term === prevTermDate),
+          postings,
+        ),
+      );
+    }
+  }, [appsByEmail, application, postings]);
 
-Reprehenderit eiusmod occaecat ipsum deserunt. Officia non mollit quis eiusmod voluptate tempor occaecat. Nisi non eiusmod occaecat veniam ea ea aute sunt pariatur esse culpa duis.
-
-Exercitation esse anim minim ad commodo sunt deserunt aute nulla. Anim nisi qui id deserunt non dolore esse consequat in officia in consectetur. Non eu in culpa enim amet. Excepteur consectetur magna incididunt culpa culpa laboris enim velit duis aute. Tempor minim reprehenderit sint nisi eu.
-
-Irure dolor culpa duis et amet anim Lorem enim aliquip quis. Est quis excepteur ullamco ipsum laboris ea pariatur reprehenderit. Proident et qui culpa ipsum deserunt consectetur culpa magna aliquip esse.
-
-Pariatur ea anim nulla aute aliqua quis do adipisicing. Sit incididunt cupidatat consequat reprehenderit aliquip deserunt exercitation do sunt non anim ullamco. Cupidatat elit eu id ipsum est.
-
-Anim officia officia sint ea. Enim occaecat elit elit tempor irure veniam in labore Lorem reprehenderit consectetur pariatur. Commodo laboris exercitation reprehenderit aliquip reprehenderit aliquip mollit esse. Duis aute dolor id amet sint commodo ut occaecat cupidatat.
-
-Excepteur minim deserunt quis laborum do eu. Ullamco commodo laboris do commodo ut occaecat aute. Lorem consequat elit duis cupidatat aute qui eiusmod amet aliqua ullamco veniam minim. Veniam duis eu ex id id laborum officia non ex consectetur ipsum.
-
-Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse adipisicing. Excepteur consequat consequat occaecat commodo sunt elit anim reprehenderit irure labore. Qui non nostrud magna cillum adipisicing in in. Amet ad pariatur officia laboris irure sit.`,
-    currentPostings: ['UI/UX Design', 'Frontend Dev', 'Fullstack Dev'],
-    previousPostings: ['UI/UX Design', 'Fullstack Dev'],
+  // Curry updateAppStatus function:
+  const updateAppStatusCurried = (appID) => (newStatus) => {
+    updateAppStatus(appID, newStatus);
   };
 
-  const locked = (status) => interviewStatuses.includes(status);
+  const profileData = makeProfileData(application);
 
-  const handleClick = (e) => {
-    console.log(e.target.textContent);
+  const handleClick = (posting) => {
+    history.push(`/recruitment/application/${posting.appID}`);
   };
-
-  const postingGenerator = (postings) =>
-    postings.map((posting, index) => (
-      <PostingContainer key={posting} item>
-        <PostingBubble colour={postingColours[index % postingColours.length]}>
-          <ApplicationText>
-            <PostingButton onClick={(e) => handleClick(e)}>
-              {posting}
-            </PostingButton>
-          </ApplicationText>
-        </PostingBubble>
-      </PostingContainer>
-    ));
-
-  const currPostings = postingGenerator(mockData.currentPostings);
-
-  const prevPostings = postingGenerator(mockData.previousPostings);
 
   return (
     <Container>
       <Header
-        name={mockData.name}
-        currentPostings={mockData.currentPostings}
+        name={profileData.fullName}
+        currentPostings={[...new Set(currPostings.map((a) => a.title))]}
         blobs={blobs}
         background="linear-gradient(91.05deg, #CAD4FF 0%, #CEF6FF 99.9%)"
       />
@@ -147,31 +179,35 @@ Id reprehenderit ad mollit mollit. Consequat in et occaecat dolor aliquip esse a
         {/* sidebar takes up 1/3 of width */}
         <Grid item xs={12} md={4}>
           <Sidebar
-            program={mockData.demographic.program}
-            term={mockData.demographic.term}
-            resumeLink={mockData.demographic.resumeLink}
-            initialStatus={mockData.status}
-            options={options}
+            program={profileData.program}
+            term={profileData.term}
+            resumeLink={profileData.resumeLink}
             backgrounds={backgrounds}
             statuses={statuses}
-            locked={locked(mockData.status)}
+            locked={!statuses[profileData.status]}
             errorMessage="Please change in interview profile!"
+            initialStatus={
+              statuses[profileData.status]
+                ? profileData.status
+                : 'interview_pending'
+            }
+            updateStatus={updateAppStatusCurried(profileData.id)}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
         <Grid item xs={12} md={8}>
           <Title>Application</Title>
           <Subtitle>Why do you want to join the team?</Subtitle>
-          <ApplicationText>{mockData.why}</ApplicationText>
+          <ApplicationText>{profileData.reasonToJoin}</ApplicationText>
           <Subtitle>Additional Information</Subtitle>
-          <ApplicationText>{mockData.additionalInfo}</ApplicationText>
+          <ApplicationText>{profileData.additionalInfo}</ApplicationText>
           <Subtitle>Current Postings</Subtitle>
           <PostingGrid container spacing={1}>
-            {currPostings}
+            {makePostingComponents(currPostings, handleClick)}
           </PostingGrid>
           <Subtitle>Previous Postings</Subtitle>
           <PostingGrid container spacing={1}>
-            {prevPostings}
+            {makePostingComponents(prevPostings, () => {})}
           </PostingGrid>
         </Grid>
       </ContentGrid>

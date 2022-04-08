@@ -2,7 +2,7 @@
 const getApplications = (server) => (term) =>
   server.get(`/api/applications?term=${term}`);
 
-const getApplicationByEmail = (server) => (email) =>
+const getApplicationsByEmail = (server) => (email) =>
   server.get(`/api/applications/applicant/${email}`);
 
 // NOTE: May not need addApplication here.
@@ -18,7 +18,7 @@ const getApplicationStatuses = (server) => () =>
 
 export default (server) => ({
   getApplications: getApplications(server),
-  getApplicationByEmail: getApplicationByEmail(server),
+  getApplicationsByEmail: getApplicationsByEmail(server),
   addApplication: addApplication(server),
   updateApplicationStatus: updateApplicationStatus(server),
   getApplicationStatuses: getApplicationStatuses(server),

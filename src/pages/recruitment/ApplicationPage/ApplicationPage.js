@@ -17,7 +17,7 @@ import usePostings from '../../../hooks/postings';
 import EmailModal from '../../../components/EmailModal';
 
 const ApplicationPage = () => {
-  const { applications } = useApplications('FALL-2022');
+  const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
   const { postings } = usePostings();
 
   const tableRows = applications.map((application) => {

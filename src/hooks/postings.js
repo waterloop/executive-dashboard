@@ -52,7 +52,7 @@ const usePostings = () => {
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
         // eslint-disable-next-line no-console
-        console.log('Failed to load postings');
+        console.error('Failed to load postings');
       }
     }
   }, [dispatch, getPostings]);

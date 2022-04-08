@@ -33,19 +33,27 @@ export const getTermSeason = (date) => {
 };
 
 /**
+ * Returns date entries in <TERM>-<YEAR> format.
+ */
+export const getTermDate = (date) =>
+  `${getTermSeason(date)}-${date.getFullYear()}`;
+
+/**
  * Creates data from an array of values:
  */
 
 export const createData = (keys, values) => {
-  const res = {}
-  keys.forEach((kval, idx) => {res[kval] = values[idx]})
+  const res = {};
+  keys.forEach((kval, idx) => {
+    res[kval] = values[idx];
+  });
   return res;
 };
 
 /**
  * Gets item by id in JSON object array
  */
- export const getItemById = (arr, id) => {
+export const getItemById = (arr, id) => {
   const obj = arr.filter((item) => item.id === id);
   return obj[0];
 };
