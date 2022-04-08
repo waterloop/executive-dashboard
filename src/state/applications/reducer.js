@@ -7,6 +7,7 @@ const initialState = {
 };
 
 export default (state = initialState, { type, payload }) => {
+  let emailEntry;
   switch (type) {
     case actionTypes.APPLICATIONS_SET_APPLICATIONS:
       return {
@@ -28,6 +29,7 @@ export default (state = initialState, { type, payload }) => {
       };
 
     case actionTypes.APPLICATIONS_UPDATE_APP_STATUS:
+      emailEntry = state.appsByEmail[payload.newApp.email_address];
       return {
         ...state,
         allApplications: [
@@ -38,10 +40,10 @@ export default (state = initialState, { type, payload }) => {
         ],
         appsByEmail: {
           ...state.appsByEmail,
-          [payload.newApp.email]: [
-            ...state.appsByEmail[payload.newApp.email_address].filter(
-              (app) => app.id !== payload.newApp.id,
-            ),
+          [payload.newApp.email_address]: [
+            ...(emailEntry
+              ? emailEntry.filter((app) => app.id !== payload.newApp.id)
+              : []),
             payload.newApp,
           ],
         },

@@ -1,12 +1,20 @@
 import React from 'react';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import blobs from '../../../assets/svg/recruitment/interview/blobs.svg';
 
-import { options, backgrounds, statuses } from './Constants';
-
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+
+import useApplications from '../../../hooks/applications';
+
+import { getTermDate } from '../../../utils';
+
+import { options, backgrounds, statuses } from './Constants';
+
+// TODO: Make this a mock test variable.
+const FALL_2022 = new Date(1662352157000);
 
 const Container = styled.div`
   margin: 0;
@@ -50,44 +58,74 @@ const PlaceholderContainer = styled.div`
   align-items: center;
 `;
 
+// Functions:
+const makeProfileData = (app) =>
+  app
+    ? {
+        id: app.id,
+        fullName: `${app.first_name} ${app.last_name}`,
+        program: app.program,
+        term: `${app.current_year} ${app.in_school ? 'Study' : 'Co-op'}`,
+        resumeLink: app.resume_link,
+        status: app.status,
+        reasonToJoin: app.reason_to_join || '(none provided)',
+        additionalInfo: app.additional_information || '(none provided)',
+      }
+    : {};
+
 const InterviewProfilePage = () => {
-  const mockData = {
-    name: 'John Smith',
-    demographic: {
-      term: '1A Co-op',
-      program: 'Mechatronics Eng',
-      resumeLink:
-        'https://cdn-images.zety.com/templates/zety/valera-11-classic-silver-dark-332@3x.png',
-    },
-    status: 'interview_undecided',
+  const history = useHistory();
+  const match = useRouteMatch('/recruitment/INTERVIEW/:id');
+  const { applications, updateAppStatus } = useApplications(
+    getTermDate(FALL_2022),
+  ); // TODO: in production, replace with Date.now().
+  // TODO: Currently logic doesn't support loading page info for a previous posting.
+
+  const application = applications.find(
+    (app) => `${app.id}` === match.params.id,
+  );
+
+  // Curry updateAppStatus function:
+  const updateAppStatusCurried = (appID) => (newStatus) => {
+    updateAppStatus(appID, newStatus);
   };
+
+  const profileData = makeProfileData(application);
 
   return (
     <Container>
       <Header
-        name={mockData.name}
+        name={profileData.fullName}
         blobs={blobs}
         background="linear-gradient(91.05deg, #CAD4FF 0%, #FEEDED 99.9%)"
+        handleBackClick={() => history.push('/recruitment/interview')}
       />
       {/* application info takes up 3/4 of height */}
       <ContentGrid justifyContent="flex-start" item xs={12} container>
         {/* sidebar takes up 1/3 of width */}
         <Grid item xs={12} md={4}>
           <Sidebar
-            program={mockData.demographic.program}
-            term={mockData.demographic.term}
-            resumeLink={mockData.demographic.resumeLink}
-            initialStatus={mockData.status}
+            program={profileData.program}
+            term={profileData.term}
+            resumeLink={profileData.resumeLink}
             options={options}
             backgrounds={backgrounds}
             statuses={statuses}
+            locked={!statuses[profileData.status]}
+            errorMessage="Please change in application profile!"
+            initialStatus={
+              statuses[profileData.status]
+                ? profileData.status
+                : 'app_undecided'
+            }
+            updateStatus={updateAppStatusCurried(profileData.id)}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
         <Grid item xs={12} md={8}>
           <InterviewContainer item xs={12}>
             <Title>Interview Notes</Title>
-            <TextArea placeholder="Text" />
+            <TextArea placeholder="(please enter interview notes here)" />
           </InterviewContainer>
           <InterviewContainer item>
             <Title>Rating</Title>
