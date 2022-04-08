@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PortalTemplate from '../components/PortalTemplate';
-import { tabs, tableColumns } from './Constants';
+import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
 import {
   SUBTEAM_OPTIONS,
@@ -49,23 +49,20 @@ const InterviewPage = () => {
 
   // Grab positions from applications data
   const allPositionNames = [];
-  const positionCategories = ['name', 'formattedName', 'team'];
 
-  let positionOptions = tableRows.map((row) => {
-    if (allPositionNames.indexOf(row.position) === -1) {
-      allPositionNames.push(row.position);
-      return createData(positionCategories, [
-        row.position,
-        row.position,
-        row.subteam,
-      ]);
-    }
-    return createData(positionCategories, []);
-  });
-
-  positionOptions = positionOptions.filter(
-    (position) => position.name !== undefined,
-  );
+  const positionOptions = tableRows
+    .map((row) => {
+      if (allPositionNames.indexOf(row.position) === -1) {
+        allPositionNames.push(row.position);
+        return createData(positionFields, [
+          row.position,
+          row.position,
+          row.subteam,
+        ]);
+      }
+      return createData(positionFields, []);
+    })
+    .filter((position) => position.name !== undefined);
 
   const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(

@@ -14,3 +14,5 @@ export const tabs = [
   { status: 'interview_reject', tabName: 'To reject' },
   { status: 'interview_undecided', tabName: 'Undecided' },
 ];
+
+export const positionFields = ['name', 'formattedName', 'team'];
