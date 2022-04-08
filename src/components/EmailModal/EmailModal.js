@@ -1,15 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import UnstyledTextInput from '../TextInput';
 import Button from '../Button';
-import EmailTemplate from './EmailTemplate.json';
+import EmailTemplate from './EmailTemplates.json';
 import WaterloopLogo from '../../assets/svg/recruitment/logo-signature.svg';
 
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   border: ${({ theme }) => theme.borders.solidGrey1};
   border-radius: 0.9375rem;
+  display: flex;
+  flex-direction: column;
   height: auto;
   padding: 40px 40px 60px 40px;
   margin-top: 30px;
@@ -32,7 +34,7 @@ const InputLabel = styled.p`
   left: 16px;
   font: ${({ theme }) => theme.fonts.medium14};
   font-weight: bold;
-  color: #878787;
+  color: ${({ theme }) => theme.colours.greys.grey3};
 `;
 
 const TextMultilineInput = styled(UnstyledTextInput)`
@@ -43,17 +45,19 @@ const TextInput = styled(UnstyledTextInput)`
   margin-bottom: 10px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
 const Send = styled(Button)`
-  position: absolute;
-  right: 125px;
-  background: #82b0fd;
+  background: ${({ theme }) => theme.colours.blues.blue2};
   border-radius: 10.0645px;
 `;
 
 const Cancel = styled(Button)`
-  position: absolute;
-  right: 220px;
-  background: #afafaf;
+  background: ${({ theme }) => theme.colours.greys.grey3};
+  margin-right: 1rem;
   border-radius: 10.0645px;
   color: white;
   text-decoration: none;
@@ -64,10 +68,25 @@ const emailSignatureLogo = {
   margin: '15px 0 15px 0',
 };
 
-const EmailModal = ({ status, subject }) => {
-  const bodyRef = useRef();
+const EmailModal = ({ status, data, onSubmit }) => {
+  const {
+    applicantEmail,
+    /*
+    // TODO: Eventually we wanna customize template fields using data below:
+    applicantName, 
+    execEmail, 
+    execName, 
+    execPhoneNum, 
+    position, 
+    subteam, 
+    interviewEndDate
+    */
+  } = data;
 
-  const template = EmailTemplate.find((item) => item.status === status);
+  const template = EmailTemplate[status];
+  const [toInput, setToInput] = useState(applicantEmail);
+  const [subjInput, setSubjInput] = useState(template.subject);
+  const bodyRef = useRef();
 
   return (
     <ModalContainer>
@@ -76,13 +95,17 @@ const EmailModal = ({ status, subject }) => {
       </WarningMessage>
       <InputGroup>
         <InputLabel>TO: </InputLabel>
-        <TextInput paddingLeft="45px">Autofill EMAIL</TextInput>
+        <TextInput paddingLeft="45px" setInput={setToInput}>
+          {toInput}
+        </TextInput>
       </InputGroup>
       <InputGroup>
         <InputLabel>SUBJECT: </InputLabel>
-        <TextInput paddingLeft="90px">{template.subject}</TextInput>
+        <TextInput paddingLeft="90px" setInput={setSubjInput}>
+          {subjInput}
+        </TextInput>
       </InputGroup>
-      <TextMultilineInput multiLine subjectLine={subject}>
+      <TextMultilineInput multiLine>
         {/* NOTE: ref doesn't work with styled-components, so we have to define an extra div here. */}
         <div ref={bodyRef}>
           {template.text}
@@ -94,15 +117,24 @@ const EmailModal = ({ status, subject }) => {
           {template.textAfterImg}
         </div>
       </TextMultilineInput>
-      <Cancel cancel>cancel</Cancel>
-      <Send
-        tertiary
-        onClick={() => {
-          console.log(bodyRef.current.innerHTML);
-        }}
-      >
-        send
-      </Send>
+      <ButtonContainer>
+        <Cancel cancel>cancel</Cancel>
+        <Send
+          tertiary
+          onClick={() => {
+            if (!onSubmit) {
+              return;
+            }
+            onSubmit({
+              to: toInput,
+              subject: subjInput,
+              body: bodyRef.current.innerHTML,
+            });
+          }}
+        >
+          send
+        </Send>
+      </ButtonContainer>
     </ModalContainer>
   );
 };

@@ -48,30 +48,29 @@ const TextInput = ({
   rows = 10,
   paddingLeft,
   children,
+  setInput,
   width,
-}) => {
-  const [input, setInput] = useState(children);
-  return (
-    <Container width={width} className={className}>
-      {multiLine ? (
-        <ContentEditableContainer
-          contentEditable="true"
-          rows={rows}
-          paddingLeft={paddingLeft}
-        >
-          {input}
-        </ContentEditableContainer>
-      ) : (
-        <TextInputContainer
-          paddingLeft={paddingLeft}
-          value={input}
-          onChange={(e) => {
-            setInput(e.target.value);
-          }}
-        />
-      )}
-    </Container>
-  );
-};
+}) => (
+  <Container width={width} className={className}>
+    {multiLine ? (
+      <ContentEditableContainer
+        suppressContentEditableWarning
+        contentEditable="true"
+        rows={rows}
+        paddingLeft={paddingLeft}
+      >
+        {children}
+      </ContentEditableContainer>
+    ) : (
+      <TextInputContainer
+        paddingLeft={paddingLeft}
+        value={children}
+        onChange={(e) => {
+          setInput(e.target.value);
+        }}
+      />
+    )}
+  </Container>
+);
 
 export default TextInput;
