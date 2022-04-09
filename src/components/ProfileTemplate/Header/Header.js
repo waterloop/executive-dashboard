@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import backArrowIcon from '../../../assets/svg/recruitment/back-arrow.svg';
@@ -46,24 +45,22 @@ const DemographicText = styled.p`
 `;
 
 // name is a string, current postings is an array of strings containing names of postings, blobs is the file path to an svg
-const Header = ({ name, currentPostings, background, blobs }) => {
-  const history = useHistory();
-
-  const handleBackClick = () => {
-    history.push('/recruitment/application');
-  };
-
-  return (
-    <Container>
-      <BackArrow onClick={() => handleBackClick()} />
-      <HeaderGrid item xs={12} background={background} blobs={blobs}>
-        <Name>{name}</Name>
-        {currentPostings && currentPostings.length > 0 && (
-          <DemographicText>{currentPostings.join(' | ')}</DemographicText>
-        )}
-      </HeaderGrid>
-    </Container>
-  );
-};
+const Header = ({
+  name,
+  currentPostings,
+  background,
+  blobs,
+  handleBackClick,
+}) => (
+  <Container>
+    <BackArrow onClick={() => handleBackClick()} />
+    <HeaderGrid item xs={12} background={background} blobs={blobs}>
+      <Name>{name}</Name>
+      {currentPostings && currentPostings.length > 0 && (
+        <DemographicText>{currentPostings.join(' | ')}</DemographicText>
+      )}
+    </HeaderGrid>
+  </Container>
+);
 
 export default Header;

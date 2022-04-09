@@ -6,12 +6,16 @@ import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 
 import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
+import { getTermDate } from '../../../utils';
+
 import { backgrounds, statuses, postingColours } from './Constants';
 
-import { getTermDate } from '../../../utils';
+// TODO: App and Interview profile pages share many similar styled-components / functions.
+// Move them to common file.
 
 // TODO: Make this a mock test variable.
 const FALL_2022 = new Date(1662352157000);
@@ -104,7 +108,7 @@ const makePostingData = (apps, postings) =>
 
     return {
       appID: app.id,
-      title: res.title,
+      title: res && res.title,
     };
   });
 
@@ -131,6 +135,7 @@ const ApplicationProfilePage = () => {
   }, [getApplicationsByEmail, application]);
 
   useEffect(() => {
+    // TODO: It's better to call get application by ID instead of getting all apps:
     if (appsByEmail && application && appsByEmail[application.email_address]) {
       // Call posting functions here.
       const allUserApps = appsByEmail[application.email_address];
@@ -173,6 +178,7 @@ const ApplicationProfilePage = () => {
         currentPostings={[...new Set(currPostings.map((a) => a.title))]}
         blobs={blobs}
         background="linear-gradient(91.05deg, #CAD4FF 0%, #CEF6FF 99.9%)"
+        handleBackClick={() => history.push('/recruitment/application')}
       />
       {/* application info takes up 3/4 of height */}
       <ContentGrid justifyContent="flex-start" item xs={12} container>

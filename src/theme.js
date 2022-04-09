@@ -78,6 +78,7 @@ const shadows = {
 };
 
 const borders = {
+  solidBlack: '1px solid #000000',
   solidGrey1: '1px solid #c4c4c4',
   solidGrey2: '0.75px solid rgba(214, 220, 227, 0.5)',
   solidRed: '1px solid #FF0000',

@@ -43,6 +43,7 @@ const useApplications = (termQuery) => {
     }
   }, []);
 
+  // TODO: Return only entries for the email being used, instead of all apps by email, at least for this hook.
   const getApplicationsByEmail = useCallback(
     async (email) => {
       try {
@@ -101,7 +102,7 @@ const useApplications = (termQuery) => {
   return {
     applications,
     appsByEmail,
-    getApplicationsByEmail,
+    getApplicationsByEmail, // TODO: split appByEmail and Apps hooks to separate files.
     appStatuses,
     updateAppStatus,
   };
