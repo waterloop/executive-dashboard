@@ -6,10 +6,15 @@ export const setInterviews = (interviews) => ({
     interviews,
   },
 });
-export const setInterviewById = (id, interview) => ({
+export const setInterviewById = (interview) => ({
   type: actionTypes.INTERVIEWS_SET_INTERVIEW_BY_ID,
   payload: {
-    id,
     interview,
+  },
+});
+export const updateInterviewNote = (newInterview) => ({
+  type: actionTypes.INTERVIEWS_UPDATE_INTERVIEW_NOTE,
+  payload: {
+    newInterview,
   },
 });

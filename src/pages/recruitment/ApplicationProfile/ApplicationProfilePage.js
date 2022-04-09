@@ -108,7 +108,7 @@ const makePostingData = (apps, postings) =>
 
     return {
       appID: app.id,
-      title: res.title,
+      title: res && res.title,
     };
   });
 
@@ -135,6 +135,7 @@ const ApplicationProfilePage = () => {
   }, [getApplicationsByEmail, application]);
 
   useEffect(() => {
+    // TODO: It's better to call get application by ID instead of getting all apps:
     if (appsByEmail && application && appsByEmail[application.email_address]) {
       // Call posting functions here.
       const allUserApps = appsByEmail[application.email_address];

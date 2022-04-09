@@ -6,8 +6,11 @@ const getInterviewByAppId = (server) => (id) =>
   server.get(`/api/interviews/${id}`);
 
 // NOTE: May not need addApplication here.
-const updateOrAddInterview = (server) => (formData) =>
-  server.post('/api/interviews', formData);
+const updateOrAddInterview = (server) => (appID, note) =>
+  server.post('/api/interviews', {
+    application_id: appID,
+    note,
+  });
 
 export default (server) => ({
   getInterviews: getInterviews(server),

@@ -2,6 +2,7 @@ import theme from '../../../theme';
 
 export const options = ['Pending', 'To accept', 'To reject', 'Undecided'];
 
+// TODO: Add special background for invalid status.
 export const backgrounds = {
   interview_pending: theme.colours.yellows.yellow1,
   interview_reject: theme.colours.reds.red1,
@@ -14,4 +15,5 @@ export const statuses = {
   interview_reject: 'To reject',
   final_accept: 'To accept',
   interview_undecided: 'Undecided',
+  // invalid: 'INVALID',  // Don't let this be clickable
 };

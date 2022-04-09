@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +8,7 @@ import Header from '../../../components/ProfileTemplate/Header';
 import Sidebar from '../../../components/ProfileTemplate/Sidebar';
 
 import useApplications from '../../../hooks/applications';
+import useInterviewByAppId from '../../../hooks/interviewByAppId';
 
 import { getTermDate } from '../../../utils';
 
@@ -38,13 +39,50 @@ const Title = styled.h1`
 `;
 
 const TextArea = styled.textarea`
-  border: 1.20312px solid #000000;
+  border: ${({ theme }) => theme.borders.solidBlack};
   border-radius: 6px;
   position: relative;
   width: 80%;
   height: 200px;
   padding: 10px;
   font: ${({ theme }) => theme.fonts.medium18};
+`;
+
+const SaveNoteHintContainer = styled.div`
+  min-height: 1rem;
+`;
+
+const SaveNoteHint = styled.p`
+  margin: 0;
+  font: ${({ theme }) => theme.fonts.bold16};
+  color: ${({ theme }) => theme.colours.greys.grey3};
+
+  /* code from https://codepen.io/vkjgr/pen/gbPaVx */
+  &.loading:after {
+    content: ' .';
+    animation: dots 1s steps(5, end) infinite;
+  }
+
+  @keyframes dots {
+    0%,
+    20% {
+      color: rgba(0, 0, 0, 0);
+      text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+    }
+    40% {
+      color: ${({ theme }) => theme.colours.greys.grey3};
+      text-shadow: 0.25em 0 0 rgba(0, 0, 0, 0), 0.5em 0 0 rgba(0, 0, 0, 0);
+    }
+    60% {
+      text-shadow: 0.25em 0 0 ${({ theme }) => theme.colours.greys.grey3},
+        0.5em 0 0 rgba(0, 0, 0, 0);
+    }
+    80%,
+    100% {
+      text-shadow: 0.25em 0 0 ${({ theme }) => theme.colours.greys.grey3},
+        0.5em 0 0 ${({ theme }) => theme.colours.greys.grey3};
+    }
+  }
 `;
 
 const PlaceholderContainer = styled.div`
@@ -79,11 +117,49 @@ const InterviewProfilePage = () => {
   const { applications, updateAppStatus } = useApplications(
     getTermDate(FALL_2022),
   ); // TODO: in production, replace with Date.now().
-  // TODO: Currently logic doesn't support loading page info for a previous posting.
 
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
   );
+
+  const { interview, updateInterviewNote } = useInterviewByAppId(
+    match.params.id,
+  );
+
+  const [note, setNote] = useState();
+
+  // Needed since interview may be undefined initially.
+  useEffect(() => {
+    if (interview) {
+      setNote(interview.note);
+    }
+  }, [interview]);
+
+  const [savingTOID, setSavingTOID] = useState(undefined);
+
+  const handleNoteChange = (newNote) => {
+    setNote(newNote);
+    // Pair interview note change saves to a timer so we're not sending
+    // POST requests every update.
+    if (savingTOID) {
+      clearTimeout(savingTOID);
+    }
+    setSavingTOID(
+      setTimeout(
+        (note) => {
+          if (updateInterviewNote(match.params.id, note)) {
+            console.log(`${note} saved!`);
+            setSavingTOID(0);
+          } else {
+            // // error state:
+            // setSavingTOID(-1)
+          }
+        },
+        4000,
+        newNote,
+      ),
+    );
+  };
 
   // Curry updateAppStatus function:
   const updateAppStatusCurried = (appID) => (newStatus) => {
@@ -116,7 +192,7 @@ const InterviewProfilePage = () => {
             initialStatus={
               statuses[profileData.status]
                 ? profileData.status
-                : 'app_undecided'
+                : 'interview_pending'
             }
             updateStatus={updateAppStatusCurried(profileData.id)}
           />
@@ -125,7 +201,21 @@ const InterviewProfilePage = () => {
         <Grid item xs={12} md={8}>
           <InterviewContainer item xs={12}>
             <Title>Interview Notes</Title>
-            <TextArea placeholder="(please enter interview notes here)" />
+            <TextArea
+              placeholder="(please enter interview notes here)"
+              value={note}
+              onChange={(e) => {
+                handleNoteChange(e.target.value);
+              }}
+            />
+            <SaveNoteHintContainer>
+              {!!savingTOID && savingTOID !== 0 && (
+                <SaveNoteHint className="loading">Saving</SaveNoteHint>
+              )}
+              {savingTOID === 0 && (
+                <SaveNoteHint>Note saved successfully!</SaveNoteHint>
+              )}
+            </SaveNoteHintContainer>
           </InterviewContainer>
           <InterviewContainer item>
             <Title>Rating</Title>
