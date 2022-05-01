@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
-import App from './App';
-import state from './state';
-import theme from './theme';
+import App from './frontend/App';
+import state from './frontend/state';
+import theme from './frontend/theme';
 
 ReactDOM.render(
   <React.StrictMode>
