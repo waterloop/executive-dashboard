@@ -1,10 +1,11 @@
-# Executive Dashboard (Frontend)
+# Executive Dashboard
 
-The frontend code for the Waterloop Executive Dashboard application.
+The executive dashboard is an all-in-one ATS and member analytics tool used by anyone in a lead position. Its primary function is to help manage the application process to subteams at the beginning of each term.
 
 # Setup - local environment:
 
-1. Ensure cms-server and dashboard-server are locally setup and running (for areas of the website needing them) - see their READMEs for more details.
-2. `yarn install`
-3. For more commmands please see `package.json` under the "scripts" section.
-4. (Optional): Download React Tools and Redux Devtools to debug components from your browser.
+1. Make sure you're on Node v16.10+ and have npm installed.
+2. Ensure cms-server is locally setup and running. See cms-server's README for more details.
+3. Make sure you have yarn installed (`npm install -g yarn`), then run `yarn install`
+4. For more commmands please see `package.json` under the "scripts" section.
+5. (Optional): Download React Tools and Redux Devtools to debug components from your browser.

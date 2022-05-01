@@ -46,6 +46,8 @@ const useInterviewByAppId = (id) => {
         if (process.env.NODE_ENV === 'development') {
           // eslint-disable-next-line no-console
           console.error(err);
+
+          // TODO: On error, set error in redux store, and have function in setInterval listen to that.
         }
       }
     },
