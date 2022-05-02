@@ -41,7 +41,7 @@ const useApplications = (termQuery) => {
       }
       return {};
     }
-  }, []);
+  }, [termQuery]);
 
   // TODO: Return only entries for the email being used, instead of all apps by email, at least for this hook.
   const getApplicationsByEmail = useCallback(

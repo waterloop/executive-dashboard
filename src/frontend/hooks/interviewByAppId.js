@@ -14,6 +14,7 @@ const useInterviewByAppId = (id) => {
 
       if (interview.status !== 200) {
         // May not be an error since interview entry doesn't yet exist:
+        // eslint-disable-next-line no-console
         console.warn(
           `Could not fetch interview with ID ${id}, HTTP ${interview.status}`,
         );
@@ -25,11 +26,12 @@ const useInterviewByAppId = (id) => {
       };
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
         console.error(err);
       }
       return {};
     }
-  }, []);
+  }, [id]);
 
   const updateInterviewNote = useCallback(
     async (appID, note) => {

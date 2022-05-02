@@ -1,3 +1,6 @@
+# Var definitions.
+ARG BACKEND_DIR=./backend
+
 # Using node 16
 FROM node:16-slim 
 
@@ -7,17 +10,17 @@ RUN ln -s /usr/share/zoneinfo/America/New_York /etc/localtime
 
 WORKDIR /waterloop
 
-COPY src ./src/
-COPY migrations ./migrations/
-COPY seeds ./seeds/
+COPY $BACKEND_DIR/src ./src/
+COPY $BACKEND_DIR/migrations ./migrations/
+COPY $BACKEND_DIR/seeds ./seeds/
 
 # Copy over remaining files
-COPY .env package.json package-lock.json knexfile.js ./
+COPY .env package.json yarn.lock knexfile.js ./
 
 # Initialize dependencies
 ENV NODE_ENV=test
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn build
 EXPOSE 9001
 
 CMD ["bash"]

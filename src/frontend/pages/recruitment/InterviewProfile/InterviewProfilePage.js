@@ -148,10 +148,10 @@ const InterviewProfilePage = () => {
       setTimeout(
         (note) => {
           if (updateInterviewNote(match.params.id, note)) {
-            console.log(`${note} saved!`);
             setSavingTOID(0);
           } else {
             // // error state:
+            // TODO: Add error handling here.
             // setSavingTOID(-1)
           }
         },
