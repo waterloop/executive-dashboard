@@ -30,10 +30,15 @@ const CancelButton = styled(ButtonBase)`
   background-color: white;
   font: ${({ theme }) => theme.fonts.medium18};
   border: none;
-  text-decoration: underline;
 `;
 
-const getButtonComponent = (secondary, tertiary, cancel) => {
+const DisabledButton = styled(ButtonBase)`
+  background-color: ${({ theme }) => theme.colours.greys.grey4};
+  font: ${({ theme }) => theme.fonts.medium18};
+  border: none;
+`;
+
+const getButtonComponent = (secondary, tertiary, cancel, disabled) => {
   if (secondary) {
     return SecondaryButton;
   }
@@ -42,6 +47,9 @@ const getButtonComponent = (secondary, tertiary, cancel) => {
   }
   if (cancel) {
     return CancelButton;
+  }
+  if (disabled) {
+    return DisabledButton;
   }
   return PrimaryButton;
 };
@@ -59,7 +67,12 @@ const Button = ({
   children,
   disabled = false,
 }) => {
-  const ButtonComponent = getButtonComponent(secondary, tertiary, cancel);
+  const ButtonComponent = getButtonComponent(
+    secondary,
+    tertiary,
+    cancel,
+    disabled,
+  );
   const buttonText = label === undefined ? children : label;
   const history = useHistory();
   return link ? (

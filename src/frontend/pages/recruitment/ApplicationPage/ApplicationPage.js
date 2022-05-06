@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
@@ -20,6 +21,8 @@ import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
 const ApplicationPage = () => {
+  const history = useHistory();
+
   const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
   const { postings } = usePostings();
 
@@ -179,6 +182,12 @@ const ApplicationPage = () => {
     },
   ];
 
+  const handleClick = (profileLink) => {
+    if (profileLink) {
+      history.push(profileLink);
+    }
+  };
+
   return (
     <PortalTemplate
       portalName="Applications Portal"
@@ -186,6 +195,7 @@ const ApplicationPage = () => {
       tableColumns={tableColumns.slice(0, -2)}
       filterCategories={filterCategories}
       filterRows={filterRows}
+      handleClick={handleClick}
     />
   );
 };

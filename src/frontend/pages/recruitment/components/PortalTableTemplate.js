@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Table from '@mui/material/Table';
@@ -9,6 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import { Typography } from '@material-ui/core';
+
 import { ROWS_PER_PAGE } from './Constants';
 
 const EntryTableRow = styled(TableRow)`
@@ -53,7 +54,7 @@ const PortalTableTemplate = ({ columns, rows }) => {
 
   const [page, setPage] = React.useState(0);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 

@@ -26,6 +26,7 @@ const greys = {
   grey1: '#F5F5F5',
   grey2: '#C4C4C4',
   grey3: '#666666',
+  grey4: 'B9B9B9',
 };
 
 const greens = {

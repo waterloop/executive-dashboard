@@ -42,6 +42,7 @@ const usePostingById = (postingId) => {
 
   return {
     posting,
+    getPostingById,
   };
 };
 

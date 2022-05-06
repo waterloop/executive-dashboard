@@ -1,20 +1,25 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import Modal from '@mui/material/Modal';
 
 import UnstyledTextInput from '../TextInput';
 import Button from '../Button';
-import EmailTemplate from './EmailTemplates.json';
+import EmailTemplate from './EmailTemplate';
 import WaterloopLogo from '../../assets/svg/recruitment/logo-signature.svg';
 
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   border: ${({ theme }) => theme.borders.solidGrey1};
-  border-radius: 0.9375rem;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
-  height: auto;
   padding: 40px 40px 60px 40px;
-  margin-top: 30px;
+  width: 70%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const WarningMessage = styled.p`
@@ -68,74 +73,74 @@ const emailSignatureLogo = {
   margin: '15px 0 15px 0',
 };
 
-const EmailModal = ({ status, data, onSubmit }) => {
-  const {
-    applicantEmail,
-    /*
-    // TODO: Eventually we wanna customize template fields using data below:
-    applicantName, 
-    execEmail, 
-    execName, 
-    execPhoneNum, 
-    position, 
-    subteam, 
-    interviewEndDate
-    */
-  } = data;
+const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
+  const { applicantEmail, execEmail, execPhoneNum } = data;
 
-  const template = EmailTemplate[status];
-  const [toInput, setToInput] = useState(applicantEmail);
-  const [subjInput, setSubjInput] = useState(template.subject);
-  const bodyRef = useRef();
+  const [toInput, setToInput] = useState('');
+  const [subjInput, setSubjInput] = useState('');
+  const [bodyInput, setBodyInput] = useState('');
+
+  useEffect(() => {
+    setToInput(applicantEmail);
+  }, [data]);
+
+  useEffect(() => {
+    const { subject, text } = EmailTemplate(status, data);
+    setSubjInput(subject);
+    setBodyInput(text);
+  }, [status, data]);
+
+  const execContact = `\n${execEmail} | ${execPhoneNum}`;
 
   return (
-    <ModalContainer>
-      <WarningMessage>
-        Are you sure you want to send this message?
-      </WarningMessage>
-      <InputGroup>
-        <InputLabel>TO: </InputLabel>
-        <TextInput paddingLeft="45px" setInput={setToInput}>
-          {toInput}
-        </TextInput>
-      </InputGroup>
-      <InputGroup>
-        <InputLabel>SUBJECT: </InputLabel>
-        <TextInput paddingLeft="90px" setInput={setSubjInput}>
-          {subjInput}
-        </TextInput>
-      </InputGroup>
-      <TextMultilineInput multiLine>
-        {/* NOTE: ref doesn't work with styled-components, so we have to define an extra div here. */}
-        <div ref={bodyRef}>
-          {template.text}
+    <Modal open={open} handleClose={handleClose}>
+      <ModalContainer>
+        <WarningMessage>
+          Are you sure you want to send this message?
+        </WarningMessage>
+        <InputGroup>
+          <InputLabel>TO: </InputLabel>
+          <TextInput paddingLeft="45px" setInput={setToInput}>
+            {toInput}
+          </TextInput>
+        </InputGroup>
+        <InputGroup>
+          <InputLabel>SUBJECT: </InputLabel>
+          <TextInput paddingLeft="90px" setInput={setSubjInput}>
+            {subjInput}
+          </TextInput>
+        </InputGroup>
+        <TextMultilineInput multiLine setInput={setBodyInput}>
+          {bodyInput}
           <img
             src={WaterloopLogo}
             alt="Waterloop Logo"
             style={emailSignatureLogo}
           />
-          {template.textAfterImg}
-        </div>
-      </TextMultilineInput>
-      <ButtonContainer>
-        <Cancel cancel>cancel</Cancel>
-        <Send
-          tertiary
-          onClick={() => {
-            if (!onSubmit) {
-              return;
-            }
-            onSubmit({
-              to: toInput,
-              subject: subjInput,
-              body: bodyRef.current.innerHTML,
-            });
-          }}
-        >
-          send
-        </Send>
-      </ButtonContainer>
-    </ModalContainer>
+          {execContact}
+        </TextMultilineInput>
+        <ButtonContainer>
+          <Cancel cancel onClick={() => handleClose()}>
+            Cancel
+          </Cancel>
+          <Send
+            tertiary
+            onClick={() => {
+              if (!onSubmit) {
+                return;
+              }
+              onSubmit({
+                to: toInput,
+                subject: subjInput,
+                body: bodyInput,
+              });
+            }}
+          >
+            Send
+          </Send>
+        </ButtonContainer>
+      </ModalContainer>
+    </Modal>
   );
 };
 

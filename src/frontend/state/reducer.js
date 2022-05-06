@@ -4,6 +4,7 @@ import applicationsReducer from './applications/reducer';
 import interviewsReducer from './interviews/reducer';
 import postingsReducer from './postings/reducer';
 import teamsReducer from './teams/reducer';
+import emailReducer from './email/reducer';
 
 export default combineReducers({
   user: userReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   interviews: interviewsReducer,
   postings: postingsReducer,
   teams: teamsReducer,
+  email: emailReducer,
 });

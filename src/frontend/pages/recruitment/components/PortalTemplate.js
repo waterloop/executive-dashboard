@@ -34,7 +34,7 @@ const StyledTableContainer = styled.div`
 `;
 
 const StyledTabs = styled((props) => (
-  <Tabs {...props} classes={{ indicator: 'indicator' }}/>
+  <Tabs {...props} classes={{ indicator: 'indicator' }} />
 ))`
   && {
     margin-inline-start: 24px;
@@ -95,7 +95,7 @@ const TabPanel = (props) => {
       id={`simple-tabpanel-${index}`}
       {...other}
     >
-      <WhiteSpaceBox/>
+      <WhiteSpaceBox />
       {value === index && (
         <TabPanelBox>
           <Typography component="div">{children}</Typography>
@@ -114,6 +114,7 @@ const PortalTemplate = ({
   tableColumns,
   filterCategories,
   filterRows,
+  handleClick,
 }) => {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -156,6 +157,7 @@ const PortalTemplate = ({
                   <PortalTableTemplate
                     columns={tableColumns}
                     rows={filterRows(tab.status)}
+                    handleClick={handleClick}
                   />
                 </StyledTableContainer>
               </TabPanel>
