@@ -3,8 +3,8 @@ exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex('application_status')
     .del()
-    .then(() => {
-      return knex('application_status').insert([
+    .then(() =>
+      knex('application_status').insert([
         {
           key: 'app_pending',
           description:
@@ -43,6 +43,6 @@ exports.seed = function (knex) {
           description: 'Applicant has been selected to join the team.',
           name: 'Accepted',
         },
-      ]);
-    });
+      ]),
+    );
 };

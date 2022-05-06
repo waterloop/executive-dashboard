@@ -5,8 +5,8 @@ if (!ENV_IS_STAGING_OR_PROD) {
     // Deletes ALL existing entries
     return knex('interviews')
       .del()
-      .then(() => {
-        return knex('interviews').insert([
+      .then(() =>
+        knex('interviews').insert([
           {
             note: 'Strong candidate with experience in current tech stack used by team.',
             application_id: 1,
@@ -31,9 +31,9 @@ if (!ENV_IS_STAGING_OR_PROD) {
             note: 'I love this dude, he gonna be part of our tea- NANIIIII???????',
             application_id: 12,
           },
-        ]);
-      });
+        ]),
+      );
   };
 } else {
-  exports.seed = function (knex) {};
+  exports.seed = function () {};
 }

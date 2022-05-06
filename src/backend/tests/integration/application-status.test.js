@@ -1,11 +1,11 @@
-process.env.NODE_ENV = 'test';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import { db } from '../../db';
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('Application Status Routes', () => {
   // Rollback migrations.
@@ -25,14 +25,14 @@ describe('Application Status Routes', () => {
 
   // Rollback migration again.
   after(async function () {
-    //functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
+    // functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
 
   describe('GET /api/applications/statuses', () => {
-    it('should return all possible application statuses', async () => {
-      return chai
+    it('should return all possible application statuses', async () =>
+      chai
         .request(app)
         .get('/api/applications/statuses')
         .then((res) => {
@@ -44,7 +44,6 @@ describe('Application Status Routes', () => {
           res.body.forEach((item) => {
             expect(item).to.have.keys(['id', 'key', 'name', 'description']);
           });
-        });
-    });
+        }));
   });
 });

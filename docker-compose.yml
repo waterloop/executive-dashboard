@@ -1,9 +1,9 @@
-version: "3.6"
+version: '3.6'
 services:
   dev:
     build: .
     volumes:
-      - "./:/waterloop"
+      - './:/waterloop'
     depends_on:
       - dev-db
     environment:
@@ -13,26 +13,26 @@ services:
   test:
     build: .
     volumes:
-      - "./:/waterloop"
+      - './:/waterloop'
     depends_on:
       - test-db
     environment:
       - NODE_ENV="test"
 
   test-db:
-    image: "postgres"
+    image: 'postgres'
     environment:
-      POSTGRES_USER: "docker"
-      POSTGRES_PASSWORD: "docker"
-      POSTGRES_DB: "docker"
+      POSTGRES_USER: 'docker'
+      POSTGRES_PASSWORD: 'docker'
+      POSTGRES_DB: 'docker'
     ports:
       - 5455:5432
 
   dev-db:
-    image: "postgres"
+    image: 'postgres'
     environment:
-      POSTGRES_USER: "docker"
-      POSTGRES_PASSWORD: "docker"
-      POSTGRES_DB: "docker"
+      POSTGRES_USER: 'docker'
+      POSTGRES_PASSWORD: 'docker'
+      POSTGRES_DB: 'docker'
     ports:
       - 5435:5432

@@ -4,18 +4,14 @@ const getApplicationByEmail = (db) => (email_address) =>
     .where({
       email_address,
     })
-    .then((data) => {
-      return data;
-    });
+    .then((data) => data);
 
 const getApplicationsByTerm = (db) => (application_term) =>
   db('applications')
     .where({
       application_term,
     })
-    .then((data) => {
-      return data;
-    });
+    .then((data) => data);
 
 const addApplication = (db) => (application) =>
   db('applications')
@@ -38,9 +34,7 @@ const addApplication = (db) => (application) =>
       'resume_link',
       'additional_information',
     ])
-    .then((response) => {
-      return response;
-    })
+    .then((response) => response)
     .catch((err) => {
       console.error(`Error in addApplication: ${err}`);
       throw err;
@@ -49,7 +43,7 @@ const addApplication = (db) => (application) =>
 const updateApplicationStatus = (db) => (appID, status) =>
   db('applications')
     .where({ id: appID })
-    .update({ status: status }, [
+    .update({ status }, [
       'id',
       'submitted_at',
       'status',
@@ -67,9 +61,7 @@ const updateApplicationStatus = (db) => (appID, status) =>
       'additional_information',
       'posting_id',
     ])
-    .then((response) => {
-      return response;
-    })
+    .then((response) => response)
     .catch((err) => {
       console.error(`Error in updateApplicationStatus: ${err}`);
       throw err;

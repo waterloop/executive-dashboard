@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
 
 if (!ENV_IS_STAGING_OR_PROD) {
@@ -5,10 +6,10 @@ if (!ENV_IS_STAGING_OR_PROD) {
     // Deletes ALL existing entries
     return knex('applications')
       .del()
-      .then(() => {
+      .then(() =>
         // TODO: ID of 0 behaves weirdly. Consider starting at id=1.
         // TODO: url links must start with 'http://' or 'https://'
-        return knex('applications').insert([
+        knex('applications').insert([
           {
             id: 1,
             status: 'app_reject',
@@ -287,9 +288,9 @@ if (!ENV_IS_STAGING_OR_PROD) {
             resume_link: 'linkedin.com',
             additional_information: 'im blind',
           },
-        ]);
-      });
+        ]),
+      );
   };
 } else {
-  exports.seed = function (knex) {};
+  exports.seed = function () {};
 }

@@ -1,12 +1,12 @@
 // Test adding multiple configuration entries, including ones that don't exist in the seed files.
-process.env.NODE_ENV = 'test';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import { db } from '../../db';
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('Configuration Routes', () => {
   // Rollback migrations.
@@ -25,14 +25,14 @@ describe('Configuration Routes', () => {
 
   // Rollback migration again.
   after(async function () {
-    //functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
+    // functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
 
   describe('GET /api/configuration', () => {
-    it('should return all configuration entries', async () => {
-      return chai
+    it('should return all configuration entries', async () =>
+      chai
         .request(app)
         .get('/api/configuration')
         .then((res) => {
@@ -44,8 +44,7 @@ describe('Configuration Routes', () => {
           res.body.forEach((item) => {
             expect(item).to.have.keys(['id', 'label', 'value']);
           });
-        });
-    });
+        }));
   });
 
   describe('PATCH /api/configuration', () => {
@@ -80,16 +79,15 @@ describe('Configuration Routes', () => {
           );
         });
     });
-    it('should return 400 with no information supplied', async () => {
-      return chai
+    it('should return 400 with no information supplied', async () =>
+      chai
         .request(app)
         .patch('/api/configuration')
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 400 with blank label supplied', async () => {
-      return chai
+        }));
+    it('should return 400 with blank label supplied', async () =>
+      chai
         .request(app)
         .patch('/api/configuration')
         .send([
@@ -104,8 +102,7 @@ describe('Configuration Routes', () => {
         ])
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
+        }));
     it('should return 400 with blank value supplied', async () => {
       const configuration = await db('configuration');
       return chai
@@ -143,7 +140,7 @@ describe('Configuration Routes', () => {
         .then((res) => {
           expect(res).to.have.status(404);
           expect(res.body[0]).to.equal(
-            `Could not update 'non-existing label': label does not exist.`,
+            "Could not update 'non-existing label': label does not exist.",
           );
         });
     });

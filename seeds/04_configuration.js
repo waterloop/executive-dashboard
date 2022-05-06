@@ -1,13 +1,13 @@
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
 
 if (!ENV_IS_STAGING_OR_PROD) {
-  exports.seed = (knex) => {
+  exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('configuration')
+    knex('configuration')
       .del()
-      .then(() => {
+      .then(() =>
         // Inserts seed entries
-        return knex('configuration').insert([
+        knex('configuration').insert([
           { id: 0, label: 'interviews:meeting_link', value: 'www.google.com' },
           {
             id: 1,
@@ -24,17 +24,16 @@ if (!ENV_IS_STAGING_OR_PROD) {
             label: 'member_status_confirmation:deadline',
             value: '2022-04-03',
           },
-        ]);
-      });
-  };
+        ]),
+      );
 } else {
-  exports.seed = (knex) => {
+  exports.seed = (knex) =>
     // Deletes ALL existing entries
-    return knex('configuration')
+    knex('configuration')
       .del()
-      .then(() => {
+      .then(() =>
         // Inserts seed entries
-        return knex('configuration').insert([
+        knex('configuration').insert([
           { label: 'interviews:meeting_link', value: '' },
           {
             label: 'interviews:first_round_deadline',
@@ -68,7 +67,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             label: 'member_status_confirmation:deadline',
             value: '',
           },
-        ]);
-      });
-  };
+        ]),
+      );
 }

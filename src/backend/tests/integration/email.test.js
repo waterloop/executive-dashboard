@@ -1,11 +1,11 @@
-process.env.NODE_ENV = 'test';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import { db } from '../../db';
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('Email Routes', () => {
   // Rollback migrations.
@@ -25,14 +25,14 @@ describe('Email Routes', () => {
 
   // Rollback migration again.
   after(async function () {
-    //functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
+    // functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
 
   describe('PATCH /api/email', () => {
-    it('should modify the applications table email_sent column for the application entry', async () => {
-      return chai
+    it('should modify the applications table email_sent column for the application entry', async () =>
+      chai
         .request(app)
         .patch('/api/email')
         .send({ id: 1 }) // Should result in email_sent being changed in applications table.
@@ -60,10 +60,9 @@ describe('Email Routes', () => {
             'additional_information',
           ]);
           expect(res.body).to.have.property('email_sent', true);
-        });
-    });
-    it('should modify the interview table email_sent column for the application entry', async () => {
-      return chai
+        }));
+    it('should modify the interview table email_sent column for the application entry', async () =>
+      chai
         .request(app)
         .patch('/api/email')
         .send({ id: 3 }) // Should result in email_sent being changed in interviews table.
@@ -79,25 +78,22 @@ describe('Email Routes', () => {
             'application_id',
           ]);
           expect(res.body).to.have.property('email_sent', true);
-        });
-    });
+        }));
   });
-  it('should return 403 when trying to update email_sent for an application with an invalid status', async () => {
-    return chai
+  it('should return 403 when trying to update email_sent for an application with an invalid status', async () =>
+    chai
       .request(app)
       .patch('/api/email')
       .send({ id: 5 })
       .then((res) => {
         expect(res).to.have.status(403);
-      });
-  });
-  it('should return 403 when trying to update email_sent for a nonexistent application', async () => {
-    return chai
+      }));
+  it('should return 403 when trying to update email_sent for a nonexistent application', async () =>
+    chai
       .request(app)
       .patch('/api/email')
       .send({ id: 29393 })
       .then((res) => {
         expect(res).to.have.status(403);
-      });
-  });
+      }));
 });

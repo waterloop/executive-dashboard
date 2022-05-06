@@ -10,9 +10,7 @@ const getInterviewsByTerm = (db) => (application_term) =>
       'interviews.application_id',
       'interviews.email_sent',
     )
-    .then((data) => {
-      return data;
-    })
+    .then((data) => data)
     .catch((err) => {
       console.error(`Error in getInterviewsByTerm: ${err}`);
       throw err;
@@ -23,9 +21,7 @@ const getInterviewByApplicationId = (db) => (application_id) =>
     .where({
       application_id,
     })
-    .then((data) => {
-      return data;
-    })
+    .then((data) => data)
     .catch((err) => {
       console.error(`Error in getInterviewByApplicationId: ${err}`);
       throw err;
@@ -39,9 +35,7 @@ const updateOrAddInterview = (db) => (interview) =>
     .returning(['id', 'note', 'application_id', 'email_sent'])
     .onConflict('application_id')
     .merge()
-    .then((response) => {
-      return response;
-    })
+    .then((response) => response)
     .catch((err) => {
       console.error(`Error in updateOrAddInterview: ${err}`);
       throw err;
@@ -74,9 +68,8 @@ const updateEmailSent = (db) => (appID) =>
             }
             return -2;
           });
-      } else {
-        return response;
       }
+      return response;
     })
     .catch((err) => {
       console.error(`Error in updateEmailSent: ${err}`);

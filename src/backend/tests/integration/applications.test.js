@@ -1,11 +1,11 @@
-process.env.NODE_ENV = 'test';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import { db } from '../../db';
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('Application Routes', () => {
   // Rollback migrations.
@@ -25,14 +25,14 @@ describe('Application Routes', () => {
 
   // Rollback migration again.
   after(async function () {
-    //functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
+    // functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
 
   describe('GET /api/applications', () => {
-    it('should return an object with the array of all applications of a valid term', async () => {
-      return chai
+    it('should return an object with the array of all applications of a valid term', async () =>
+      chai
         .request(app)
         .get('/api/applications?term=SPRING-2022')
         .then((res) => {
@@ -61,12 +61,11 @@ describe('Application Routes', () => {
               'additional_information',
             ]);
           });
-        });
-    });
+        }));
   });
   describe('GET /api/applications/:email', () => {
-    it('should return an object with the array of all applications of a valid email', async () => {
-      return chai
+    it('should return an object with the array of all applications of a valid email', async () =>
+      chai
         .request(app)
         .get('/api/applications/applicant/worldstarhiphop@notuwaterloo.ca')
         .then((res) => {
@@ -95,8 +94,7 @@ describe('Application Routes', () => {
               'additional_information',
             ]);
           });
-        });
-    });
+        }));
   });
 
   describe('PATCH /api/applications/applicant/status', () => {
@@ -135,16 +133,15 @@ describe('Application Routes', () => {
           expect(res.body).to.have.property('status', 'app_undecided');
         });
     });
-    it('should return 400 with no information supplied', async () => {
-      return chai
+    it('should return 400 with no information supplied', async () =>
+      chai
         .request(app)
         .patch('/api/applications/applicant/status')
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 400 with undefined information supplied', async () => {
-      return chai
+        }));
+    it('should return 400 with undefined information supplied', async () =>
+      chai
         .request(app)
         .patch('/api/applications/applicant/status')
         .send({
@@ -153,10 +150,9 @@ describe('Application Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 400 with empty status supplied', async () => {
-      return chai
+        }));
+    it('should return 400 with empty status supplied', async () =>
+      chai
         .request(app)
         .patch('/api/applications/applicant/status')
         .send({
@@ -165,10 +161,9 @@ describe('Application Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 400 with empty app id supplied', async () => {
-      return chai
+        }));
+    it('should return 400 with empty app id supplied', async () =>
+      chai
         .request(app)
         .patch('/api/applications/applicant/status')
         .send({
@@ -177,10 +172,9 @@ describe('Application Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 404 with non-existing app id supplied', async () => {
-      return chai
+        }));
+    it('should return 404 with non-existing app id supplied', async () =>
+      chai
         .request(app)
         .patch('/api/applications/applicant/status')
         .send({
@@ -189,7 +183,6 @@ describe('Application Routes', () => {
         })
         .then((res) => {
           expect(res).to.have.status(404);
-        });
-    });
+        }));
   });
 });

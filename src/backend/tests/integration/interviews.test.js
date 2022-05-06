@@ -1,11 +1,11 @@
-process.env.NODE_ENV = 'test';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../../index';
 import { db } from '../../db';
+process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('Interview Routes', () => {
   // Rollback migrations.
@@ -24,14 +24,14 @@ describe('Interview Routes', () => {
 
   // Rollback migration again.
   after(async function () {
-    //functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
+    // functions runs after all tests in the file, rolls back the db (to a clean slate) so that the next test can migrate sooner
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
     return db.migrate.rollback();
   });
 
   describe('GET /api/interviews', () => {
-    it('should return all interviews for current year and term', async () => {
-      return chai
+    it('should return all interviews for current year and term', async () =>
+      chai
         .request(app)
         .get('/api/interviews?term=SPRING-2022')
         .then((res) => {
@@ -48,28 +48,25 @@ describe('Interview Routes', () => {
               'email_sent',
             ]);
           });
-        });
-    });
-    it('should return 400 with invalid term supplied', async () => {
-      return chai
+        }));
+    it('should return 400 with invalid term supplied', async () =>
+      chai
         .request(app)
         .get('/api/interviews?term=INVALID-7346')
         .then((res) => {
           expect(res).to.have.status(400);
-        });
-    });
-    it('should return 404 with no applications for current term', async () => {
-      return chai
+        }));
+    it('should return 404 with no applications for current term', async () =>
+      chai
         .request(app)
         .get('/api/interviews?term=SPRING-2033')
         .then((res) => {
           expect(res).to.have.status(404);
-        });
-    });
+        }));
 
     describe('GET /api/interviews/:id', () => {
-      it('should return corresponding interview for application id', async () => {
-        return chai
+      it('should return corresponding interview for application id', async () =>
+        chai
           .request(app)
           .get('/api/interviews/1')
           .then((res) => {
@@ -83,20 +80,18 @@ describe('Interview Routes', () => {
               'application_id',
               'email_sent',
             ]);
-          });
-      });
-      it('should return 404 with no matches for the provided application ID', async () => {
-        return chai
+          }));
+      it('should return 404 with no matches for the provided application ID', async () =>
+        chai
           .request(app)
           .get('/api/interviews/239')
           .then((res) => {
             expect(res).to.have.status(404);
-          });
-      });
+          }));
     });
     describe('POST /api/interviews/', () => {
-      it('should add a non-existent interview entry (with respect to app ID) to the table', async () => {
-        return chai
+      it('should add a non-existent interview entry (with respect to app ID) to the table', async () =>
+        chai
           .request(app)
           .post('/api/interviews/')
           .send({
@@ -114,11 +109,10 @@ describe('Interview Routes', () => {
               'application_id',
               'email_sent',
             ]);
-          });
-      });
+          }));
       describe('POST /api/interviews/', () => {
-        it('should add a non-existent interview entry (with respect to app ID) to the table', async () => {
-          return chai
+        it('should add a non-existent interview entry (with respect to app ID) to the table', async () =>
+          chai
             .request(app)
             .post('/api/interviews/')
             .send({
@@ -136,10 +130,9 @@ describe('Interview Routes', () => {
                 'application_id',
                 'email_sent',
               ]);
-            });
-        });
-        it('should update contents for an existing entry (with respect to app ID) in the table', async () => {
-          return chai
+            }));
+        it('should update contents for an existing entry (with respect to app ID) in the table', async () =>
+          chai
             .request(app)
             .post('/api/interviews/')
             .send({
@@ -174,10 +167,9 @@ describe('Interview Routes', () => {
                     'email_sent',
                   ]);
                 });
-            });
-        });
-        it('should return 403 when trying to add an entry for a nonexistent application ID.', async () => {
-          return chai
+            }));
+        it('should return 403 when trying to add an entry for a nonexistent application ID.', async () =>
+          chai
             .request(app)
             .post('/api/interviews/')
             .send({
@@ -186,8 +178,7 @@ describe('Interview Routes', () => {
             })
             .then((res) => {
               expect(res).to.have.status(403);
-            });
-        });
+            }));
       });
     });
   });

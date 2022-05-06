@@ -15,7 +15,8 @@ COPY $BACKEND_DIR/migrations ./migrations/
 COPY $BACKEND_DIR/seeds ./seeds/
 
 # Copy over remaining files
-COPY .env package.json yarn.lock knexfile.js ./
+COPY .env package-docker.json yarn.lock knexfile.js ./
+RUN mv package-docker.json package.json
 
 # Initialize dependencies
 ENV NODE_ENV=test
