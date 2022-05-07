@@ -50,5 +50,4 @@ The executive dashboard is an all-in-one ATS and member analytics tool used by a
 
 ## BACKEND:
 
-- When modifying `package.json` with backend libraries / scripts / anything backend-dependent, ensure you also update `package-docker.json` with the same info.
 - The docker commands will create containers (instances) of the image without deleting them afterwards. To reclaim space, please run `docker system prune` every once in a while.
