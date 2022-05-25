@@ -55,7 +55,7 @@ const ApplicationPage = () => {
 
   const positionOptions = tableRows
     .map((row) => {
-      if (allPositionNames.indexOf(row.position) === -1) {
+      if (row.position && allPositionNames.indexOf(row.position) === -1) {
         allPositionNames.push(row.position);
         return createData(positionFields, [
           row.position,
