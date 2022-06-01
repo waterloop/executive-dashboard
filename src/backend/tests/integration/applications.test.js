@@ -185,4 +185,94 @@ describe('Application Routes', () => {
           expect(res).to.have.status(404);
         }));
   });
+
+  describe('POST /api/applications/', () => {
+    it('should add a new application to the table if properly formatted', async () =>
+      chai
+        .request(app)
+        .post('/api/applications/')
+        .send({
+          first_name: 'Jimbo',
+          last_name: 'Nimbo',
+          email_address: 'rando@gmail.com',
+          current_year: '4A',
+          program: 'Computer Engineering',
+          application_term: 'WINTER-2022',
+          in_school: true,
+          in_person_available: true,
+          posting_id: 4,
+          reason_to_join: 'yes',
+          resume_link: 'google.com',
+          additional_information: 'more stuff',
+          id: 500,
+          status: '',
+        })
+        .then((res) => {
+          if (res.error.text) {
+            console.error(res.error.text);
+          }
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.keys([
+            'status',
+            'first_name',
+            'last_name',
+            'email_address',
+            'email_sent',
+            'current_year',
+            'program',
+            'application_term',
+            'in_school',
+            'in_person_available',
+            'posting_id',
+            'reason_to_join',
+            'resume_link',
+            'additional_information',
+          ]);
+        }));
+    it('should return 400 if missing field (validation error)', async () =>
+      chai
+        .request(app)
+        .post('/api/applications/')
+        .send({
+          last_name: 'Nimbo',
+          email_address: 'rando@gmail.com',
+          current_year: '4A',
+          program: 'Computer Engineering',
+          application_term: 'WINTER-2022',
+          in_school: true,
+          in_person_available: true,
+          posting_id: 4,
+          reason_to_join: 'yes',
+          resume_link: 'google.com',
+          additional_information: 'more stuff',
+          id: 500,
+          status: '',
+        })
+        .then((res) => {
+          expect(res).to.have.status(400);
+        }));
+    it('should return 400 if invalid current_year', async () =>
+      chai
+        .request(app)
+        .post('/api/applications/')
+        .send({
+          first_name: 'Greninja',
+          last_name: 'Nimbo',
+          email_address: 'rando@gmail.com',
+          current_year: '4C',
+          program: 'Computer Engineering',
+          application_term: 'WINTER-2022',
+          in_school: true,
+          in_person_available: true,
+          posting_id: 4,
+          reason_to_join: 'yes',
+          resume_link: 'google.com',
+          additional_information: 'more stuff',
+          id: 500,
+          status: '',
+        })
+        .then((res) => {
+          expect(res).to.have.status(400);
+        }));
+  });
 });
