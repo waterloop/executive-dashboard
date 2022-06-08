@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
 import {
-  SUBTEAM_OPTIONS,
   TERM_TYPE_OPTIONS,
   YEAR_OPTIONS,
   MIN_YEARS_SHOWN,
@@ -15,16 +14,20 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
+  renameObjectKeys,
 } from '../utils';
 
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
+import useTeams from '../../../hooks/teams';
 
 const InterviewPage = () => {
   const history = useHistory();
 
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
+  const { teams } = useTeams();
+  renameObjectKeys(teams, 'teamName', 'name');
 
   // Grab applications data from backend
   const tableRows = applications.map((application) => {
@@ -67,15 +70,13 @@ const InterviewPage = () => {
     })
     .filter((position) => position.name !== undefined);
 
-  const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
+  const subteamsUnformatted = teams.map((subteam) => subteam.teamName);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
   const yearsUnformatted = YEAR_OPTIONS.map((year) => year.name);
 
-  const [subteamsChecked, setSubteamsChecked] = useState(
-    makeTruthTable(subteamsUnformatted, false),
-  );
+  const [subteamsChecked, setSubteamsChecked] = useState({});
   const [positionsChecked, setPositionsChecked] = useState({});
   const [termTypesChecked, setTermTypesChecked] = useState(
     makeTruthTable(termTypesUnformatted, true),
@@ -83,6 +84,10 @@ const InterviewPage = () => {
   const [yearsChecked, setYearsChecked] = useState(
     makeTruthTable(yearsUnformatted, true),
   );
+
+  useEffect(() => {
+    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+  }, [teams]);
 
   const filterRows = (status) =>
     tableRows.filter(
@@ -98,8 +103,8 @@ const InterviewPage = () => {
     (position) => subteamsChecked[position.team],
   );
 
-  const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
-  const MAX_YEARS_SHOWN = yearsChecked.length;
+  const MAX_SUBTEAMS_SHOWN = teams.length;
+  const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
   const [yearsShown, setYearsShown] = useState(MIN_YEARS_SHOWN);
@@ -107,15 +112,14 @@ const InterviewPage = () => {
   const filterCategories = [
     {
       name: 'subteams',
-      formattedName: 'Subteams',
+      formattedName: 'Subteam',
       currentShown: subteamsShown,
       checked: subteamsChecked,
       maxShown: MAX_SUBTEAMS_SHOWN,
       minShown: MIN_SUBTEAMS_SHOWN,
-      options: SUBTEAM_OPTIONS,
+      options: teams,
       setCategoryChecked: (clickedOption) => {
         setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked);
-
         setPositionsChecked((prevState) => ({
           ...prevState,
           ...makeTruthTable(

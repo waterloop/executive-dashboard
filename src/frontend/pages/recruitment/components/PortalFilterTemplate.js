@@ -76,7 +76,8 @@ const PortalFilterTemplate = ({ filterCategories }) => (
         <CheckboxGroup sx={{ m: 3 }} component="fieldset" variant="standard">
           <CheckboxCategoryName>{category.formattedName}</CheckboxCategoryName>
           <FormGroup>
-            {category.currentShown !== 0 ? (
+            {category.currentShown !== 0 &&
+            Object.keys(category.checked).length !== 0 ? (
               category.options
                 .slice(0, category.currentShown)
                 .map((checkbox) => (
@@ -96,7 +97,11 @@ const PortalFilterTemplate = ({ filterCategories }) => (
                       />
                     }
                     label={
-                      <CheckboxName>{checkbox.formattedName}</CheckboxName>
+                      <CheckboxName>
+                        {'formattedName' in checkbox
+                          ? checkbox.formattedName
+                          : checkbox.name}
+                      </CheckboxName>
                     }
                     key={checkbox.name}
                   />
@@ -107,7 +112,7 @@ const PortalFilterTemplate = ({ filterCategories }) => (
               </NoEntriesDefaultText>
             )}
           </FormGroup>
-          {category.setCategoryShown && (
+          {category.setCategoryShown && category.minShown < category.maxShown && (
             <ShowMoreAndLessButton
               variant="text"
               onClick={category.setCategoryShown}
