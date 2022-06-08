@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
@@ -6,6 +7,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { Tooltip } from '@mui/material';
 
 import chevron from '../../assets/svg/recruitment/chevron.svg';
 
@@ -38,6 +40,7 @@ const DropdownMenu = ({
   setCurrent,
   locked,
   errorMessage = 'This menu is locked!',
+  emailSent,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -73,19 +76,29 @@ const DropdownMenu = ({
           display: 'flex',
         }}
       >
-        <ListItem
-          button
-          id="button"
-          aria-haspopup="listbox"
-          aria-controls="menu"
-          aria-label="dropdown-item"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClickListItem}
-          sx={{ right: '0.2rem' }}
-        >
-          <ListItemText primary={options[current]} />
-          <Chevron src={chevron} alt="chevron" />
-        </ListItem>
+        <Tooltip title={emailSent ? 'Email has already been sent' : ''}>
+          <ListItem
+            button
+            id="button"
+            aria-haspopup="listbox"
+            aria-controls="menu"
+            aria-label="dropdown-item"
+            aria-expanded={open ? 'true' : undefined}
+            onClick={emailSent ? () => {} : handleClickListItem}
+            sx={{
+              right: '0.2rem',
+              ...(emailSent && {
+                cursor: 'not-allowed',
+                '&:hover': { backgroundColor: 'transparent' },
+                opacity: 0.5,
+              }),
+            }}
+            disableTouchRipple={emailSent ? true : false}
+          >
+            <ListItemText primary={options[current]} />
+            <Chevron src={chevron} alt="chevron" />
+          </ListItem>
+        </Tooltip>
       </List>
       <Menu
         id="menu"
