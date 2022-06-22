@@ -99,6 +99,7 @@ const makeProfileData = (app) =>
         status: app.status,
         reasonToJoin: app.reason_to_join || '(none provided)',
         additionalInfo: app.additional_information || '(none provided)',
+        emailSent: app.email_sent,
       }
     : {};
 
@@ -198,6 +199,7 @@ const ApplicationProfilePage = () => {
                 : 'interview_pending'
             }
             updateStatus={updateAppStatusCurried(profileData.id)}
+            emailSent={profileData.emailSent}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}
