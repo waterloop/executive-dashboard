@@ -10,7 +10,6 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
-  renameObjectKeys,
 } from '../utils';
 import Button from '../../../components/Button';
 
@@ -27,7 +26,6 @@ const DecisionPage = () => {
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
-  renameObjectKeys(teams, 'teamName', 'name');
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -81,7 +79,7 @@ const DecisionPage = () => {
 
   const [positionsChecked, setPositionsChecked] = useState({});
 
-  const subteamsUnformatted = teams.map((subteam) => subteam.teamName);
+  const subteamsUnformatted = teams.map((subteam) => subteam.name);
 
   const [subteamsChecked, setSubteamsChecked] = useState({});
 

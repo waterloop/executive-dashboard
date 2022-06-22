@@ -14,7 +14,6 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
-  renameObjectKeys,
 } from '../utils';
 
 import usePostings from '../../../hooks/postings';
@@ -27,7 +26,6 @@ const InterviewPage = () => {
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
   const { teams } = useTeams();
-  renameObjectKeys(teams, 'teamName', 'name');
 
   // Grab applications data from backend
   const tableRows = applications.map((application) => {
@@ -70,7 +68,7 @@ const InterviewPage = () => {
     })
     .filter((position) => position.name !== undefined);
 
-  const subteamsUnformatted = teams.map((subteam) => subteam.teamName);
+  const subteamsUnformatted = teams.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );

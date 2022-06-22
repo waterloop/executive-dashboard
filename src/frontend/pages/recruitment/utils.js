@@ -39,6 +39,7 @@ export const getItemByName = (arr, name) => {
 export const renameObjectKeys = (arr, oldKey, newKey) => {
   const newArr = arr.map((obj) => {
     obj[newKey] = obj[oldKey];
+    delete obj[oldKey];
     return obj;
   });
   return newArr;
