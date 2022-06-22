@@ -44,6 +44,7 @@ const Sidebar = ({
   errorMessage,
   initialStatus,
   updateStatus,
+  emailSent,
 }) => {
   // Uses status ID instead of status name, e.g. app_pending
   const [currentStatus, setCurrentStatus] = useState('');
@@ -76,6 +77,7 @@ const Sidebar = ({
           setCurrent={handleStatusChange}
           locked={locked}
           errorMessage={errorMessage}
+          emailSent={emailSent}
         />
       </DemographicContainer>
     </Container>
@@ -83,3 +85,4 @@ const Sidebar = ({
 };
 
 export default Sidebar;
+
