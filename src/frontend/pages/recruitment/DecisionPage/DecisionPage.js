@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import EmailModal from '../../../components/EmailModal';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
-import { SUBTEAM_OPTIONS, MIN_SUBTEAMS_SHOWN } from '../components/Constants';
+import { MIN_SUBTEAMS_SHOWN } from '../components/Constants';
 import {
   setCheckboxValues,
   setCheckboxesShown,
@@ -16,6 +16,7 @@ import Button from '../../../components/Button';
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
 import useEmail from '../../../hooks/email';
+import useTeams from '../../../hooks/teams';
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,6 +25,7 @@ const DecisionPage = () => {
   const { applications } = useApplications('FALL-2022');
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
+  const { teams } = useTeams();
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -77,11 +79,13 @@ const DecisionPage = () => {
 
   const [positionsChecked, setPositionsChecked] = useState({});
 
-  const subteamsUnformatted = SUBTEAM_OPTIONS.map((subteam) => subteam.name);
+  const subteamsUnformatted = teams.map((subteam) => subteam.name);
 
-  const [subteamsChecked, setSubteamsChecked] = useState(
-    makeTruthTable(subteamsUnformatted, false),
-  );
+  const [subteamsChecked, setSubteamsChecked] = useState({});
+
+  useEffect(() => {
+    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+  }, [teams]);
 
   const filterRows = (status) =>
     tableRows.filter(
@@ -95,7 +99,7 @@ const DecisionPage = () => {
     (position) => subteamsChecked[position.team],
   );
 
-  const MAX_SUBTEAMS_SHOWN = subteamsChecked.length;
+  const MAX_SUBTEAMS_SHOWN = teams.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);
 
@@ -107,10 +111,9 @@ const DecisionPage = () => {
       checked: subteamsChecked,
       maxShown: MAX_SUBTEAMS_SHOWN,
       minShown: MIN_SUBTEAMS_SHOWN,
-      options: SUBTEAM_OPTIONS,
+      options: teams,
       setCategoryChecked: (clickedOption) => {
         setCheckboxValues(clickedOption, subteamsChecked, setSubteamsChecked);
-
         setPositionsChecked((prevState) => ({
           ...prevState,
           ...makeTruthTable(

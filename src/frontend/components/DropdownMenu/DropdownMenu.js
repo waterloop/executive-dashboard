@@ -92,7 +92,7 @@ const DropdownMenu = ({
                 opacity: 0.5,
               }),
             }}
-            disableTouchRipple={emailSent ? true : false}
+            disableTouchRipple={emailSent}
           >
             <ListItemText primary={options[current]} />
             <Chevron src={chevron} alt="chevron" />
