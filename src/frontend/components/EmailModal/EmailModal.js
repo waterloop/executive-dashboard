@@ -93,7 +93,7 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
   const execContact = `\n${execEmail} | ${execPhoneNum}`;
 
   return (
-    <Modal open={open} handleClose={handleClose}>
+    <Modal open={open} onClose={handleClose}>
       <ModalContainer>
         <WarningMessage>
           Are you sure you want to send this message?

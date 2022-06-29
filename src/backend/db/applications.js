@@ -71,7 +71,7 @@ const updateApplicationStatus = (db) => (appID, status) =>
 const updateEmailSent = (db) => (appID) =>
   db('applications')
     .where({ id: appID })
-    .whereIn('status', ['interview_pending', 'app_reject'])
+    .whereIn('status', ['interview_pending', 'app_reject', 'interview_reject', 'final_accept'])
     .update({ email_sent: true }, [
       'id',
       'submitted_at',
