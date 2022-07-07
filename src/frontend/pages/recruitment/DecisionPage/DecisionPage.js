@@ -10,6 +10,7 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
+  formatTerm,
 } from '../utils';
 import Button from '../../../components/Button';
 
@@ -151,13 +152,6 @@ const DecisionPage = () => {
     },
   ];
 
-  const formatTerm = (currentTerm) => {
-    const term = currentTerm?.slice(0,1)+currentTerm?.slice(1,-5).toLowerCase();
-    const year = currentTerm?.slice(-4);
-
-    return `${term} ${year}`
-  }
-
   const postingByID = (id) => {
     let posting = {}
     if (modalOpen){   
@@ -186,10 +180,6 @@ const DecisionPage = () => {
     execName: 'John Doe',
     execEmail: 'john.doe@waterloop.ca',
     execPhoneNum: '(000) 000-0000',
-    // Extracted from the decision portal table row.
-    // position: 'Fullstack Developer',
-    // subteam: 'Web',
-    // nextTerm: 'Spring 2022',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
     interviewEndDate: 'September 21',
