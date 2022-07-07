@@ -186,10 +186,6 @@ const DecisionPage = () => {
     execName: 'John Doe',
     execEmail: 'john.doe@waterloop.ca',
     execPhoneNum: '(000) 000-0000',
-    // Extracted from the decision portal table row.
-    // position: 'Fullstack Developer',
-    // subteam: 'Web',
-    // nextTerm: 'Spring 2022',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
     interviewEndDate: 'September 21',
