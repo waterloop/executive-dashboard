@@ -10,6 +10,7 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
+  formatTerm,
 } from '../utils';
 import Button from '../../../components/Button';
 
@@ -151,6 +152,20 @@ const DecisionPage = () => {
     },
   ];
 
+  const postingByID = (id) => {
+    let posting = {}
+    if (modalOpen){   
+      posting = postings.find(posting => posting.id === id)
+    }
+    else{
+      posting = {
+        team: '',
+        position: '',
+      }
+    }
+    return posting
+  }
+
   const handleModalSubmit = () => {
     updateEmailSent(emailData.id);
     setEmailData({});
@@ -165,10 +180,6 @@ const DecisionPage = () => {
     execName: 'John Doe',
     execEmail: 'john.doe@waterloop.ca',
     execPhoneNum: '(000) 000-0000',
-    // Extracted from the decision portal table row.
-    position: 'Fullstack Developer',
-    subteam: 'Web',
-    nextTerm: 'Spring 2022',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
     interviewEndDate: 'September 21',
@@ -193,6 +204,9 @@ const DecisionPage = () => {
         data={{
           applicantEmail: emailData.email_address,
           applicantName: `${emailData.first_name} ${emailData.last_name}`,
+          position: `${postingByID(emailData.posting_id).title}`,
+          subteam: `${postingByID(emailData.posting_id).team}`,
+          nextTerm: `${formatTerm(emailData.application_term)}`,
           ...mockData,
         }}
         onSubmit={handleModalSubmit}

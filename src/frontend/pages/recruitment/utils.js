@@ -44,3 +44,16 @@ export const renameObjectKeys = (arr, oldKey, newKey) => {
   });
   return newArr;
 };
+
+/**
+ * Formats the term that comes in the format TERM-20## to Term 20##
+ */
+export const formatTerm = (currentTerm) => {
+  if (currentTerm){
+    const applicationTerm = currentTerm.split('-');
+    const term = applicationTerm[0].charAt(0) + applicationTerm[0].slice(1).toLowerCase();
+    const year = applicationTerm[1];
+    return `${term} ${year}`
+  }
+  return ''
+}
