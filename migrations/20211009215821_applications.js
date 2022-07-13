@@ -18,4 +18,12 @@ exports.up = (knex) =>
     table.integer('posting_id'); // NOTE: references ids in postings table.
   });
 
+
+/**
+ * in_person -> yes/no radio button instead of text.
+ * Name of school -> should not be needed
+ * Consider for another position -> also not needed; store in additional info
+ * 
+ * Resume -> should only allow 1 entry.
+ * */
 exports.down = (knex) => knex.schema.dropTableIfExists('applications');
