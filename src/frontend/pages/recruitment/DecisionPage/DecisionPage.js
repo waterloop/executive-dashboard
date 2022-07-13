@@ -156,7 +156,7 @@ const DecisionPage = () => {
     setEmailData({});
     setModalOpen(false);
     // Force a reload of the browser so that the email status button states update.
-    window.location.reload();
+    setTimeout(() => window.location.reload(), 400);
   };
 
   // TODO: Replace the mock data below with actual data taken from the appropriate sources.
