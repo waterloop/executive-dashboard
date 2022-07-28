@@ -4,7 +4,7 @@ exports.up = async (knex) =>
     table.string('group_id'); // F-key
     table.string('feature_name');
 
-    // table.foreign('group_id').references('groups.id').onDelete('CASCADE');
+    table.foreign('group_id').references('groups.id').onDelete('CASCADE');
   });
 
 exports.down = async function (knex) {

@@ -90,20 +90,20 @@ router.post('/', (req, res) => {
           return;
         }
         console.log("successfully sent");
-        return res.send({ userId, accessToken }).status(200);
+        // return res.send({ userId, accessToken }).status(200);
         // Check whether the user has admin priveleges (admins can edit content using the CMS)
-        // db.featurePermissions
-        //   .getAllowedActions(userId, accessToken)
-        //   .then((resp) => {
-        //       console.log(resp);
-        //       const {allowedActions, groupIds} = resp;
-        //       if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
-        //         res.send({ userId, groupIds, accessToken }).status(200);
-        //       } else {
-        //         res.statusMessage = "ERROR: User does not have permission to edit website content.";
-        //         res.status(403).end();
-        //       }            
-        //   });
+        db.featurePermissions
+          .getAllowedActions(userId, accessToken)
+          .then((resp) => {
+              console.log(resp);
+              const {allowedActions, groupIds} = resp;
+              if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
+                res.send({ userId, groupIds, accessToken }).status(200);
+              } else {
+                res.statusMessage = "ERROR: User does not have permission to edit website content.";
+                res.status(403).end();
+              }            
+          });
     })
     .catch((err) => {
       console.log(err);

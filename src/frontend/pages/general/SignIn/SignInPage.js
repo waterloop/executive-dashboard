@@ -107,20 +107,20 @@ const SignInPage = () => {
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
-      // api.google
-      //   .updateUserGroups(userId, groupIds, accessToken)
-      //   .then((resp) => {
-      //     if (resp.data && resp.data.groupIds) {
-      //       console.log(
-      //         'Successfully updated membership info. for groups with IDs: ' +
-      //           resp.data.groupIds.join(', '),
-      //       );
-      //     }
-      //   })
-      //   .catch((e) => {
-      //     console.log('Error: Failed to sync group membership info.');
-      //     console.log(e);
-      //   }); 
+      api.google
+        .updateUserGroups(userId, groupIds, accessToken)
+        .then((resp) => {
+          if (resp.data && resp.data.groupIds) {
+            console.log(
+              'Successfully updated membership info. for groups with IDs: ' +
+                resp.data.groupIds.join(', '),
+            );
+          }
+        })
+        .catch((e) => {
+          console.log('Error: Failed to sync group membership info.');
+          console.log(e);
+        }); 
       // ^^ uncomment this if groupID is used again
 
       history.push('/');

@@ -16,11 +16,11 @@ const useGoogleAuth = (onAuthComplete) => {
         .checkToken(tokenId, accessToken)
         .then((checkTokenResponse) => {
           if (checkTokenResponse.status === 200) {
-            const { userId, accessToken } = checkTokenResponse.data;
+            const { userId, groupIds, accessToken } = checkTokenResponse.data;
             onAuthComplete(null, {
               userId,
               tokenId,
-              // groupIds,
+              groupIds,
               accessToken,
             });
           }
