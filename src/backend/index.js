@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import api from './api';
 
+import googleAuth from './google-auth';
+
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 9001;
@@ -36,6 +38,7 @@ app.get('/', (req, res) => {
   res.send('This works?');
 });
 
+app.use('/google', googleAuth);
 app.use('/api', api);
 
 // app.get('*', (req, res) => {

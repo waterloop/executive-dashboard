@@ -1,8 +1,10 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import GlobalStyle from './globalStyles';
 
+import * as userSelectors from './state/user/selectors';
 import TopBar from './components/TopBar';
 
 import SignInPage from './pages/general/SignIn';
@@ -16,7 +18,7 @@ import AnalyticsLandingPage from './pages/analytics/...';
 */
 
 const App = () => {
-  const token = true;
+  const token = useSelector(userSelectors.token);
 
   return (
     <BrowserRouter>
@@ -24,7 +26,7 @@ const App = () => {
       <Switch>
         <Route path="/sign-in" exact>
           <SignInPage />
-          <h1>Sign In</h1>
+          {/* <h1>Sign In</h1> */}
         </Route>
         <Route path="/recruitment">
           {!token && <Redirect to="/sign-in" />}

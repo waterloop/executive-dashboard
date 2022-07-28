@@ -76,7 +76,10 @@ const SignInBox = ({ className, onClick, errMsgVisible }) => {
         <Container className={className}>
             <Header>Sign in</Header>
             <Body>Remember to use your waterloop email</Body>
-            <Button onClick={onClick}>
+            <Button onClick={() => {
+                console.log("onclick");
+                onClick()
+                }}>
                 <GoogleLogo /> Sign In
             </Button>
             <ErrorMsg visible={errMsgVisible}>

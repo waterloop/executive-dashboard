@@ -16,11 +16,11 @@ const useGoogleAuth = (onAuthComplete) => {
         .checkToken(tokenId, accessToken)
         .then((checkTokenResponse) => {
           if (checkTokenResponse.status === 200) {
-            const { userId, groupIds, accessToken } = checkTokenResponse.data;
+            const { userId, accessToken } = checkTokenResponse.data;
             onAuthComplete(null, {
               userId,
               tokenId,
-              groupIds,
+              // groupIds,
               accessToken,
             });
           }
@@ -38,7 +38,7 @@ const useGoogleAuth = (onAuthComplete) => {
       console.error('Failed to authenticate user! Reason: ', err);
     },
     clientId:
-      '532505684631-9orjkj13mcp55dkrpgm4n6g9blqh0q7q.apps.googleusercontent.com',
+      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
     scope:
       'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
     prompt: 'consent',
