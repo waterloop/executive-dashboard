@@ -15,21 +15,16 @@ const checkToken = (server) => (tokenId, accessToken) =>
         },
     );
 
-const updateUserGroups = (server) => (userId, groupIds, accessToken) => {
-    if (!groupIds) {
-        groupIds = [];
-    }
-    return server.post(
-        '/google/groups?userId=' + userId + '&groupIds=' + groupIds.join(','),
-        {},
-        {
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
+const updateUserGroups = (server) => (userId, groupIds, accessToken) => server.post(
+    `/google/groups?userId=${  userId  }${groupIds ? ( `&groupIds=${  groupIds.join(',')}`) : ''}`,
+    {},
+    {
+        headers: {
+            Accept: 'application/json',
+            Authorization: `Bearer ${accessToken}`,
         },
-    );
-};
+    },
+);
 
 export default (server) => ({
     authenticate: authenticate(server),

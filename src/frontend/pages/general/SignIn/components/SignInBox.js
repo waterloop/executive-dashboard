@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import MUIButtonBase from '@material-ui/core/ButtonBase';
 import MUITypography from '@material-ui/core/Typography';
@@ -71,13 +71,12 @@ const Container = styled.div`
     }
 `;
 
-const SignInBox = ({ className, onClick, errMsgVisible }) => {
-    return (
+const SignInBox = ({ className, onClick, errMsgVisible }) => (
         <Container className={className}>
             <Header>Sign in</Header>
             <Body>Remember to use your waterloop email</Body>
             <Button onClick={() => {
-                console.log("onclick");
+                console.log('onclick');
                 onClick()
                 }}>
                 <GoogleLogo /> Sign In
@@ -88,6 +87,6 @@ const SignInBox = ({ className, onClick, errMsgVisible }) => {
             </ErrorMsg>
         </Container>
     );
-};
+
 
 export default SignInBox;

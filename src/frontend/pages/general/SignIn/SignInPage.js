@@ -112,8 +112,8 @@ const SignInPage = () => {
         .then((resp) => {
           if (resp.data && resp.data.groupIds) {
             console.log(
-              'Successfully updated membership info. for groups with IDs: ' +
-                resp.data.groupIds.join(', '),
+              `Successfully updated membership info. for groups with IDs: ${
+                resp.data.groupIds.join(', ')}`,
             );
           }
         })
