@@ -1,6 +1,9 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import { addAuthTokenToRequests } from './api/server.js';
+
 
 import GlobalStyle from './globalStyles';
 
@@ -18,8 +21,14 @@ import AnalyticsLandingPage from './pages/analytics/...';
 */
 
 const App = () => {
-  const token = useSelector(userSelectors.token);
-
+  let token = useSelector(userSelectors.token);
+  if (!token){
+    token = Cookies.get('tokenId');
+    if (token) {
+      addAuthTokenToRequests(token);
+    }
+  }
+  
   return (
     <BrowserRouter>
       <GlobalStyle />

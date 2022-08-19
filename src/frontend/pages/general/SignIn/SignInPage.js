@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/google-auth';
+import Cookies from 'js-cookie';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
@@ -104,6 +105,11 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
+      Cookies.set(
+        'tokenId',
+        tokenId,
+        { expires: 1 },
+      );
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
