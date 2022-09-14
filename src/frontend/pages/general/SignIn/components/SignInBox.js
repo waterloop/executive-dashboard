@@ -15,6 +15,7 @@ const Header = styled(Typography)`
 
 const Body = styled(Typography)`
     font: ${({ theme }) => theme.fonts.medium18};
+    font-weight: 500;
     color: ${({ theme }) => theme.colours.blacks.black2};
 `;
 
@@ -22,13 +23,17 @@ const GoogleLogo = styled.img.attrs({
     src: GoogleSVG,
 })``;
 
-const Button = styled(MUIButtonBase)`
-    width: 170px;
-    height: 60px;
-
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+const Button = styled(MUIButtonBase)` 
+    && {
+        height: 62px;
+        border-radius: 100px;
+    }
+    width: 171px;
+    opacity: 0.8;
+    box-shadow: 0px 4px 10px #CAD0E4;
     border-radius: 100px;
     font: ${({ theme }) => theme.fonts.medium24};
+    font-weight: 500;
     color: ${({ theme }) => theme.colours.blacks.black1} ${GoogleLogo} {
         padding-right: 16px;
     }
@@ -36,7 +41,8 @@ const Button = styled(MUIButtonBase)`
 
 const ErrorMsg = styled.div`
     visibility: ${(props) => (props.visible ? 'visible' : 'hidden')};
-    color: ${({ theme }) => theme.colours.red};
+    font: ${({ theme }) => theme.fonts.medium18};
+    color: red;
 `;
 
 const Container = styled.div`
@@ -45,27 +51,29 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 400px;
+    height: 277px;
 
     ${Header} {
-        padding-top: 45px;
+        padding-top: 37px;
         padding-left: 32px;
         padding-right: 32px;
     }
 
     ${Body} {
-        padding-top: 32px;
+        padding-top: 10px;
         padding-left: 32px;
         padding-right: 32px;
     }
 
     ${Button} {
-        margin-top: 40px;
+        margin-top: 29px;
         align-self: center;
         margin-bottom: 10px;
     }
 
     ${ErrorMsg} {
-        margin-bottom: 40px;
+        margin-bottom: 12px;
+        align-self: center;
         padding-left: 32px;
         padding-right: 32px;
     }
@@ -79,11 +87,10 @@ const SignInBox = ({ className, onClick, errMsgVisible }) => (
                 console.log('onclick');
                 onClick()
                 }}>
-                <GoogleLogo /> Sign In
+                <GoogleLogo />&ensp;Sign In
             </Button>
             <ErrorMsg visible={errMsgVisible}>
-                Login Failed. Check that you have the right permissions to edit
-                website content.
+                Login Failed.
             </ErrorMsg>
         </Container>
     );
