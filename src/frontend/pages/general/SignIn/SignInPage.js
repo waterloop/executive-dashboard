@@ -6,6 +6,7 @@ import useGoogleAuth from '../../../hooks/google-auth';
 import Cookies from 'js-cookie';
 
 import WaterloopWLogoSVG from './assets/waterloop-w-logo.svg';
+import BackgroundShapesSVG from './assets/background-shapes.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../../state/user/actions';
@@ -22,8 +23,7 @@ const WaterloopWLogo = styled.img.attrs({
 const SignInContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   height: 100vh;
-  max-width: 760px;
-  min-height 600px;
+  width: max(57vw,760px);
   border-radius: 0px 70px 70px 0px;
   display: flex;
   flex-direction: column;
@@ -39,8 +39,11 @@ const SignInBox = styled(UnstyledSignInBox)`
 
 const Container = styled.div`
   background: linear-gradient(91.05deg, #CAD4FF 0%, #FEEDED 99.9%);
-  height: 100vh;
-  width: 100vw;
+  background-image: url(${BackgroundShapesSVG});
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
 `;
 
 /// TODO: Add browser memory storage:
