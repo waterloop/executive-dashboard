@@ -3,6 +3,8 @@ import { useGoogleLogin } from 'react-google-login';
 import * as userActions from '../state/user/actions';
 import { useDispatch } from 'react-redux';
 import api from '../api';
+import { useGoogleLogout } from 'react-google-login';
+import Cookies from 'js-cookie';
 
 // TODO: store token in localStorage.
 const useGoogleAuth = (onAuthComplete) => {
@@ -43,12 +45,24 @@ const useGoogleAuth = (onAuthComplete) => {
       'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
     prompt: 'consent',
   });
+  const { signOut } = useGoogleLogout({
+    clientId:
+      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+    onLogoutSuccess: () => {
+      Cookies.remove('tokenId', []);
+      console.log('successful logout');
+    },
+    onFailure: () => {
+      console.log('Failed to logout!');
+    },
+  });
 
   /**
    * signIn returns the access and refresh tokens needed to authenticate a user and use services on their behalf.
    */
   return {
     signIn,
+    signOut,
   };
 };
 

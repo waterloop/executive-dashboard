@@ -1,9 +1,9 @@
+import Cookies from 'js-cookie';
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/google-auth';
-import Cookies from 'js-cookie';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
@@ -105,11 +105,7 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
-      Cookies.set(
-        'tokenId',
-        tokenId,
-        { expires: 1 },
-      );
+      Cookies.set('tokenId', tokenId, { expires: 1 });
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
@@ -118,15 +114,16 @@ const SignInPage = () => {
         .then((resp) => {
           if (resp.data && resp.data.groupIds) {
             console.log(
-              `Successfully updated membership info. for groups with IDs: ${
-                resp.data.groupIds.join(', ')}`,
+              `Successfully updated membership info. for groups with IDs: ${resp.data.groupIds.join(
+                ', ',
+              )}`,
             );
           }
         })
         .catch((e) => {
           console.log('Error: Failed to sync group membership info.');
           console.log(e);
-        }); 
+        });
       // ^^ uncomment this if groupID is used again
 
       history.push('/');
