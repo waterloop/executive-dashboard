@@ -5,87 +5,45 @@ import { useHistory } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/google-auth';
 import Cookies from 'js-cookie';
 
-import BuildingsSVG from './assets/buildings.svg';
-import PodSVG from './assets/pod.svg';
-import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
+import WaterloopWLogoSVG from './assets/waterloop-w-logo.svg';
+import BackgroundShapesSVG from './assets/background-shapes.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../../state/user/actions';
 import { addAuthTokenToRequests } from '../../../api/server';
 import api from '../../../api';
 
-const WaterloopCmsLogo = styled.img.attrs({
-  src: WaterloopCmsLogoSVG,
+const WaterloopWLogo = styled.img.attrs({
+  src: WaterloopWLogoSVG,
 })`
-  position: absolute;
-  top: 20px;
-  right: calc(min(48px, 2%));
   max-width: 96%;
+  margin-bottom: 100px;
 `;
 
-const Buildings = styled.img.attrs({
-  src: BuildingsSVG,
-})`
-  width: auto;
-  height: 75%;
-
-  @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}px) {
-      display: none;
-  }
-`;
-
-const Pod = styled.img.attrs({
-  src: PodSVG,
-})``;
-
-const PodTrack = styled.div`
-  background-color: ${({ theme }) => theme.colours.yellows.yellow1};
-  height: 100px;
-  width: 100%;
+const SignInContainer = styled.div`
+  background-color: ${({ theme }) => theme.colours.white};
+  height: 100vh;
+  width: max(57vw,760px);
+  border-radius: 0px 70px 70px 0px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
-
-  @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
-      justify-content: center;
-  }
-
-  @media screen and (max-height: 655px) {
-      display: none;
-  }
-
-  ${Pod} {
-      margin-left: 20%;
-      @media screen and (max-width: ${({ theme }) =>
-              theme.breakpoints.md}px) {
-          margin-left: 16px;
-          margin-right: 16px;
-      }
-  }
-`;
+`
 
 const SignInBox = styled(UnstyledSignInBox)`
-  top: calc(min(20%, 267px));
-  position: absolute;
-  left: calc(min(84px, 5%));
   max-width: 90%;
+  box-shadow: 0px 5px 10px #CAD0E4;
+  border-radius: 30px;
 `;
 
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.colours.blues.blue1};
-  height: 100vh;
-  width: 100vw;
-
-  ${Buildings} {
-      position: absolute;
-      bottom: 32px;
-      right: 48px;
-  }
-
-  ${PodTrack} {
-      position: absolute;
-      bottom: calc(min(120px, 10%));
-  }
+  background: linear-gradient(91.05deg, #CAD4FF 0%, #FEEDED 99.9%);
+  background-image: url(${BackgroundShapesSVG});
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
 `;
 
 /// TODO: Add browser memory storage:
@@ -138,20 +96,18 @@ const SignInPage = () => {
   const { signIn } = useGoogleAuth(onAuthComplete);
   return (
     <Container>
-        <WaterloopCmsLogo />
+      <SignInContainer>
+        <WaterloopWLogo />
         <SignInBox
-            errMsgVisible={errMsgVisible}
-            onClick={() => {
-                if (errMsgVisible) {
-                    showErrorMsg(false);
-                }
-                signIn();
-            }}
+          errMsgVisible={errMsgVisible}
+          onClick={() => {
+            if (errMsgVisible) {
+              showErrorMsg(false);
+            }
+            signIn();
+          }}
         />
-        <PodTrack>
-            <Pod />
-        </PodTrack>
-        <Buildings />
+      </SignInContainer>
     </Container>
   );
 };

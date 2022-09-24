@@ -15,7 +15,6 @@ const Header = styled(Typography)`
 
 const Body = styled(Typography)`
     font: ${({ theme }) => theme.fonts.medium18};
-    font-weight: 500;
     color: ${({ theme }) => theme.colours.blacks.black2};
 `;
 
@@ -51,29 +50,27 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     width: 400px;
-    height: 277px;
 
     ${Header} {
-        padding-top: 37px;
+        padding-top: 45px;
         padding-left: 32px;
         padding-right: 32px;
     }
 
     ${Body} {
-        padding-top: 10px;
+        padding-top: 32px;
         padding-left: 32px;
         padding-right: 32px;
     }
 
     ${Button} {
-        margin-top: 29px;
+        margin-top: 40px;
         align-self: center;
         margin-bottom: 10px;
     }
 
     ${ErrorMsg} {
-        margin-bottom: 12px;
-        align-self: center;
+        margin-bottom: 40px;
         padding-left: 32px;
         padding-right: 32px;
     }
