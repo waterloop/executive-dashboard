@@ -1,48 +1,12 @@
 require('dotenv').config();
 import express from 'express';
 import db from './db';
-import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client, JWT } from 'google-auth-library';
+import {google} from 'googleapis'
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const router = express.Router();
-
-export const validateRequest = (req, res, next) => {
-  if (process.env.NODE_ENV === 'test') {
-    next();
-    return;
-  }
-  const { authorization } = req.headers;
-  if (typeof authorization !== 'string') {
-    console.log("Auth Error, (typeof authorization !== 'string')", req.headers);
-    res.sendStatus(403);
-    return;
-  }
-  const [type, token] = authorization.split(' ');
-  if (type !== 'Bearer') {
-    console.log("Auth Error, (not a bearer token)", authorization, type, token);
-    res.sendStatus(403);
-    return;
-  }
-  client
-    .verifyIdToken({
-      idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    })
-    .then((ticket) => {
-      const payload = ticket.getPayload();
-      const {
-        hd, // host domain
-      } = payload;
-      if (hd !== 'waterloop.ca') {
-        res.sendStatus(403);
-      }
-      next();
-    })
-    .catch((err) => {
-      res.sendStatus(403);
-    });
-};
 
 router.post('/', (req, res) => {
   const { tokenId } = req.query;
@@ -55,7 +19,7 @@ router.post('/', (req, res) => {
       idToken: tokenId,
       audience: process.env.GOOGLE_CLIENT_ID,
     })
-    .then((ticket) => {
+    .then(async (ticket) => {
       const payload = ticket.getPayload();
       const {
         hd, // host domain
@@ -64,12 +28,25 @@ router.post('/', (req, res) => {
         family_name,
         given_name,
       } = payload;
+
+      // check if user is a member of waterloop
       if (hd !== 'waterloop.ca') {
         throw {
           status: 403,
           msg: 'Attempted Sign in from not waterloop.ca account',
         };
       }
+
+      // check if user is a lead
+      const lead = await isLead(email)
+      if (!lead) {
+        throw {
+          status: 403,
+          msg: `User email ${email} is not a member of the Leads group`,
+        };
+      }
+      
+      // get user info
       return db.users.getById(userId).then((userQueryResp) => {
         if (userQueryResp === -1) {
           // No user found so make one
@@ -89,7 +66,6 @@ router.post('/', (req, res) => {
           res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
           return;
         }
-        console.log("successfully sent");
         // return res.send({ userId, accessToken }).status(200);
         // Check whether the user has admin priveleges (admins can edit content using the CMS)
         db.featurePermissions
@@ -148,5 +124,41 @@ router.get('/picture/:userId', (req, res) => {
     }),
   );
 });
+
+// isLead takes a user's email and returns true/false whether they are a 'Lead'
+async function isLead(userEmail) {
+
+  // code borrowed from teamhub `google-auth.js`
+  // we will need to replace the teamhubbackend service account with
+  //  an executive-dashboard service account once we find someone who
+  //  can enable domain-wide delegation for it
+  
+  // ideally, service account is changed to executive-dashboard and subject is changed
+  //  to jeff.m@waterloop.ca
+  const jwtClient = new JWT({
+    scopes:["https://www.googleapis.com/auth/admin.directory.group"],
+    email:'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
+    key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
+    subject:"steven.x@waterloop.ca",
+  })
+
+  const adminClient = google.admin({version:'directory_v1', auth: jwtClient})
+  const groups = await adminClient.groups.list({ userKey: userEmail})
+
+  for(const group of groups.data.groups) {
+    /*
+    ======================================
+
+     in production, change 'Web' to 'Leads'
+     
+    ======================================
+    */
+    if(group.name === 'Web') {
+      return true
+    }
+  }
+  return false
+
+}
 
 export default router;
