@@ -8,85 +8,78 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { tokenId } = req.query;
   if (!tokenId) {
     res.send('Missing Token ID').status(400);
     return;
   }
-  client
-    .verifyIdToken({
+  try {
+    const ticket = await client.verifyIdToken({
       idToken: tokenId,
       audience: process.env.GOOGLE_CLIENT_ID,
     })
-    .then(async (ticket) => {
-      const payload = ticket.getPayload();
-      const {
-        hd, // host domain
-        sub: userId,
-        email,
-        family_name,
-        given_name,
-      } = payload;
+    const payload = ticket.getPayload();
+    const {
+      hd, // host domain
+      sub: userId,
+      email,
+      family_name,
+      given_name,
+    } = payload;
 
-      // check if user is a member of waterloop
-      if (hd !== 'waterloop.ca') {
-        throw {
-          status: 403,
-          msg: 'Attempted Sign in from not waterloop.ca account',
-        };
-      }
+    // check if user is a member of waterloop
+    if (hd !== 'waterloop.ca') {
+      throw {
+        status: 403,
+        msg: 'Attempted Sign in from not waterloop.ca account',
+      };
+    }
 
-      // check if user is a lead
-      const lead = await isLead(email)
-      if (!lead) {
-        throw {
-          status: 403,
-          msg: `User email ${email} is not a member of the Leads group`,
-        };
-      }
-      
-      // get user info
-      return db.users.getById(userId).then((userQueryResp) => {
-        if (userQueryResp === -1) {
-          // No user found so make one
-          return db.users
-            .createUser(email, given_name, family_name, userId)
-            .then(() => db.users.getById(userId));
-        }
+    // check if user is a lead
+    const lead = await isLead(email)
+    if (!lead) {
+      throw {
+        status: 403,
+        msg: `User email ${email} is not a member of the Leads group`,
+      };
+    }
 
-        // Check that the access token was sent along in the request
-        const authHeader = req.get("Authorization");
-        if (!authHeader) {
-          res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
-          return;
-        }
-        const [type, accessToken] = authHeader.split(' ');
-        if (type !== "Bearer" || !accessToken) {
-          res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
-          return;
-        }
-        // return res.send({ userId, accessToken }).status(200);
-        // Check whether the user has admin priveleges (admins can edit content using the CMS)
-        db.featurePermissions
-          .getAllowedActions(userId, accessToken)
-          .then((resp) => {
-              console.log(resp);
-              const {allowedActions, groupIds} = resp;
-              if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
-                res.send({ userId, groupIds, accessToken }).status(200);
-              } else {
-                res.statusMessage = "ERROR: User does not have permission to edit website content.";
-                res.status(403).end();
-              }            
-          });
-    })
-    .catch((err) => {
-      console.log(err);
-      console.log(`${err.status}: ${err.msg}`);
-      res.sendStatus(err.status || 400);
-    });
-  })
+    // get user info
+    const userQueryResp = await db.users.getById(userId)
+
+    if (userQueryResp === -1) {
+      // No user found so make one
+      await db.users.createUser(email, given_name, family_name, userId)
+      await db.users.getById(userId)
+    }
+
+    // Check that the access token was sent along in the request
+    const authHeader = req.get("Authorization");
+    if (!authHeader) {
+      res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
+      return;
+    }
+    const [type, accessToken] = authHeader.split(' ');
+    if (type !== "Bearer" || !accessToken) {
+      res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
+      return;
+    }
+    // Check whether the user has admin priveleges (admins can edit content using the CMS)
+    const resp = await db.featurePermissions.getAllowedActions(userId, accessToken)
+    console.log(resp);
+    const {allowedActions, groupIds} = resp;
+    if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
+      res.send({ userId, groupIds, accessToken }).status(200);
+    } else {
+      res.statusMessage = "ERROR: User does not have permission to edit website content.";
+      res.status(403).end();
+    }            
+  } catch(err) {
+    console.log(err);
+    console.log(`${err.status}: ${err.msg}`);
+    res.sendStatus(err.status || 400);
+  }
 });
 
 router.post('/groups', (req, res) => {
@@ -158,7 +151,6 @@ async function isLead(userEmail) {
     }
   }
   return false
-
 }
 
 export default router;
