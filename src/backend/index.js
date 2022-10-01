@@ -27,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      'http://localhost:3000', // CLIENT_URI should hold the cms client uri
+      /^http:\/\/localhost:[0-9]{4}$/, // CLIENT_URI should hold the executive-dashboard client uri
       'https://teamwaterloop.ca', // Always allow the main site -> replace with hosted url of dashboard frontend
     ],
     credentials: true,
@@ -41,9 +41,14 @@ app.get('/', (req, res) => {
 app.use('/google', googleAuth);
 app.use('/api', api);
 
-// app.get('*', (req, res) => {
-//   res.sendFile('index.html', { root: path.join(__dirname, '../frontend/build') });
-// })
+// Dev environment doesn't use build folder:
+let folder = process.env.NODE_ENV === 'production' ? 'build' : 'public';
+
+/* These need to be the last routes */
+app.use(express.static(`./${folder}`));
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: path.join(__dirname, `../../${folder}`) });
+});
 
 if (process.env.NODE_ENV === 'production') {
   app.listen(port);

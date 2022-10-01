@@ -1,5 +1,5 @@
 const { ENV_IS_STAGING_OR_PROD } = require('../knexfile');
-const { parseTimeFromRequest } = require('../src/backend/utils/db-dates.js');
+const { parseTimeFromRequest } = require('../utils/db-dates.js');
 
 // An issue with deploying is that we require this seeding for the functionality on the actual deployment.
 // A new table that is deployed needs to be migrated the first time its deployed, then, in order to avoid this, we would put the !ENV_IS_STAGING_OR_PROD checker again?

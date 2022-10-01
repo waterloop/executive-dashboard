@@ -46,9 +46,10 @@
     "typeface-ibm-plex-sans": "^1.1.13"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start:frontend": "react-scripts start",
     "test:frontend": "react-scripts test",
-    "build": "react-scripts build",
+    "build": "cross-env NODE_ENV=production babel src/backend --out-dir lib --copy-files",
+    "start": "cross-env NODE_ENV=production babel-node lib/index.js",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
@@ -58,11 +59,20 @@
     "test:integration:watch": "cross-env NODE_ENV=test cross-env PORT=9001 mocha -r esm --watch ./src/backend/tests/integration/*",
     "docker:test": "docker-compose run --service-ports test-db ",
     "docker:dev": "docker-compose run --service-ports dev-db ",
-    "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
+    "migrate": "knex migrate:latest --knexfile src/backend/knexfile.js",
+    "seed:dev": "cross-env NODE_ENV=development knex seed:run --knexfile src/backend/knexfile.js",
+    "seed": "knex seed:run --knexfile src/backend/knexfile.js",
+    "seed:make": "knex seed:make --knexfile src/backend/knexfile.js",
+    "migrate:make": "knex migrate:make --knexfile src/backend/knexfile.js",
+    "development:migrate:rollback": "cross-env NODE_ENV=development knex migrate:rollback --knexfile src/backend/knexfile.js",
+    "production:migrate:rollback": "cross-env NODE_ENV=production knex migrate:rollback --knexfile src/backend/knexfile.js",
+    "production:migrate:latest": "cross-env NODE_ENV=production knex migrate:latest --knexfile src/backend/knexfile.js",
+    "production:seed": "cross-env NODE_ENV=production knex seed:run --knexfile src/backend/knexfile.js",
+    "test:migrate:rollback": "cross-env NODE_ENV=test knex migrate:rollback --knexfile src/backend/knexfile.js",
+    "test:migrate:latest": "cross-env NODE_ENV=test knex migrate:latest --knexfile src/backend/knexfile.js",
+    "test:seed": "cross-env NODE_ENV=test knex seed:run --knexfile src/backend/knexfile.js",
     "unlock": "cross-env NODE_ENV=development knex migrate:unlock",
-    "test:unlock": "cross-env NODE_ENV=test knex migrate:unlock",
-    "development:migrate:rollback": "cross-env NODE_ENV=development knex migrate:rollback"
+    "test:unlock": "cross-env NODE_ENV=test knex migrate:unlock"
   },
   "browserslist": {
     "production": [
