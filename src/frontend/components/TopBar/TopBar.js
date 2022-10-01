@@ -11,9 +11,9 @@ import useGoogleAuth from '../../hooks/google-auth';
 
 import WaterloopLogoSVG from '../../assets/svg/waterloop-logo.svg';
 /* TODO: Implement the useProfilePicture hook so the user's PFP is shown instead of this mock image */
-import MockProfilePicture from '../../assets/svg/mock-profile-picture.svg';
 
 import NavDropdown from '../NavDropdown';
+import useProfilePicture from '../../hooks/profilePicture';
 
 const AppBar = styled(MUIAppBar)`
   background-color: ${({ theme }) => theme.colours.white};
@@ -88,6 +88,7 @@ const TopBar = () => {
   const history = useHistory();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { signOut } = useGoogleAuth();
+  const { profilePicture } = useProfilePicture();
   const mapNavDropdowns = () =>
     navDropdowns.map((dropdown) => (
       <NavDropdown key={dropdown.section} dropdown={dropdown} />
@@ -120,7 +121,7 @@ const TopBar = () => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
             disableRipple
           >
-            <ProfilePicture src={MockProfilePicture} alt="profile" />
+            <ProfilePicture src={profilePicture} alt="profile"/>
             <KeyboardArrowDownIcon />
           </IconButton>
         </Toolbar>
