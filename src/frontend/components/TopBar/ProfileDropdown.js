@@ -7,6 +7,7 @@ import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 const Typography = styled(MUITypography)`
   font: ${({ theme }) => theme.fonts.bold14};
   text-align: center;
+  cursor: pointer;
 `;
 
 const Grid = styled(MUIGrid)``;

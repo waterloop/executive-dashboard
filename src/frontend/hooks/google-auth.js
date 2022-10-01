@@ -45,6 +45,7 @@ const useGoogleAuth = (onAuthComplete) => {
       'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
     prompt: 'consent',
   });
+  
   const { signOut } = useGoogleLogout({
     clientId:
       '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
