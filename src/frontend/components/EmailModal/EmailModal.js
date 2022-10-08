@@ -74,7 +74,7 @@ const emailSignatureLogo = {
 };
 
 const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
-  const { applicantEmail, execEmail, execPhoneNum } = data;
+  const { applicantEmail, execEmail } = data;
 
   const [toInput, setToInput] = useState('');
   const [subjInput, setSubjInput] = useState('');
@@ -90,7 +90,7 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
     setBodyInput(text);
   }, [status, data]);
 
-  const execContact = `\n${execEmail} | ${execPhoneNum}`;
+  const execContact = `\n${execEmail}`;
 
   return (
     <Modal open={open} onClose={handleClose}>

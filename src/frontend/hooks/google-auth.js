@@ -28,8 +28,11 @@ const useGoogleAuth = (onAuthComplete) => {
           }
         })
         .catch((err) => onAuthComplete(err));
-
       dispatch(userActions.setUserPicture(profileObj.imageUrl));
+      dispatch(userActions.setUserProfile(profileObj));
+      Cookies.set('profilePicture', profileObj.imageUrl, { expires: 1 });
+      Cookies.set('userName', profileObj.name, { expires: 1 });
+      Cookies.set('userEmail', profileObj.email, { expires: 1 });
     },
     [onAuthComplete],
   );
@@ -51,6 +54,9 @@ const useGoogleAuth = (onAuthComplete) => {
       '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
     onLogoutSuccess: () => {
       Cookies.remove('tokenId', []);
+      Cookies.remove('userName');
+      Cookies.remove('userEmail');
+      Cookies.remove('profilePicture');
       console.log('successful logout');
     },
     onFailure: () => {

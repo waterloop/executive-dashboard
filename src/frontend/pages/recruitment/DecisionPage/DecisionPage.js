@@ -17,6 +17,7 @@ import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
+import useProfileData from '../../../hooks/profileData';
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,6 +27,7 @@ const DecisionPage = () => {
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
+  const { profileData } = useProfileData();
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -160,10 +162,10 @@ const DecisionPage = () => {
   };
 
   // TODO: Replace the mock data below with actual data taken from the appropriate sources.
-  const mockData = {
+  const userData = {
     // Extracted from Google OAuth.
-    execName: 'John Doe',
-    execEmail: 'john.doe@waterloop.ca',
+    execName: profileData?.name || '',
+    execEmail: profileData?.email || '',
     execPhoneNum: '(000) 000-0000',
     // Extracted from the decision portal table row.
     position: 'Fullstack Developer',
@@ -193,7 +195,7 @@ const DecisionPage = () => {
         data={{
           applicantEmail: emailData.email_address,
           applicantName: `${emailData.first_name} ${emailData.last_name}`,
-          ...mockData,
+          ...userData,
         }}
         onSubmit={handleModalSubmit}
         open={modalOpen}
