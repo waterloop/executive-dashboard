@@ -28,6 +28,7 @@ const DecisionPage = () => {
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
   const { profileData } = useProfileData();
+  // console.log('profile:', profileData);
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -46,14 +47,14 @@ const DecisionPage = () => {
   const tableRows = applications.map((application) => {
     if (application) {
       const appPosting = getItemById(postings, application.posting_id);
-
+      console.log('appPosting: ', appPosting);
       if (appPosting) {
         const appValues = [
           `${application.first_name} ${application.last_name}`,
           application.email_address,
           appPosting.team,
           appPosting.title,
-          makeButtonComponent(application),
+          makeButtonComponent({subteam: appPosting.team, position: appPosting.title, ...application}),
           application.status,
         ];
         return createData(tableColumns, appValues);
@@ -61,6 +62,8 @@ const DecisionPage = () => {
     }
     return createData(tableColumns, []);
   });
+  console.log(applications);
+  console.log(tableRows);
 
   // Grab positions from applications data
   const allPositionNames = [];
@@ -168,9 +171,9 @@ const DecisionPage = () => {
     execEmail: profileData?.email || '',
     execPhoneNum: '(000) 000-0000',
     // Extracted from the decision portal table row.
-    position: 'Fullstack Developer',
-    subteam: 'Web',
-    nextTerm: 'Spring 2022',
+    // position: 'Fullstack Developer',
+    // subteam: 'Web',
+    // nextTerm: 'Spring 2022',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
     interviewEndDate: 'September 21',
@@ -180,6 +183,7 @@ const DecisionPage = () => {
     newMembersFormLink: 'https://docs.google.com/forms',
     newMembersFormDeadline: 'September 21',
   };
+  console.log('emailData: ', emailData);
 
   return (
     <div>
@@ -195,6 +199,9 @@ const DecisionPage = () => {
         data={{
           applicantEmail: emailData.email_address,
           applicantName: `${emailData.first_name} ${emailData.last_name}`,
+          nextTerm: emailData.application_term,
+          position: emailData.position,
+          subteam: emailData.subteam,
           ...userData,
         }}
         onSubmit={handleModalSubmit}
