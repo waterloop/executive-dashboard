@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/google-auth';
-import Cookies from 'js-cookie';
+import CookiesHelper from '../../../hooks/cookies';
 
 import WaterloopWLogoSVG from './assets/waterloop-w-logo.svg';
 import BackgroundShapesSVG from './assets/background-shapes.svg';
@@ -54,6 +54,7 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errMsgVisible, showErrorMsg] = useState(false);
+  const {setTokenId} = CookiesHelper;
 
   const onAuthComplete = useCallback(
     (err, authPayload) => {
@@ -64,14 +65,8 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
-      Cookies.set(
-        'tokenId',
-        tokenId,
-        { expires: 1 },
-      );
+      setTokenId(tokenId);
       addAuthTokenToRequests(tokenId);
-      console.log('Auth Complete');
-
       api.google
         .updateUserGroups(userId, groupIds, accessToken)
         .then((resp) => {

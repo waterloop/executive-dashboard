@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
+import CookiesHelper from './hooks/cookies.js';
 import { addAuthTokenToRequests } from './api/server.js';
 
 
@@ -22,8 +22,9 @@ import AnalyticsLandingPage from './pages/analytics/...';
 
 const App = () => {
   let token = useSelector(userSelectors.token);
+  const {getCookie} = CookiesHelper;
   if (!token){
-    token = Cookies.get('tokenId');
+    token = getCookie('tokenId');
     if (token) {
       addAuthTokenToRequests(token);
     }
