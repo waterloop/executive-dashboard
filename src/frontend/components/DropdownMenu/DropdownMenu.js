@@ -10,6 +10,9 @@ import { Tooltip } from '@mui/material';
 
 import chevron from '../../assets/svg/recruitment/chevron.svg';
 
+import { useSelector } from 'react-redux';
+import * as applicationSelectors from '../../state/applications/selectors';
+
 const Chevron = styled.img`
   src: ${chevron};
   position: relative;
@@ -61,6 +64,16 @@ const DropdownMenu = ({
     setAnchorEl(null);
   };
 
+  const appStatuses = useSelector(applicationSelectors.appStatuses);
+
+  const statusTooltip = (key) => {
+    const appStatus = appStatuses.find(appStatus => appStatus.key === key)
+
+    if(appStatus)
+      return appStatus.description
+    return ''
+  }
+
   return (
     <div>
       <List
@@ -110,13 +123,15 @@ const DropdownMenu = ({
         }}
       >
         {Object.keys(options).map((key) => (
-          <MenuItem
-            key={key}
-            selected={current === key}
-            onClick={() => handleMenuItemClick(key)}
-          >
-            {options[key]}
-          </MenuItem>
+          <Tooltip title = {statusTooltip(key)} placement="right" key={key}> 
+            <MenuItem
+              key={key}
+              selected={current === key}
+              onClick={() => handleMenuItemClick(key)}
+            >
+              {options[key]}
+            </MenuItem>
+          </Tooltip>
         ))}
       </Menu>
       {errorText && <Error>{errorText}</Error>}
