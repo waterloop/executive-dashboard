@@ -9,9 +9,9 @@ const useEmail = () => {
   const emailData = useSelector(emailSelectors.emailData);
 
   const updateEmailSent = useCallback(
-    async (appID) => {
+    async (emailData) => {
       try {
-        const res = await api.email.updateApplicationEmailSent(appID);
+        const res = await api.email.updateApplicationEmailSent(emailData);
         if (res.status !== 200) {
           throw new Error(
             `Could not update email sent status, HTTP ${res.status}`,

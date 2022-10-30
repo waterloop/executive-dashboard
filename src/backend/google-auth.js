@@ -8,6 +8,48 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const router = express.Router();
 
+export const validateRequest = async (req, res, next) => {
+  if (process.env.NODE_ENV === 'test') {
+    next();
+    return;
+  }
+  const { authorization } = req.headers;
+  if (typeof authorization !== 'string') {
+    console.log("Auth Error, (typeof authorization !== 'string')", req.headers);
+    res.sendStatus(403);
+    return;
+  }
+  const [type, token] = authorization.split(' ');
+  if (type !== 'Bearer') {
+    console.log("Auth Error, (not a bearer token)", authorization, type, token);
+    res.sendStatus(403);
+    return;
+  }
+
+  try {
+    const ticket = await client
+      .verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      })
+
+    const payload = ticket.getPayload();
+    const {
+      hd, // host domain
+    } = payload;
+
+    if (hd !== 'waterloop.ca') {
+      res.sendStatus(403);
+    }
+
+    // authenticated: give downstream functions authenticated instance if using Google API calls.
+    res.locals.ticket = ticket;
+    next();
+  } catch (err) {
+    res.sendStatus(403);
+  }
+};
+
 router.post('/', async (req, res) => {
   const { tokenId } = req.query;
   if (!tokenId) {
@@ -129,7 +171,7 @@ async function isLead(userEmail) {
   // ideally, service account is changed to executive-dashboard and subject is changed
   //  to jeff.m@waterloop.ca
   const jwtClient = new JWT({
-    scopes:["https://www.googleapis.com/auth/admin.directory.group"],
+    scopes:["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/gmail.send"],
     email:'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
     key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
     subject:"steven.x@waterloop.ca",

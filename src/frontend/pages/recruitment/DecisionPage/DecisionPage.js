@@ -157,7 +157,8 @@ const DecisionPage = () => {
   ];
 
   const handleModalSubmit = () => {
-    updateEmailSent(emailData.id);
+    updateEmailSent(emailData);
+
     setEmailData({});
     setModalOpen(false);
     // Force a reload of the browser so that the email status button states update.

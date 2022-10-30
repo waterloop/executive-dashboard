@@ -1,6 +1,7 @@
 import db from '../../db';
 
 export default (req, res) => {
+  console.log(req.body);
   const appID = req.body.id;
   // Try applications db first:
   db.applications
@@ -42,4 +43,5 @@ export default (req, res) => {
       console.error(errMsg);
       res.status(500).send(errMsg);
     });
+    
 };
