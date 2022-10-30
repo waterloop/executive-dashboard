@@ -208,7 +208,7 @@ const DecisionPage = () => {
           position: `${postingByID(emailData.posting_id).title}`,
           subteam: `${postingByID(emailData.posting_id).team}`,
           nextTerm: `${formatTerm(emailData.application_term)}`,
-          ...mockData,
+          ...userData,
         }}
         onSubmit={handleModalSubmit}
         open={modalOpen}
