@@ -171,7 +171,8 @@ async function isLead(userEmail) {
   // ideally, service account is changed to executive-dashboard and subject is changed
   //  to jeff.m@waterloop.ca
   const jwtClient = new JWT({
-    scopes:["https://www.googleapis.com/auth/admin.directory.group", "https://www.googleapis.com/auth/gmail.send"],
+    scopes:["https://www.googleapis.com/auth/admin.directory.group", 
+  ],
     email:'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
     key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
     subject:"steven.x@waterloop.ca",

@@ -1,11 +1,17 @@
 import db from '../../db';
 
-export default (req, res) => {
-  console.log(req.body);
+export default async (req, res) => {
+  console.log('req.body:', req.body);
   const appID = req.body.id;
-  // Try applications db first:
+  console.log('appID:', appID);
+
+  // TODO: send the actual email, then check if email sent correctly
+
+  console.log( res.locals.ticket );
+  // TODO: If so, proceed with code below, else abort procedure.
+
   db.applications
-    .updateEmailSent(appID)
+    .updateEmailSent(appID) // TODO: change to 'updateEmailStatus'
     .then((response) => {
       if (Array.isArray(response) && response.length !== 0) {
         res.send(response[0]);

@@ -7,6 +7,8 @@ import { useGoogleLogout } from 'react-google-login';
 import CookiesHelper from '../hooks/cookies';
 
 // TODO: store token in localStorage.
+
+const scopes = ['profile', 'email', 'https://www.googleapis.com/auth/admin.directory.group.readonly', 'https://www.googleapis.com/auth/gmail.send'];
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
   const {removeAllCookies, setCookie } = CookiesHelper;
@@ -44,8 +46,8 @@ const useGoogleAuth = (onAuthComplete) => {
     },
     clientId:
       '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
-    scope:
-      'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
+    scope: 
+      scopes.join(' '),
     prompt: 'consent',
   });
   
