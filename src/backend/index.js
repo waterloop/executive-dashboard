@@ -4,6 +4,8 @@ import cors from 'cors';
 
 import api from './api';
 
+import googleAuth from './google-auth';
+
 const app = express();
 const server = http.createServer(app);
 const port = process.env.PORT || 9001;
@@ -25,7 +27,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: [
-      'http://localhost:3000', // CLIENT_URI should hold the cms client uri
+      /^http:\/\/localhost:[0-9]{4}$/, // CLIENT_URI should hold the executive-dashboard client uri
       'https://teamwaterloop.ca', // Always allow the main site -> replace with hosted url of dashboard frontend
     ],
     credentials: true,
@@ -36,11 +38,17 @@ app.get('/', (req, res) => {
   res.send('This works?');
 });
 
+app.use('/google', googleAuth);
 app.use('/api', api);
 
-// app.get('*', (req, res) => {
-//   res.sendFile('index.html', { root: path.join(__dirname, '../frontend/build') });
-// })
+// Dev environment doesn't use build folder:
+let folder = process.env.NODE_ENV === 'production' ? 'build' : 'public';
+
+/* These need to be the last routes */
+app.use(express.static(`./${folder}`));
+app.get('*', (req, res) => {
+  res.sendFile('index.html', { root: path.join(__dirname, `../../${folder}`) });
+});
 
 if (process.env.NODE_ENV === 'production') {
   app.listen(port);

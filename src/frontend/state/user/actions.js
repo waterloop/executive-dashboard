@@ -14,3 +14,10 @@ export const setUserPicture = (picture) => ({
     picture,
   },
 });
+
+export const setUserProfile = (profile) => ({
+  type: actionTypes.USER_SET_PROFILE,
+  payload: {
+    profile,
+  },
+});

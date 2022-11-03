@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../api';
 import * as teamsActions from '../state/teams/actions';
 import * as teamsSelectors from '../state/teams/selectors';
-import { renameObjectKeys } from '../pages/recruitment/utils';
+import { renameObjectKeys } from '../utils';
 
 const useTeams = () => {
   const dispatch = useDispatch();

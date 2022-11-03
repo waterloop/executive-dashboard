@@ -7,7 +7,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
     return knex('applications')
       .del()
       .then(() =>
-        // TODO: ID of 0 behaves weirdly. Consider starting at id=1.
+        // NOTE: ID of 0 behaves weirdly. Consider starting at id=1.
         // TODO: url links must start with 'http://' or 'https://'
         knex('applications').insert([
           {

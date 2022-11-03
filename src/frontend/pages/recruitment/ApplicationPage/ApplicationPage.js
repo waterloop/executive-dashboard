@@ -14,16 +14,22 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
-} from '../utils';
+} from '../../../utils';
 
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 import useTeams from '../../../hooks/teams';
+import getTermDate from '../../../utils';
+
+const currentTermYear =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
 
 const ApplicationPage = () => {
   const history = useHistory();
 
-  const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+  const { applications } = useApplications(currentTermYear);
   const { postings } = usePostings();
   const { teams } = useTeams();
 

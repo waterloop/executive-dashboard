@@ -11,22 +11,30 @@ import {
   oneTrue,
   getItemByName,
   formatTerm,
-} from '../utils';
+} from '../../../utils';
 import Button from '../../../components/Button';
 
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
+import useProfileData from '../../../hooks/profileData';
+import getTermDate from '../../../utils';
+
+const currentTermYear =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [emailData, setEmailData] = useState({});
 
-  const { applications } = useApplications('FALL-2022');
+  const { applications } = useApplications(currentTermYear);
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
+  const { profileData } = useProfileData();
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -153,18 +161,17 @@ const DecisionPage = () => {
   ];
 
   const postingByID = (id) => {
-    let posting = {}
-    if (modalOpen){   
-      posting = postings.find(posting => posting.id === id)
-    }
-    else{
+    let posting = {};
+    if (modalOpen) {
+      posting = postings.find((posting) => posting.id === id);
+    } else {
       posting = {
         team: '',
         position: '',
-      }
+      };
     }
-    return posting
-  }
+    return posting;
+  };
 
   const handleModalSubmit = () => {
     updateEmailSent(emailData.id);
@@ -175,10 +182,10 @@ const DecisionPage = () => {
   };
 
   // TODO: Replace the mock data below with actual data taken from the appropriate sources.
-  const mockData = {
+  const userData = {
     // Extracted from Google OAuth.
-    execName: 'John Doe',
-    execEmail: 'john.doe@waterloop.ca',
+    execName: profileData?.name || '',
+    execEmail: profileData?.email || '',
     execPhoneNum: '(000) 000-0000',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
@@ -207,7 +214,7 @@ const DecisionPage = () => {
           position: `${postingByID(emailData.posting_id).title}`,
           subteam: `${postingByID(emailData.posting_id).team}`,
           nextTerm: `${formatTerm(emailData.application_term)}`,
-          ...mockData,
+          ...userData,
         }}
         onSubmit={handleModalSubmit}
         open={modalOpen}

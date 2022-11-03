@@ -4,8 +4,6 @@ import api from '../api';
 import * as applicationActions from '../state/applications/actions';
 import * as applicationSelectors from '../state/applications/selectors';
 
-// TODO: If we need appStatuses separately from useApplications, then move appStatuses to separate hook.
-// For now, if termQuery is undefined, then we can just get the application statuses.
 const useApplications = (termQuery) => {
   const dispatch = useDispatch();
   const applications = useSelector(applicationSelectors.applications);
@@ -41,7 +39,7 @@ const useApplications = (termQuery) => {
       }
       return {};
     }
-  }, []);
+  }, [termQuery]);
 
   // TODO: Return only entries for the email being used, instead of all apps by email, at least for this hook.
   const getApplicationsByEmail = useCallback(
