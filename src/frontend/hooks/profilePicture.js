@@ -4,7 +4,7 @@ import * as userSelectors from '../state/user/selectors';
 
 const useProfilePicture = () => {
   let profilePicture = useSelector(userSelectors.picture);
-  if (profilePicture === '') {
+  if (!profilePicture) {
     profilePicture = Cookies.get('profilePicture');
   }
 

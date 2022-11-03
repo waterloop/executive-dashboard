@@ -1,13 +1,11 @@
-
-exports.up = knex => knex.schema.createTable('users', table => {
-    table.string('id'); // P-key
+exports.up = (knex) =>
+  knex.schema.createTable('users', (table) => {
+    table.string('id').primary(); // P-key
     table.string('given_name');
     table.string('family_name');
-    table.string('email');
+    table.string('email').unique();
     table.boolean('admin');
     table.string('picture');
-    table.unique('email');
   });
-  
-  exports.down = knex =>
-    knex.schema.dropTableIfExists('users');
+
+exports.down = (knex) => knex.schema.dropTableIfExists('users');

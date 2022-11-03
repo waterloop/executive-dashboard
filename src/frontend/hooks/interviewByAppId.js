@@ -31,7 +31,7 @@ const useInterviewByAppId = (id) => {
       }
       return {};
     }
-  }, []);
+  }, [id]);
 
   const updateInterviewNote = useCallback(
     async (appID, note) => {

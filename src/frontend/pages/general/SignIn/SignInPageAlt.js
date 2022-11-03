@@ -1,3 +1,6 @@
+// NOTE: This sign-in page implementation follows an alternative UI design (which doesn't follow CMS styling).
+// It is kept here in case we decide to switch back to that alternative design.
+
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
@@ -23,32 +26,28 @@ const WaterloopWLogo = styled.img.attrs({
 const SignInContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
   height: 100vh;
-  width: max(57vw,760px);
+  width: max(57vw, 760px);
   border-radius: 0px 70px 70px 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const SignInBox = styled(UnstyledSignInBox)`
   max-width: 90%;
-  box-shadow: 0px 5px 10px #CAD0E4;
+  box-shadow: 0px 5px 10px #cad0e4;
   border-radius: 30px;
 `;
 
 const Container = styled.div`
-  background: linear-gradient(91.05deg, #CAD4FF 0%, #FEEDED 99.9%);
+  background: linear-gradient(91.05deg, #cad4ff 0%, #feeded 99.9%);
   background-image: url(${BackgroundShapesSVG});
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-position: right center;
   background-size: auto 100%;
 `;
-
-/// TODO: Add browser memory storage:
-
-// https://auth0.com/docs/secure/security-guidance/data-security/token-storage
 
 const SignInPage = () => {
   const dispatch = useDispatch();
@@ -64,11 +63,7 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
-      Cookies.set(
-        'tokenId',
-        tokenId,
-        { expires: 1 },
-      );
+      Cookies.set('tokenId', tokenId, { expires: 1 });
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
@@ -77,17 +72,16 @@ const SignInPage = () => {
         .then((resp) => {
           if (resp.data && resp.data.groupIds) {
             console.log(
-              `Successfully updated membership info. for groups with IDs: ${
-                resp.data.groupIds.join(', ')}`,
+              `Successfully updated membership info. for groups with IDs: ${resp.data.groupIds.join(
+                ', ',
+              )}`,
             );
           }
         })
         .catch((e) => {
           console.log('Error: Failed to sync group membership info.');
           console.log(e);
-        }); 
-      // ^^ uncomment this if groupID is used again
-
+        });
       history.push('/');
     },
     [dispatch, history],

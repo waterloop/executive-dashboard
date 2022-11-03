@@ -6,7 +6,6 @@ import api from '../api';
 import { useGoogleLogout } from 'react-google-login';
 import Cookies from 'js-cookie';
 
-// TODO: store token in localStorage.
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
   const onSuccess = useCallback(
@@ -25,6 +24,10 @@ const useGoogleAuth = (onAuthComplete) => {
               groupIds,
               accessToken,
             });
+          } else {
+            throw new Error(
+              `Could not authenticate user, HTTP status code: ${checkTokenResponse.status}`,
+            );
           }
         })
         .catch((err) => onAuthComplete(err));
@@ -48,7 +51,7 @@ const useGoogleAuth = (onAuthComplete) => {
       'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
     prompt: 'consent',
   });
-  
+
   const { signOut } = useGoogleLogout({
     clientId:
       '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
@@ -60,7 +63,7 @@ const useGoogleAuth = (onAuthComplete) => {
       console.log('successful logout');
     },
     onFailure: () => {
-      console.log('Failed to logout!');
+      console.error('Failed to logout!');
     },
   });
 

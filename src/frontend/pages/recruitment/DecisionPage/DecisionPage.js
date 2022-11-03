@@ -11,7 +11,7 @@ import {
   oneTrue,
   getItemByName,
   formatTerm,
-} from '../utils';
+} from '../../../utils';
 import Button from '../../../components/Button';
 
 import usePostings from '../../../hooks/postings';
@@ -19,12 +19,18 @@ import useApplications from '../../../hooks/applications';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
 import useProfileData from '../../../hooks/profileData';
+import getTermDate from '../../../utils';
+
+const currentTermYear =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [emailData, setEmailData] = useState({});
 
-  const { applications } = useApplications('FALL-2022');
+  const { applications } = useApplications(currentTermYear);
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();

@@ -46,7 +46,7 @@ const appendKeysToIds = async (db, groupIds) => {
         ');';
       groupObjs = (await db.raw(query, [...groupIds])).rows;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       groupObjs = [];
     }
   }
@@ -97,8 +97,7 @@ const getGAdminClient = (accessToken) => {
 const getAllowedActions = (db) => async (userId, accessToken) => {
   try {
     const gAdminClient = getGAdminClient(accessToken);
-    if (process.env.NODE_ENV == 'development' || 'production') {
-      //Note: In the future, this should be reverted, please check task: https://app.clickup.com/t/2659xb1
+    if (process.env.NODE_ENV == 'development') {
       let allowedActions = ['Edit Content'];
       let groupIds = [];
       return {
@@ -128,7 +127,7 @@ const getAllowedActions = (db) => async (userId, accessToken) => {
     console.error(
       '[getAllowedActions] ERROR: Could not fetch up-to-data from Google Groups.',
     );
-    console.log(err);
+    console.error(err);
   }
 
   // If fetching data from Google Groups failed, then use locally-stored data.
@@ -151,7 +150,7 @@ const getAllowedActions = (db) => async (userId, accessToken) => {
       groupIds: [...new Set(groupIds)], // return only unique values (remove duplicates)
     };
   } catch (err) {
-    console.log('[getAllowedActions] ERROR: ', err);
+    console.error('[getAllowedActions] ERROR: ', err);
     throw err;
   }
 };
@@ -224,19 +223,11 @@ const updateUserGroups = (db) => async (userId, groupIds, accessToken) => {
             `Error: Failed to update group_users table for group: ${groupKey}. `,
             error,
           );
-          console.log('Skipping Group: ' + groupKey);
-          try {
-            await db.raw(
-              `INSERT INTO group_users (user_id, group_id) VALUES (:userId, :groupId);`,
-              { userId: userId, groupId: groupId },
-            );
-          } catch (e) {
-            console.error(e);
-          }
+          console.error('Skipping Group: ' + groupKey);
         });
     } catch (err) {
       console.error(err);
-      console.log('Skipping update for Group: ' + groupKey);
+      console.error('Skipping update for Group: ' + groupKey);
     }
   }
   return { groupIds: groupIds };

@@ -30,7 +30,7 @@ const Buildings = styled.img.attrs({
   height: 75%;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.lg}px) {
-      display: none;
+    display: none;
   }
 `;
 
@@ -47,20 +47,19 @@ const PodTrack = styled.div`
   justify-content: flex-start;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
-      justify-content: center;
+    justify-content: center;
   }
 
   @media screen and (max-height: 655px) {
-      display: none;
+    display: none;
   }
 
   ${Pod} {
-      margin-left: 20%;
-      @media screen and (max-width: ${({ theme }) =>
-              theme.breakpoints.md}px) {
-          margin-left: 16px;
-          margin-right: 16px;
-      }
+    margin-left: 20%;
+    @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}px) {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
   }
 `;
 
@@ -77,20 +76,16 @@ const Container = styled.div`
   width: 100vw;
 
   ${Buildings} {
-      position: absolute;
-      bottom: 32px;
-      right: 48px;
+    position: absolute;
+    bottom: 32px;
+    right: 48px;
   }
 
   ${PodTrack} {
-      position: absolute;
-      bottom: calc(min(120px, 10%));
+    position: absolute;
+    bottom: calc(min(120px, 10%));
   }
 `;
-
-/// TODO: Add browser memory storage:
-
-// https://auth0.com/docs/secure/security-guidance/data-security/token-storage
 
 const SignInPage = () => {
   const dispatch = useDispatch();
@@ -100,7 +95,7 @@ const SignInPage = () => {
   const onAuthComplete = useCallback(
     (err, authPayload) => {
       if (err) {
-        console.log('auth error:', err);
+        console.error('auth error:', err);
         showErrorMsg(true);
         return;
       }
@@ -122,10 +117,9 @@ const SignInPage = () => {
           }
         })
         .catch((e) => {
-          console.log('Error: Failed to sync group membership info.');
-          console.log(e);
+          console.error('Error: Failed to sync group membership info.');
+          console.error(e);
         });
-      // ^^ uncomment this if groupID is used again
 
       history.push('/');
     },
@@ -135,20 +129,20 @@ const SignInPage = () => {
   const { signIn } = useGoogleAuth(onAuthComplete);
   return (
     <Container>
-        <WaterloopCmsLogo />
-        <SignInBox
-            errMsgVisible={errMsgVisible}
-            onClick={() => {
-                if (errMsgVisible) {
-                    showErrorMsg(false);
-                }
-                signIn();
-            }}
-        />
-        <PodTrack>
-            <Pod />
-        </PodTrack>
-        <Buildings />
+      <WaterloopCmsLogo />
+      <SignInBox
+        errMsgVisible={errMsgVisible}
+        onClick={() => {
+          if (errMsgVisible) {
+            showErrorMsg(false);
+          }
+          signIn();
+        }}
+      />
+      <PodTrack>
+        <Pod />
+      </PodTrack>
+      <Buildings />
     </Container>
   );
 };
