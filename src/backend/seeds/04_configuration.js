@@ -8,21 +8,36 @@ if (!ENV_IS_STAGING_OR_PROD) {
       .then(() =>
         // Inserts seed entries
         knex('configuration').insert([
-          { id: 0, label: 'interviews:meeting_link', value: 'www.google.com' },
+          { id: 0, label: 'interview_meeting_link', value: 'www.google.com' },
           {
             id: 1,
-            label: 'interviews:first_round_deadline',
+            label: 'interview_round_end_date',
             value: '2022-02-22',
           },
           {
             id: 2,
-            label: 'new_members_orientation:meeting_link',
-            value: 'www.netflix.com',
+            label: 'new_members_meeting_date',
+            value: '2022-02-23',
           },
           {
             id: 3,
-            label: 'member_status_confirmation:deadline',
-            value: '2022-04-03',
+            label: 'new_members_meeting_time',
+            value: '06:45',
+          },
+          {
+            id: 4,
+            label: 'new_members_meeting_link',
+            value: 'www.netflix.com',
+          },
+          {
+            id: 5,
+            label: 'new_members_form_link',
+            value: 'www.amazon.com',
+          },
+          {
+            id: 6,
+            label: 'new_members_form_deadline',
+            value: '2022-04-04',
           },
         ]),
       );
