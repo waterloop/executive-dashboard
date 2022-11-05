@@ -1,9 +1,7 @@
 // taken from
 //https://www.labnol.org/google-drive-api-upload-220412
-import { assert } from 'console';
 import { JWT } from 'google-auth-library';
 import {google} from 'googleapis';
-import { objOf } from 'ramda';
 import stream from 'stream';
 
 // get auth using the correct service account
@@ -15,6 +13,9 @@ const getAuth = async () => {
           "https://www.googleapis.com/auth/drive.appdata",
           "https://www.googleapis.com/auth/drive.metadata",
         ],
+        /*
+            TODO: replace teamhub service account with executive-dashboard specific
+        */
         email:'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
         key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
     })
