@@ -16,6 +16,7 @@ import Button from '../../../components/Button';
 
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
+import useConfiguration from '../../../hooks/configuration';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
 import useProfileData from '../../../hooks/profileData';
@@ -31,6 +32,7 @@ const DecisionPage = () => {
   const [emailData, setEmailData] = useState({});
 
   const { applications } = useApplications(currentTermYear);
+  const { configuration } = useConfiguration();
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
@@ -188,13 +190,13 @@ const DecisionPage = () => {
     execEmail: profileData?.email || '',
     execPhoneNum: '(000) 000-0000',
     // Extracted from the configuration page database.
-    interviewLink: 'https://meet.google.com',
-    interviewEndDate: 'September 21',
-    newMembersDate: 'September 21',
-    newMembersTime: '4-5pm',
-    newMembersMeetingLink: 'https://meet.google.com',
-    newMembersFormLink: 'https://docs.google.com/forms',
-    newMembersFormDeadline: 'September 21',
+    interviewLink: configuration.interviewMeetingLink,
+    interviewEndDate: configuration.interviewFirstRoundDeadline,
+    newMembersDate: configuration.newMembersMeetingDate,
+    newMembersTime: `${configuration.newMembersMeetingStartTime}-${configuration.newMembersMeetingEndTime}`,
+    newMembersMeetingLink: configuration.newMembersMeetingLink,
+    newMembersFormLink: configuration.newMembersFormLink,
+    newMembersFormDeadline: configuration.newMembersFormDeadline,
   };
 
   return (
