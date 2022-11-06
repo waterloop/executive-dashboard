@@ -2,10 +2,12 @@ import * as actionTypes from '../actionTypes';
 
 const initialState = {
   interviewMeetingLink: '',
-  interviewRoundEndDate: '',
-  newMembersMeetingDate: '',
-  newMembersMeetingTime: '',
+  interviewFirstRoundDeadline: '',
+  interviewSecondRoundDeadline: '',
   newMembersMeetingLink: '',
+  newMembersMeetingDate: '',
+  newMembersMeetingStartTime: '',
+  newMembersMeetingEndTime: '',
   newMembersFormLink: '',
   newMembersFormDeadline: '',
 };
