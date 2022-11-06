@@ -144,3 +144,26 @@ export const timeToString = (time) =>
     minute: 'numeric',
     hour12: true,
   });
+
+// Converts string in the format '<year>-<month>-<day>' to Date Object
+export const stringToDate = (s) => new Date(s);
+
+// Converts string in the format '<hour>:<minute> <AM/PM>' to Date Object
+export const stringToTime = (s) => {
+  const period = s.slice(-2) === 'AM' ? 'AM' : 'PM';
+  // eslint-disable-next-line prefer-const
+  let [hour, minute] = s.split(' ')[0].split(':');
+  if (hour === '12' && period === 'AM') {
+    hour = '0';
+  } else if (hour <= '11' && period === 'PM') {
+    hour = (parseInt(hour, 10) + 12).toString();
+  }
+  const currentDate = new Date();
+  return new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getDate(),
+    hour,
+    minute,
+  );
+};

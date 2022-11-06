@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
@@ -10,7 +10,12 @@ import TimePicker from '@mui/lab/TimePicker';
 import useConfiguration from '../../../hooks/configuration';
 import FormContainer from '../../../components/FormContainer';
 import Button from '../../../components/Button';
-import { dateToString, timeToString } from '../../../utils';
+import {
+  dateToString,
+  stringToDate,
+  stringToTime,
+  timeToString,
+} from '../../../utils';
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -88,13 +93,14 @@ const TimeContainer = styled.div`
 `;
 
 const ConfigurationPage = () => {
-  const [interviewMeetingLink, setInterviewMeetingLink] = useState('');
+  const { configuration, updateConfiguration } = useConfiguration();
+
+  const [interviewMeetingLink, setInterviewMeetingLink] = useState();
   const [interviewFirstRoundDeadline, setInterviewFirstRoundDeadline] =
     useState(new Date());
-  const [interviewSecondRoundDeadline, setSecondDeadline] = useState(
-    new Date(),
-  );
-  const [newMembersMeetingLink, setNewMembersMeetingLink] = useState('');
+  const [interviewSecondRoundDeadline, setInterviewSecondRoundDeadline] =
+    useState(new Date());
+  const [newMembersMeetingLink, setNewMembersMeetingLink] = useState();
   const [newMembersMeetingDate, setNewMembersMeetingDate] = useState(
     new Date(),
   );
@@ -104,13 +110,33 @@ const ConfigurationPage = () => {
   const [newMembersMeetingEndTime, setNewMembersMeetingEndTime] = useState(
     new Date(),
   );
-  const [newMembersFormLink, setNewMembersFormLink] = useState('');
+  const [newMembersFormLink, setNewMembersFormLink] = useState();
   const [newMembersFormDeadline, setNewMembersFormDeadline] = useState(
     new Date(),
   );
   const history = useHistory();
 
-  const { updateConfiguration } = useConfiguration();
+  useEffect(() => {
+    setInterviewMeetingLink(configuration.interviewMeetingLink);
+    setInterviewFirstRoundDeadline(
+      stringToDate(configuration.interviewFirstRoundDeadline),
+    );
+    setInterviewSecondRoundDeadline(
+      stringToDate(configuration.interviewSecondRoundDeadline),
+    );
+    setNewMembersMeetingLink(configuration.newMembersMeetingLink);
+    setNewMembersMeetingDate(stringToDate(configuration.newMembersMeetingDate));
+    setNewMembersMeetingStartTime(
+      stringToTime(configuration.newMembersMeetingStartTime),
+    );
+    setNewMembersMeetingEndTime(
+      stringToTime(configuration.newMembersMeetingEndTime),
+    );
+    setNewMembersFormLink(configuration.newMembersFormLink);
+    setNewMembersFormDeadline(
+      stringToDate(configuration.newMembersFormDeadline),
+    );
+  }, [configuration]);
 
   const goBack = () => {
     history.push('/');
@@ -146,6 +172,7 @@ const ConfigurationPage = () => {
         value: dateToString(newMembersFormDeadline),
       },
     ];
+    // Makes sure the value isn't empty
     updateConfiguration(configuration.filter((config) => config.value !== ''));
     history.push('/');
   };
@@ -163,6 +190,7 @@ const ConfigurationPage = () => {
                 <TextField
                   placeholder="URL"
                   variant="outlined"
+                  value={interviewMeetingLink}
                   onChange={(evt) => setInterviewMeetingLink(evt.target.value)}
                 />
               </FormContainer>
@@ -186,7 +214,7 @@ const ConfigurationPage = () => {
                     <DesktopDatePicker
                       inputFormat="MM/dd/yyyy"
                       value={interviewSecondRoundDeadline}
-                      onChange={setSecondDeadline}
+                      onChange={setInterviewSecondRoundDeadline}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -205,6 +233,7 @@ const ConfigurationPage = () => {
                   id="outlined-basic"
                   placeholder="URL"
                   variant="outlined"
+                  value={newMembersMeetingLink}
                   onChange={(evt) => setNewMembersMeetingLink(evt.target.value)}
                 />
               </FormContainer>
@@ -254,6 +283,7 @@ const ConfigurationPage = () => {
                 <TextField
                   placeholder="URL"
                   variant="outlined"
+                  value={newMembersFormLink}
                   onChange={(evt) => setNewMembersFormLink(evt.target.value)}
                 />
               </FormContainer>
