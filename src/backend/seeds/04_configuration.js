@@ -12,12 +12,12 @@ if (!ENV_IS_STAGING_OR_PROD) {
           {
             id: 1,
             label: 'interview_first_round_deadline',
-            value: '2022-02-22',
+            value: '02-22-2022',
           },
           {
             id: 2,
             label: 'interview_second_round_deadline',
-            value: '2022-02-22',
+            value: '02-28-2022',
           },
           {
             id: 3,
@@ -32,12 +32,12 @@ if (!ENV_IS_STAGING_OR_PROD) {
           {
             id: 5,
             label: 'new_members_meeting_start_time',
-            value: '06:45',
+            value: '6:45 PM',
           },
           {
             id: 6,
             label: 'new_members_meeting_end_time',
-            value: '06:45',
+            value: '7:45 PM',
           },
           {
             id: 7,
@@ -47,7 +47,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
           {
             id: 8,
             label: 'new_members_form_deadline',
-            value: '2022-04-04',
+            value: '04-04-2022',
           },
         ]),
       );

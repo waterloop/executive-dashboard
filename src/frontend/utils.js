@@ -135,7 +135,7 @@ export const snakeCaseToCamelCase = (s) =>
 
 // Converts Date object to string in the format '<year>-<month>-<day>'
 export const dateToString = (date) =>
-  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
 
 // Converts time (represented as Date object) to string in the format '<hour>:<minute> <AM/PM>'
 export const timeToString = (time) =>
