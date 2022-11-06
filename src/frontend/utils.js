@@ -132,3 +132,15 @@ export const camelCaseToSnakeCase = (s) =>
 // e.g., important_object_property -> importantObjectProperty
 export const snakeCaseToCamelCase = (s) =>
   s.replace(/[-_][a-z]/g, (group) => group.slice(-1).toUpperCase());
+
+// Converts Date object to string in the format '<year>-<month>-<day>'
+export const dateToString = (date) =>
+  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+// Converts time (represented as Date object) to string in the format '<hour>:<minute> <AM/PM>'
+export const timeToString = (time) =>
+  time.toLocaleString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });

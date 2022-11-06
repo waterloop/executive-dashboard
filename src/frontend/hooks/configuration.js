@@ -38,6 +38,28 @@ const useConfiguration = () => {
     }
   }, []);
 
+  const updateConfiguration = useCallback(
+    async (configuration) => {
+      try {
+        const res = await api.configuration.updateConfiguration(configuration);
+        if (res.status !== 200) {
+          throw new Error(
+            `Could not update application status, HTTP ${res.status}`,
+          );
+        }
+        dispatch(
+          configurationActions.setConfiguration(parseConfiguration(res.data)),
+        );
+      } catch (err) {
+        if (process.env.NODE_ENV === 'development') {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        }
+      }
+    },
+    [dispatch],
+  );
+
   useEffect(() => {
     (async () => {
       const configuration = await getConfiguration();
@@ -47,6 +69,7 @@ const useConfiguration = () => {
 
   return {
     configuration,
+    updateConfiguration,
   };
 };
 
