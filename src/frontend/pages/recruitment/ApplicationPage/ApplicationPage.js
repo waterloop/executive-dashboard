@@ -14,16 +14,22 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
-} from '../utils';
+} from '../../../utils';
 
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 import useTeams from '../../../hooks/teams';
+import getTermDate from '../../../utils';
+
+const currentTermYear =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
 
 const ApplicationPage = () => {
   const history = useHistory();
 
-  const { applications } = useApplications('FALL-2022'); // TODO: in production, replace with Date.now().
+  const { applications } = useApplications(currentTermYear);
   const { postings } = usePostings();
   const { teams } = useTeams();
 
@@ -68,7 +74,6 @@ const ApplicationPage = () => {
     })
     .filter((position) => position.name !== undefined);
 
-  const subteamsUnformatted = teams.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
@@ -84,7 +89,11 @@ const ApplicationPage = () => {
   );
 
   useEffect(() => {
-    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+    const formattedSubteams = makeTruthTable(
+      teams.map((subteam) => subteam.name),
+      false,
+    );
+    setSubteamsChecked(formattedSubteams);
   }, [teams]);
 
   const filterRows = (status) =>

@@ -43,9 +43,7 @@ const ProfileDropdown = ({ className, onClose, onLogout }) => (
     <Container className={className}>
       <Arrow />
       <MainBox>
-        <Grid xs={20}>
-          <Typography onClick={onLogout}>Sign Out</Typography>
-        </Grid>
+        <Typography onClick={onLogout}>Sign Out</Typography>
       </MainBox>
     </Container>
   </ClickAwayListener>

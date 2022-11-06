@@ -10,7 +10,8 @@ import {
   setCheckboxesShown,
   oneTrue,
   getItemByName,
-} from '../utils';
+  formatTerm,
+} from '../../../utils';
 import Button from '../../../components/Button';
 
 import usePostings from '../../../hooks/postings';
@@ -18,12 +19,18 @@ import useApplications from '../../../hooks/applications';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
 import useProfileData from '../../../hooks/profileData';
+import getTermDate from '../../../utils';
+
+const currentTermYear =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [emailData, setEmailData] = useState({});
 
-  const { applications } = useApplications('FALL-2022');
+  const { applications } = useApplications(currentTermYear);
   const { postings } = usePostings();
   const { updateEmailSent } = useEmail();
   const { teams } = useTeams();
@@ -82,13 +89,14 @@ const DecisionPage = () => {
     .filter((position) => position.name !== undefined);
 
   const [positionsChecked, setPositionsChecked] = useState({});
-
-  const subteamsUnformatted = teams.map((subteam) => subteam.name);
-
   const [subteamsChecked, setSubteamsChecked] = useState({});
 
   useEffect(() => {
-    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+    const formattedSubteams = makeTruthTable(
+      teams.map((subteam) => subteam.name),
+      false,
+    );
+    setSubteamsChecked(formattedSubteams);
   }, [teams]);
 
   const filterRows = (status) =>
@@ -155,6 +163,19 @@ const DecisionPage = () => {
     },
   ];
 
+  const postingByID = (id) => {
+    let posting = {};
+    if (modalOpen) {
+      posting = postings.find((posting) => posting.id === id);
+    } else {
+      posting = {
+        team: '',
+        position: '',
+      };
+    }
+    return posting;
+  };
+
   const handleModalSubmit = () => {
     updateEmailSent(emailData);
 
@@ -170,10 +191,6 @@ const DecisionPage = () => {
     execName: profileData?.name || '',
     execEmail: profileData?.email || '',
     execPhoneNum: '(000) 000-0000',
-    // Extracted from the decision portal table row.
-    // position: 'Fullstack Developer',
-    // subteam: 'Web',
-    // nextTerm: 'Spring 2022',
     // Extracted from the configuration page database.
     interviewLink: 'https://meet.google.com',
     interviewEndDate: 'September 21',
@@ -199,9 +216,9 @@ const DecisionPage = () => {
         data={{
           applicantEmail: emailData.email_address,
           applicantName: `${emailData.first_name} ${emailData.last_name}`,
-          nextTerm: emailData.application_term,
-          position: emailData.position,
-          subteam: emailData.subteam,
+          position: `${postingByID(emailData.posting_id).title}`,
+          subteam: `${postingByID(emailData.posting_id).team}`,
+          nextTerm: `${formatTerm(emailData.application_term)}`,
           ...userData,
         }}
         onSubmit={handleModalSubmit}

@@ -27,6 +27,10 @@ const useGoogleAuth = (onAuthComplete) => {
               groupIds,
               accessToken,
             });
+          } else {
+            throw new Error(
+              `Could not authenticate user, HTTP status code: ${checkTokenResponse.status}`,
+            );
           }
         })
         .catch((err) => onAuthComplete(err));
@@ -36,7 +40,7 @@ const useGoogleAuth = (onAuthComplete) => {
       setCookie('userName', profileObj.name);
       setCookie('userEmail', profileObj.email);
     },
-    [onAuthComplete],
+    [onAuthComplete, dispatch],
   );
 
   const { signIn } = useGoogleLogin({
@@ -59,7 +63,7 @@ const useGoogleAuth = (onAuthComplete) => {
       console.log('successful logout');
     },
     onFailure: () => {
-      console.log('Failed to logout!');
+      console.error('Failed to logout!');
     },
   });
 

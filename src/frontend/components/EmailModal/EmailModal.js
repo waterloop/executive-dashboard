@@ -82,7 +82,7 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
 
   useEffect(() => {
     setToInput(applicantEmail);
-  }, [data]);
+  }, [applicantEmail]);
 
   useEffect(() => {
     const { subject, text } = EmailTemplate(status, data);

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../api';
 import * as teamsActions from '../state/teams/actions';
 import * as teamsSelectors from '../state/teams/selectors';
-import { renameObjectKeys } from '../pages/recruitment/utils';
+import { renameObjectKeys } from '../utils';
 
 const useTeams = () => {
   const dispatch = useDispatch();
@@ -15,10 +15,10 @@ const useTeams = () => {
     try {
       const teams = await api.teams.getTeams();
       const teamDesc = await api.teams.getTeamDesc();
-      renameObjectKeys(teams.data, 'teamName', 'name');
+      const teamsData = renameObjectKeys(teams.data, 'teamName', 'name');
 
       return {
-        teams: teams.data,
+        teams: teamsData,
         teamDesc: teamDesc.data,
       };
     } catch (err) {

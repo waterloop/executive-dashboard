@@ -2,9 +2,12 @@ require('dotenv').config();
 import express from 'express';
 import db from './db';
 import { OAuth2Client, JWT } from 'google-auth-library';
-import {google} from 'googleapis'
+import { google } from 'googleapis';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+);
 
 const router = express.Router();
 
@@ -49,6 +52,7 @@ export const validateRequest = async (req, res, next) => {
     res.sendStatus(403);
   }
 };
+const groupName = process.env.NODE_ENV === 'production' ? 'Leads' : 'Web';
 
 router.post('/', async (req, res) => {
   const { tokenId } = req.query;
@@ -56,12 +60,14 @@ router.post('/', async (req, res) => {
     res.send('Missing Token ID').status(400);
     return;
   }
+
   try {
     const ticket = await client.verifyIdToken({
       idToken: tokenId,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    })
+    });
+
     const payload = ticket.getPayload();
+
     const {
       hd, // host domain
       sub: userId,
@@ -79,7 +85,7 @@ router.post('/', async (req, res) => {
     }
 
     // check if user is a lead
-    const lead = await isLead(email)
+    const lead = await isLead(email);
     if (!lead) {
       throw {
         status: 403,
@@ -88,65 +94,85 @@ router.post('/', async (req, res) => {
     }
 
     // get user info
-    const userQueryResp = await db.users.getById(userId)
+    const userQueryResp = await db.users.getById(userId);
 
     if (userQueryResp === -1) {
       // No user found so make one
-      await db.users.createUser(email, given_name, family_name, userId)
-      await db.users.getById(userId)
+      await db.users.createUser(email, given_name, family_name, userId);
     }
-
     // Check that the access token was sent along in the request
-    const authHeader = req.get("Authorization");
+    const authHeader = req.get('Authorization');
     if (!authHeader) {
-      res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
+      res
+        .status(401)
+        .set('WWW-Authenticate', 'Bearer')
+        .send('No auth header found.')
+        .end();
       return;
     }
     const [type, accessToken] = authHeader.split(' ');
-    if (type !== "Bearer" || !accessToken) {
-      res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
+    if (type !== 'Bearer' || !accessToken) {
+      res
+        .status(401)
+        .set('WWW-Authenticate', 'Bearer')
+        .send('No bearer token found.')
+        .end();
       return;
     }
-    // Check whether the user has admin priveleges (admins can edit content using the CMS)
-    const resp = await db.featurePermissions.getAllowedActions(userId, accessToken)
-    console.log(resp);
-    const {allowedActions, groupIds} = resp;
-    if (allowedActions.includes('Edit Content')) {  // The user has permission to log in to the CMS
+    // Check whether the user has admin priveleges (admins can edit content using the executive dashboard)
+    const resp = await db.featurePermissions.getAllowedActions(
+      userId,
+      accessToken,
+    );
+    const { allowedActions, groupIds } = resp;
+    if (allowedActions.includes('Edit Content')) {
+      // The user has permission to log in to the executive dashboard
       res.send({ userId, groupIds, accessToken }).status(200);
     } else {
-      res.statusMessage = "ERROR: User does not have permission to edit website content.";
+      res.statusMessage =
+        'ERROR: User does not have permission to edit website content.';
       res.status(403).end();
-    }            
-  } catch(err) {
-    console.log(err);
-    console.log(`${err.status}: ${err.msg}`);
+    }
+  } catch (err) {
+    console.error(`Authentication Error: ${err.status}: ${err.msg}`);
     res.sendStatus(err.status || 400);
   }
 });
 
 router.post('/groups', (req, res) => {
-  const {userId, groupIds} = req.query;
+  const { userId, groupIds } = req.query;
   const groupIdsArray = groupIds.split(',');
 
   // Check that the access token was sent along in the request
-  const authHeader = req.get("Authorization");
+  const authHeader = req.get('Authorization');
   if (!authHeader) {
-    res.status(401).set('WWW-Authenticate', 'Bearer').send('No auth header found.').end();
+    res
+      .status(401)
+      .set('WWW-Authenticate', 'Bearer')
+      .send('No auth header found.')
+      .end();
     return;
   }
 
   const [type, accessToken] = authHeader.split(' ');
-  if (type !== "Bearer" || !accessToken) {
-    res.status(401).set('WWW-Authenticate', 'Bearer').send('No bearer token found.').end();
+  if (type !== 'Bearer' || !accessToken) {
+    res
+      .status(401)
+      .set('WWW-Authenticate', 'Bearer')
+      .send('No bearer token found.')
+      .end();
     return;
   }
 
-  db.featurePermissions.
-    updateUserGroups(userId, groupIdsArray, accessToken)
+  db.featurePermissions
+    .updateUserGroups(userId, groupIdsArray, accessToken)
     .then((resp) => {
       res.send(resp).status(200);
-    }).catch(err => {
-      console.log("Error: Failed to sync group membership info. with data from Google Groups.");
+    })
+    .catch((err) => {
+      console.error(
+        'Error: Failed to sync group membership info. with data from Google Groups.',
+      );
       res.sendStatus(err.status || 400);
     });
 });
@@ -162,38 +188,27 @@ router.get('/picture/:userId', (req, res) => {
 
 // isLead takes a user's email and returns true/false whether they are a 'Lead'
 async function isLead(userEmail) {
-
   // code borrowed from teamhub `google-auth.js`
   // we will need to replace the teamhubbackend service account with
   //  an executive-dashboard service account once we find someone who
   //  can enable domain-wide delegation for it
-  
+
   // ideally, service account is changed to executive-dashboard and subject is changed
   //  to jeff.m@waterloop.ca
   const jwtClient = new JWT({
-    scopes:["https://www.googleapis.com/auth/admin.directory.group", 
-  ],
-    email:'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
+    scopes: ['https://www.googleapis.com/auth/admin.directory.group'],
+    email: 'teamhubbackend@teamhub-257722.iam.gserviceaccount.com',
     key: process.env.SERVICE_ACCOUNT_PRIVATE_KEY,
-    subject:"steven.x@waterloop.ca",
-  })
+    subject: 'steven.x@waterloop.ca',
+  });
 
-  const adminClient = google.admin({version:'directory_v1', auth: jwtClient})
-  const groups = await adminClient.groups.list({ userKey: userEmail})
+  const adminClient = google.admin({
+    version: 'directory_v1',
+    auth: jwtClient,
+  });
+  const groups = await adminClient.groups.list({ userKey: userEmail });
 
-  for(const group of groups.data.groups) {
-    /*
-    ======================================
-
-     in production, change 'Web' to 'Leads'
-     
-    ======================================
-    */
-    if(group.name === 'Web') {
-      return true
-    }
-  }
-  return false
+  return groups.data.groups.some((g) => g.name === groupName);
 }
 
 export default router;
