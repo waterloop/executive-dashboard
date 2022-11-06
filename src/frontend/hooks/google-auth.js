@@ -37,7 +37,7 @@ const useGoogleAuth = (onAuthComplete) => {
       Cookies.set('userName', profileObj.name, { expires: 1 });
       Cookies.set('userEmail', profileObj.email, { expires: 1 });
     },
-    [onAuthComplete],
+    [onAuthComplete, dispatch],
   );
 
   const { signIn } = useGoogleLogin({
@@ -45,16 +45,14 @@ const useGoogleAuth = (onAuthComplete) => {
     onFailure: (err) => {
       console.error('Failed to authenticate user! Reason: ', err);
     },
-    clientId:
-      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     scope:
       'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
     prompt: 'consent',
   });
 
   const { signOut } = useGoogleLogout({
-    clientId:
-      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     onLogoutSuccess: () => {
       Cookies.remove('tokenId', []);
       Cookies.remove('userName');

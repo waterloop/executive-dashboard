@@ -1,3 +1,4 @@
+import { config } from 'dotenv';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -5,6 +6,8 @@ import { ThemeProvider } from 'styled-components';
 import App from './frontend/App';
 import state from './frontend/state';
 import theme from './frontend/theme';
+
+config();
 
 ReactDOM.render(
   <React.StrictMode>

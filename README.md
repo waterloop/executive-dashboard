@@ -10,7 +10,7 @@ The executive dashboard is an all-in-one ATS and member analytics tool used by a
 4. After running cms-server, run these 3 commands in succession to start the application:
    1. `yarn docker:dev`
    2. `yarn dev` in new terminal
-   3. `yarn start` in new terminal
+   3. `yarn start:frontend` in new terminal
 5. For more commmands please see `package.json` under the "scripts" section. `yarn start` to start the application.
 6. (Optional): Download React Tools and Redux Devtools to debug components from your browser.
 

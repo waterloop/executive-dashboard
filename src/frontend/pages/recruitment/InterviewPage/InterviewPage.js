@@ -74,7 +74,6 @@ const InterviewPage = () => {
     })
     .filter((position) => position.name !== undefined);
 
-  const subteamsUnformatted = teams.map((subteam) => subteam.name);
   const termTypesUnformatted = TERM_TYPE_OPTIONS.map(
     (termType) => termType.name,
   );
@@ -90,7 +89,11 @@ const InterviewPage = () => {
   );
 
   useEffect(() => {
-    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+    const formattedSubteams = makeTruthTable(
+      teams.map((subteam) => subteam.name),
+      false,
+    );
+    setSubteamsChecked(formattedSubteams);
   }, [teams]);
 
   const filterRows = (status) =>

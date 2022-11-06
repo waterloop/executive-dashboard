@@ -87,13 +87,14 @@ const DecisionPage = () => {
     .filter((position) => position.name !== undefined);
 
   const [positionsChecked, setPositionsChecked] = useState({});
-
-  const subteamsUnformatted = teams.map((subteam) => subteam.name);
-
   const [subteamsChecked, setSubteamsChecked] = useState({});
 
   useEffect(() => {
-    setSubteamsChecked(makeTruthTable(subteamsUnformatted, false));
+    const formattedSubteams = makeTruthTable(
+      teams.map((subteam) => subteam.name),
+      false,
+    );
+    setSubteamsChecked(formattedSubteams);
   }, [teams]);
 
   const filterRows = (status) =>

@@ -4,7 +4,10 @@ import db from './db';
 import { OAuth2Client, JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const client = new OAuth2Client(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+);
 
 const router = express.Router();
 
@@ -16,12 +19,14 @@ router.post('/', async (req, res) => {
     res.send('Missing Token ID').status(400);
     return;
   }
+
   try {
     const ticket = await client.verifyIdToken({
       idToken: tokenId,
-      audience: process.env.GOOGLE_CLIENT_ID,
     });
+
     const payload = ticket.getPayload();
+
     const {
       hd, // host domain
       sub: userId,
@@ -54,7 +59,6 @@ router.post('/', async (req, res) => {
       // No user found so make one
       await db.users.createUser(email, given_name, family_name, userId);
     }
-
     // Check that the access token was sent along in the request
     const authHeader = req.get('Authorization');
     if (!authHeader) {
@@ -89,7 +93,7 @@ router.post('/', async (req, res) => {
       res.status(403).end();
     }
   } catch (err) {
-    console.error(`${err.status}: ${err.msg}`);
+    console.error(`Authentication Error: ${err.status}: ${err.msg}`);
     res.sendStatus(err.status || 400);
   }
 });
