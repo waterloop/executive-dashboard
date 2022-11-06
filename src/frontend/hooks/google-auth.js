@@ -45,15 +45,15 @@ const useGoogleAuth = (onAuthComplete) => {
       console.error('Failed to authenticate user! Reason: ', err);
     },
     clientId:
-      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+      process.env.REACT_APP_GOOGLE_CLIENT_ID,
     scope: 
       scopes.join(' '),
     prompt: 'consent',
   });
-  
+  console.log('PROCESS.ENV: ', process.env.REACT_APP_GOOGLE_CLIENT_ID);
   const { signOut } = useGoogleLogout({
     clientId:
-      '538509890740-e3dai2feq6knjfdspqde5ogt2kme0chm.apps.googleusercontent.com',
+      process.env.REACT_APP_GOOGLE_CLIENT_ID,
     onLogoutSuccess: () => {
       removeAllCookies();
       console.log('successful logout');

@@ -1,13 +1,24 @@
 import db from '../../db';
+import {sendEmail} from './helper';
 
 export default async (req, res) => {
   console.log('req.body:', req.body);
   const appID = req.body.id;
   console.log('appID:', appID);
-
+  console.log('res.locals:', res.locals.ticket);
   // TODO: send the actual email, then check if email sent correctly
 
-  console.log( res.locals.ticket );
+  const { authorization } = req.headers;
+  const [type, token] = authorization.split(' ');
+  // if (type !== 'Bearer') {
+  //   console.log("Auth Error, (not a bearer token)", authorization, type, token);
+  //   res.sendStatus(403);
+  //   return;
+  // }
+
+  const messageId = await sendEmail(req.body, token);
+  
+  console.log('messageID: ', messageId);
   // TODO: If so, proceed with code below, else abort procedure.
 
   db.applications

@@ -47,7 +47,6 @@ const DecisionPage = () => {
   const tableRows = applications.map((application) => {
     if (application) {
       const appPosting = getItemById(postings, application.posting_id);
-      console.log('appPosting: ', appPosting);
       if (appPosting) {
         const appValues = [
           `${application.first_name} ${application.last_name}`,
