@@ -12,12 +12,12 @@ if (!ENV_IS_STAGING_OR_PROD) {
           {
             id: 1,
             label: 'interview_first_round_deadline',
-            value: '02-22-2022',
+            value: '2022-02-22',
           },
           {
             id: 2,
             label: 'interview_second_round_deadline',
-            value: '02-28-2022',
+            value: '2022-02-28',
           },
           {
             id: 3,
@@ -47,7 +47,7 @@ if (!ENV_IS_STAGING_OR_PROD) {
           {
             id: 8,
             label: 'new_members_form_deadline',
-            value: '04-04-2022',
+            value: '2022-04-04',
           },
         ]),
       );
