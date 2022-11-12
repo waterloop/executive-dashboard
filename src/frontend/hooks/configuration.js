@@ -44,7 +44,7 @@ const useConfiguration = () => {
         const res = await api.configuration.updateConfiguration(configuration);
         if (res.status !== 200) {
           throw new Error(
-            `Could not update application status, HTTP ${res.status}`,
+            `Could not update configuration status, HTTP ${res.status}`,
           );
         }
         dispatch(
