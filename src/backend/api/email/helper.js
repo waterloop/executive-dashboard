@@ -65,14 +65,20 @@ export const sendEmail = async (message, token) => {
         console.log('env: ', process.env.GOOGLE_CLIENT_ID);
         // const auth = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET);
         console.log('token: ', token);
-        const oAuth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_SECRET);
+        
+        const oAuth2Client = new google.auth.OAuth2(process.env.GOOGLE_CLIENT_ID);
         oAuth2Client.setCredentials({
             access_token: token,
             scope: 'https://www.googleapis.com/auth/gmail.send',
-            token_type: 'Bearer',
         });
+        const ticket = await oAuth2Client.verifyIdToken({
+            idToken: token,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        })
+        const payload = ticket.getPayload();
+        console.log('ticket: ', payload);
         const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
-
+        
 
         // const gmail = google.gmail({ version: 'v1', auth })
 
@@ -80,7 +86,7 @@ export const sendEmail = async (message, token) => {
             // to: message.email_address, <- uncomment this after testing
             to: 'gordon.w@waterloop.ca',
             // cc: 'cc1@example.com, cc2@example.com',
-            replyTo: 'amit@labnol.org',
+            replyTo: 'gordon.w@waterloop.ca',
             subject: 'Hello',
             text: 'This email is sent from the command line',
             // html: `<p>🙋🏻‍♀️  &mdash; This is a <b>test email</b> from <a href="https://digitalinspiration.com">Digital Inspiration</a>.</p>`,
@@ -94,9 +100,10 @@ export const sendEmail = async (message, token) => {
 
         const rawMessage = await createMail(options);
         console.log('before send');
+        
         const { data: { id } = {} } = await gmail.users.messages.send({
             userId: 'me',
-            resource: {
+            requestBody: {
                 raw: rawMessage,
             },
         });
@@ -107,32 +114,8 @@ export const sendEmail = async (message, token) => {
 
         // TODO: Figure out how to import Message object, then configure it and set gmail.user.messages = new Message()
         // const res = await gmail.user.messages.send();
-
-
-        // return new Promise((resolve, reject) => {
-        //   const filename = `${Date.now()}-${originalname}`;
-        //   const file = bucket.file(filename);
-
-        //   const stream = file.createWriteStream({
-        //     metadata: {
-        //       contentType: mimetype,
-        //     },
-        //   });
-
-        //   stream.on('error', (err) => {
-        //     reject(err);
-        //   });
-
-        //   stream.on('finish', () => {
-        //     file.makePublic().then(() => {
-        //       resolve(getPublicUrl(bucketName, filename));
-        //     });
-        //   });
-
-        //   stream.end(buffer);
-        // });
     } catch (err) {
         console.log('sendMail error', err);
-        return null;
+        return -1;
     }
 };
