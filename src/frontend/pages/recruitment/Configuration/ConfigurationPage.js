@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -10,12 +11,6 @@ import TimePicker from '@mui/lab/TimePicker';
 import useConfiguration from '../../../hooks/configuration';
 import FormContainer from '../../../components/FormContainer';
 import Button from '../../../components/Button';
-import {
-  dateToString,
-  stringToDate,
-  stringToTime,
-  timeToString,
-} from '../../../utils';
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -119,23 +114,21 @@ const ConfigurationPage = () => {
   useEffect(() => {
     setInterviewMeetingLink(configuration.interviewMeetingLink);
     setInterviewFirstRoundDeadline(
-      stringToDate(configuration.interviewFirstRoundDeadline),
+      moment(configuration.interviewFirstRoundDeadline),
     );
     setInterviewSecondRoundDeadline(
-      stringToDate(configuration.interviewSecondRoundDeadline),
+      moment(configuration.interviewSecondRoundDeadline),
     );
     setNewMembersMeetingLink(configuration.newMembersMeetingLink);
-    setNewMembersMeetingDate(stringToDate(configuration.newMembersMeetingDate));
+    setNewMembersMeetingDate(moment(configuration.newMembersMeetingDate));
     setNewMembersMeetingStartTime(
-      stringToTime(configuration.newMembersMeetingStartTime),
+      moment(configuration.newMembersMeetingStartTime, 'LT'),
     );
     setNewMembersMeetingEndTime(
-      stringToTime(configuration.newMembersMeetingEndTime),
+      moment(configuration.newMembersMeetingEndTime, 'LT'),
     );
     setNewMembersFormLink(configuration.newMembersFormLink);
-    setNewMembersFormDeadline(
-      stringToDate(configuration.newMembersFormDeadline),
-    );
+    setNewMembersFormDeadline(moment(configuration.newMembersFormDeadline));
   }, [configuration]);
 
   const goBack = () => {
@@ -147,29 +140,29 @@ const ConfigurationPage = () => {
       { label: 'interview_meeting_link', value: interviewMeetingLink },
       {
         label: 'interview_first_round_deadline',
-        value: dateToString(interviewFirstRoundDeadline),
+        value: moment(interviewFirstRoundDeadline).format('YYYY-MM-DD'),
       },
       {
         label: 'interview_second_round_deadline',
-        value: dateToString(interviewSecondRoundDeadline),
+        value: moment(interviewSecondRoundDeadline).format('YYYY-MM-DD'),
       },
       {
         label: 'new_members_meeting_date',
-        value: dateToString(newMembersMeetingDate),
+        value: moment(newMembersMeetingDate).format('YYYY-MM-DD'),
       },
       {
         label: 'new_members_meeting_start_time',
-        value: timeToString(newMembersMeetingStartTime),
+        value: moment(newMembersMeetingStartTime).format('LT'),
       },
       {
         label: 'new_members_meeting_end_time',
-        value: timeToString(newMembersMeetingEndTime),
+        value: moment(newMembersMeetingEndTime).format('LT'),
       },
       { label: 'new_members_meeting_link', value: newMembersMeetingLink },
       { label: 'new_members_form_link', value: newMembersFormLink },
       {
         label: 'new_members_form_deadline',
-        value: dateToString(newMembersFormDeadline),
+        value: moment(newMembersFormDeadline).format('YYYY-MM-DD'),
       },
     ];
     // Makes sure the value isn't empty
