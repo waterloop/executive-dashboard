@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
 import EmailModal from '../../../components/EmailModal';
 import PortalTemplate from '../components/PortalTemplate';
@@ -183,7 +184,6 @@ const DecisionPage = () => {
     window.location.reload();
   };
 
-  // TODO: Replace the mock data below with actual data taken from the appropriate sources.
   const userData = {
     // Extracted from Google OAuth.
     execName: profileData?.name || '',
@@ -191,12 +191,18 @@ const DecisionPage = () => {
     execPhoneNum: '(000) 000-0000',
     // Extracted from the configuration page database.
     interviewLink: configuration.interviewMeetingLink,
-    interviewEndDate: configuration.interviewFirstRoundDeadline,
-    newMembersDate: configuration.newMembersMeetingDate,
-    newMembersTime: `${configuration.newMembersMeetingStartTime}-${configuration.newMembersMeetingEndTime}`,
+    interviewEndDate: moment(configuration.interviewFirstRoundDeadline).format(
+      'dddd, MMMM Do',
+    ),
+    newMembersDate: moment(configuration.newMembersMeetingDate).format(
+      'dddd, MMMM Do',
+    ),
+    newMembersTime: `${configuration.newMembersMeetingStartTime}-${configuration.newMembersMeetingEndTime} EST`,
     newMembersMeetingLink: configuration.newMembersMeetingLink,
     newMembersFormLink: configuration.newMembersFormLink,
-    newMembersFormDeadline: configuration.newMembersFormDeadline,
+    newMembersFormDeadline: `${moment(
+      configuration.newMembersFormDeadline,
+    ).format('dddd, MMMM Do')}, 11:59 PM`,
   };
 
   return (
