@@ -204,7 +204,8 @@ const ConfigurationPage = () => {
                 <FormContainer title="First Round Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
                       value={config.interviewFirstRoundDeadline}
                       onChange={handleChange(
                         'date/time',
@@ -219,7 +220,8 @@ const ConfigurationPage = () => {
                 <FormContainer title="Second Round Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
                       value={config.interviewSecondRoundDeadline}
                       onChange={handleChange(
                         'date/time',
@@ -253,7 +255,8 @@ const ConfigurationPage = () => {
                 <FormContainer title="Date">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
                       value={config.newMembersMeetingDate}
                       onChange={handleChange(
                         'date/time',
@@ -312,7 +315,8 @@ const ConfigurationPage = () => {
                 <FormContainer title="Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
                       value={config.newMembersFormDeadline}
                       onChange={handleChange(
                         'date/time',
