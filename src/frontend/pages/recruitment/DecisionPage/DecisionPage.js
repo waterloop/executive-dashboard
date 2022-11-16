@@ -197,12 +197,12 @@ const DecisionPage = () => {
     newMembersDate: moment(configuration.newMembersMeetingDate).format(
       'dddd, MMMM Do',
     ),
-    newMembersTime: `${configuration.newMembersMeetingStartTime}-${configuration.newMembersMeetingEndTime} EST`,
+    newMembersTime: `${configuration.newMembersMeetingStartTime} - ${configuration.newMembersMeetingEndTime} EST`,
     newMembersMeetingLink: configuration.newMembersMeetingLink,
     newMembersFormLink: configuration.newMembersFormLink,
     newMembersFormDeadline: `${moment(
       configuration.newMembersFormDeadline,
-    ).format('dddd, MMMM Do')}, 11:59 PM`,
+    ).format('MMMM Do')}, 11:59 PM`,
   };
 
   return (

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { cloneDeep } from 'lodash';
+import moment from 'moment';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment';
 import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -117,10 +117,12 @@ const ConfigurationPage = () => {
           'newMembersFormDeadline',
         ].includes(k)
       ) {
+        // Converts date (e.g., 2022-11-04) to moment object (wrapper for JS Date Object)
         parsedConfig[k] = moment(v);
       } else if (
         ['newMembersMeetingStartTime', 'newMembersMeetingEndTime'].includes(k)
       ) {
+        // Converts time (e.g., 6:45 PM) to moment object (wrapper for JS Date Object)
         parsedConfig[k] = moment(v, 'LT');
       }
     });
@@ -148,10 +150,12 @@ const ConfigurationPage = () => {
             'newMembersFormDeadline',
           ].includes(k)
         ) {
+          // Converts moment object to string representation of date (e.g., 2022-11-04)
           entry.value = moment(v).format('YYYY-MM-DD');
         } else if (
           ['newMembersMeetingStartTime', 'newMembersMeetingEndTime'].includes(k)
         ) {
+          // Converts moment object to string representation of time (e.g., 6:45 PM)
           entry.value = moment(v).format('LT');
         } else {
           entry.value = v;
@@ -175,7 +179,7 @@ const ConfigurationPage = () => {
         break;
       default:
         throw new Error(
-          'Error with the handleChange function in ConfigurationPage',
+          'Error with handleChange function in ConfigurationPage',
         );
     }
     setConfig(newConfig);

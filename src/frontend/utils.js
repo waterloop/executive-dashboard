@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 /**
  * Sets and updates checked checkboxes
  */
