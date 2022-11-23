@@ -1,4 +1,6 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { cloneDeep } from 'lodash';
+import moment from 'moment';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
@@ -7,8 +9,10 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import TimePicker from '@mui/lab/TimePicker';
 
+import useConfiguration from '../../../hooks/configuration';
 import FormContainer from '../../../components/FormContainer';
 import Button from '../../../components/Button';
+import { camelCaseToSnakeCase } from '../../../utils';
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -86,21 +90,99 @@ const TimeContainer = styled.div`
 `;
 
 const ConfigurationPage = () => {
-  const [firstDeadline, setFirstDeadline] = React.useState(new Date());
-  const [secondDeadline, setSecondDeadline] = React.useState(new Date());
-  const [orientationDate, setOrientationDate] = React.useState(new Date());
-  const [confirmDeadline, setConfirmDeadline] = React.useState(new Date());
-  const [startTime, setStartTime] = React.useState(new Date());
-  const [endTime, setEndTime] = React.useState(new Date());
+  const { configuration, updateConfiguration } = useConfiguration();
+
+  const [localConfiguration, setLocalConfiguration] = useState({
+    interviewMeetingLink: '',
+    interviewFirstRoundDeadline: new Date(),
+    interviewSecondRoundDeadline: new Date(),
+    newMembersMeetingLink: '',
+    newMembersMeetingDate: new Date(),
+    newMembersMeetingStartTime: new Date(),
+    newMembersMeetingEndTime: new Date(),
+    newMembersFormLink: '',
+    newMembersFormDeadline: new Date(),
+  });
   const history = useHistory();
+
+  useEffect(() => {
+    const parsedConfiguration = cloneDeep(configuration);
+
+    Object.entries(parsedConfiguration).forEach(([k, v]) => {
+      if (
+        [
+          'interviewFirstRoundDeadline',
+          'interviewSecondRoundDeadline',
+          'newMembersMeetingDate',
+          'newMembersFormDeadline',
+        ].includes(k)
+      ) {
+        // Converts date string (e.g., 2022-11-04) to moment object (wrapper for JS Date Object)
+        parsedConfiguration[k] = moment(v);
+      } else if (
+        ['newMembersMeetingStartTime', 'newMembersMeetingEndTime'].includes(k)
+      ) {
+        // Converts time string (e.g., 6:45 PM) to moment object (wrapper for JS Date Object)
+        parsedConfiguration[k] = moment(v, 'LT');
+      }
+    });
+
+    setLocalConfiguration(parsedConfiguration);
+  }, [configuration]);
 
   const goBack = () => {
     history.push('/');
   };
 
   const saveForm = () => {
-    /* TODO: Handle submit form when user clicks save */
+    const configuration = Object.entries(localConfiguration)
+      .filter((entry) => entry[1] !== '')
+      .map(([k, v]) => {
+        const entry = {
+          label: camelCaseToSnakeCase(k),
+        };
+
+        if (
+          [
+            'interviewFirstRoundDeadline',
+            'interviewSecondRoundDeadline',
+            'newMembersMeetingDate',
+            'newMembersFormDeadline',
+          ].includes(k)
+        ) {
+          // Converts moment object to date string (e.g., 2022-11-04)
+          entry.value = moment(v).format('YYYY-MM-DD');
+        } else if (
+          ['newMembersMeetingStartTime', 'newMembersMeetingEndTime'].includes(k)
+        ) {
+          // Converts moment object to time string (e.g., 6:45 PM)
+          entry.value = moment(v).format('LT');
+        } else {
+          entry.value = v;
+        }
+        return entry;
+      });
+
+    updateConfiguration(configuration);
     history.push('/');
+  };
+
+  // Handler function for all inputs on this page
+  const handleChange = (type, prop) => (param) => {
+    const newConfig = cloneDeep(localConfiguration);
+    switch (type) {
+      case 'text':
+        newConfig[prop] = param.target.value;
+        break;
+      case 'date/time':
+        newConfig[prop] = param;
+        break;
+      default:
+        throw new Error(
+          'Error with handleChange function in ConfigurationPage',
+        );
+    }
+    setLocalConfiguration(newConfig);
   };
 
   return (
@@ -113,7 +195,12 @@ const ConfigurationPage = () => {
           <InnerSectionContainer>
             <RowContainer>
               <FormContainer title="Meeting Link">
-                <TextField placeholder="URL" variant="outlined" />
+                <TextField
+                  placeholder="URL"
+                  variant="outlined"
+                  value={localConfiguration.interviewMeetingLink}
+                  onChange={handleChange('text', 'interviewMeetingLink')}
+                />
               </FormContainer>
             </RowContainer>
             <RowContainer>
@@ -121,9 +208,13 @@ const ConfigurationPage = () => {
                 <FormContainer title="First Round Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
-                      value={firstDeadline}
-                      onChange={setFirstDeadline}
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
+                      value={localConfiguration.interviewFirstRoundDeadline}
+                      onChange={handleChange(
+                        'date/time',
+                        'interviewFirstRoundDeadline',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -133,9 +224,13 @@ const ConfigurationPage = () => {
                 <FormContainer title="Second Round Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
-                      value={secondDeadline}
-                      onChange={setSecondDeadline}
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
+                      value={localConfiguration.interviewSecondRoundDeadline}
+                      onChange={handleChange(
+                        'date/time',
+                        'interviewSecondRoundDeadline',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -154,6 +249,8 @@ const ConfigurationPage = () => {
                   id="outlined-basic"
                   placeholder="URL"
                   variant="outlined"
+                  value={localConfiguration.newMembersMeetingLink}
+                  onChange={handleChange('text', 'newMembersMeetingLink')}
                 />
               </FormContainer>
             </RowContainer>
@@ -162,9 +259,13 @@ const ConfigurationPage = () => {
                 <FormContainer title="Date">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
-                      value={orientationDate}
-                      onChange={setOrientationDate}
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
+                      value={localConfiguration.newMembersMeetingDate}
+                      onChange={handleChange(
+                        'date/time',
+                        'newMembersMeetingDate',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -174,8 +275,11 @@ const ConfigurationPage = () => {
                 <FormContainer title="Start Time">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
-                      value={startTime}
-                      onChange={setStartTime}
+                      value={localConfiguration.newMembersMeetingStartTime}
+                      onChange={handleChange(
+                        'date/time',
+                        'newMembersMeetingStartTime',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -183,8 +287,11 @@ const ConfigurationPage = () => {
                 <FormContainer title="End Time">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <TimePicker
-                      value={endTime}
-                      onChange={setEndTime}
+                      value={localConfiguration.newMembersMeetingEndTime}
+                      onChange={handleChange(
+                        'date/time',
+                        'newMembersMeetingEndTime',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -199,7 +306,12 @@ const ConfigurationPage = () => {
           <InnerSectionContainer>
             <RowContainer>
               <FormContainer title="Form Link">
-                <TextField placeholder="URL" variant="outlined" />
+                <TextField
+                  placeholder="URL"
+                  variant="outlined"
+                  value={localConfiguration.newMembersFormLink}
+                  onChange={handleChange('text', 'newMembersFormLink')}
+                />
               </FormContainer>
             </RowContainer>
             <RowContainer>
@@ -207,9 +319,13 @@ const ConfigurationPage = () => {
                 <FormContainer title="Deadline">
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
-                      inputFormat="MM/dd/yyyy"
-                      value={confirmDeadline}
-                      onChange={setConfirmDeadline}
+                      inputFormat="yyyy-MM-dd"
+                      mask="____-__-__"
+                      value={localConfiguration.newMembersFormDeadline}
+                      onChange={handleChange(
+                        'date/time',
+                        'newMembersFormDeadline',
+                      )}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>

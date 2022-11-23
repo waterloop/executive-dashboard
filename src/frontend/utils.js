@@ -103,7 +103,6 @@ export const getTermDate = (date) =>
 /**
  * Creates data from an array of values:
  */
-
 export const createData = (keys, values) => {
   const res = {};
   keys.forEach((kval, idx) => {
@@ -119,3 +118,20 @@ export const getItemById = (arr, id) => {
   const obj = arr.filter((item) => item.id === id);
   return obj[0];
 };
+
+/**
+ * Converts a camelCase string to its snake_case equivalent
+ * e.g., importantObjectProperty -> important_object_property
+ */
+export const camelCaseToSnakeCase = (s) =>
+  s
+    .split(/(?=[A-Z])/)
+    .join('_')
+    .toLowerCase();
+
+/**
+ * Converts a snake_case string to its camelCase equivalent
+ * e.g., important_object_property -> importantObjectProperty
+ */
+export const snakeCaseToCamelCase = (s) =>
+  s.replace(/[-_][a-z]/g, (group) => group.slice(-1).toUpperCase());
