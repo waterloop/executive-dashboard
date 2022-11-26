@@ -76,7 +76,7 @@ export const sendEmail = async (message, token) => {
             audience: process.env.GOOGLE_CLIENT_ID,
         })
         const payload = ticket.getPayload();
-        console.log('ticket: ', payload);
+        // console.log('ticket: ', payload);
         const gmail = google.gmail({ version: 'v1', auth: oAuth2Client });
         
 
