@@ -8,24 +8,19 @@ export default async (req, res) => {
   console.log('res.locals:', res.locals.ticket);
   // TODO: send the actual email, then check if email sent correctly
 
-  const { authorization } = req.headers;
-  const [type, token] = authorization.split(' ');
-  // if (type !== 'Bearer') {
-  //   console.log("Auth Error, (not a bearer token)", authorization, type, token);
-  //   res.sendStatus(403);
-  //   return;
-  // }
+  let emailId = -1;
+  if (req.body.accessToken) {
+    emailId = await sendEmail(req.body, req.body.accessToken);
+    console.log('messageID: ', emailId);
+  }
 
-  const messageId = await sendEmail(req.body, token);
-  
-  console.log('messageID: ', messageId);
-  // TODO: If so, proceed with code below, else abort procedure.
+ // TODO: If so, proceed with code below, else abort procedure.
 
   db.applications
     .updateEmailSent(appID) // TODO: change to 'updateEmailStatus'
     .then((response) => {
       if (Array.isArray(response) && response.length !== 0) {
-        res.send(response[0]);
+        res.send({...response[0], emailId});
       } else {
         // If no entries matched criteria in db, then attempt to update interview table email_sent column
         db.interviews.updateEmailSent(appID).then((resp2) => {

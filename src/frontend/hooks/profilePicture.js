@@ -4,9 +4,9 @@ import CookiesHelper from './cookies';
 
 const useProfilePicture = () => {
   let profilePicture = useSelector(userSelectors.picture);
-  const {getCookie} = CookiesHelper
+  const {getCookie, CookieTags} = CookiesHelper
   if (profilePicture === '') {
-    profilePicture = getCookie('profilePicture');
+    profilePicture = getCookie(CookieTags.profilePicture);
   }
 
   return {

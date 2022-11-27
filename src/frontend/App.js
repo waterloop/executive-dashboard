@@ -21,9 +21,9 @@ import AnalyticsLandingPage from './pages/analytics/...';
 
 const App = () => {
   let token = useSelector(userSelectors.token);
-  const {getCookie} = CookiesHelper;
+  const {getCookie, CookieTags} = CookiesHelper;
   if (!token){
-    token = getCookie('tokenId');
+    token = getCookie(CookieTags.tokenId);
     if (token) {
       addAuthTokenToRequests(token);
     }

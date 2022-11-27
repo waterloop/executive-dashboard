@@ -91,7 +91,7 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errMsgVisible, showErrorMsg] = useState(false);
-  const {setCookie} = CookiesHelper;
+  const {setTokenId, setAccessToken} = CookiesHelper;
 
   const onAuthComplete = useCallback(
     (err, authPayload) => {
@@ -102,7 +102,8 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
-      setCookie('tokenId', tokenId);
+      setTokenId(tokenId);
+      setAccessToken(accessToken);
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
@@ -125,7 +126,7 @@ const SignInPage = () => {
 
       history.push('/');
     },
-    [dispatch, history],
+    [dispatch, history, setAccessToken, setTokenId],
   );
 
   const { signIn } = useGoogleAuth(onAuthComplete);

@@ -176,8 +176,9 @@ const DecisionPage = () => {
     return posting;
   };
 
-  const handleModalSubmit = () => {
-    updateEmailSent(emailData);
+  const handleModalSubmit = (email) => {
+    console.log('email sent:', email);
+    updateEmailSent({id: emailData.id, ...email});
 
     setEmailData({});
     setModalOpen(false);

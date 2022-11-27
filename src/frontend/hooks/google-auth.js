@@ -11,7 +11,7 @@ import CookiesHelper from '../hooks/cookies';
 const scopes = ['profile', 'email', 'https://www.googleapis.com/auth/admin.directory.group.readonly', 'https://www.googleapis.com/auth/gmail.send'];
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
-  const {removeAllCookies, setCookie } = CookiesHelper;
+  const {removeAllCookies, setProfilePic, setUserEmail, setUserName } = CookiesHelper;
   const onSuccess = useCallback(
     (response) => {
       // https://github.com/anthonyjgrove/react-google-login/blob/7db5b9686a70ded6b090a9c01906ca978b00a54d/index.d.ts#L29
@@ -36,11 +36,11 @@ const useGoogleAuth = (onAuthComplete) => {
         .catch((err) => onAuthComplete(err));
       dispatch(userActions.setUserPicture(profileObj.imageUrl));
       dispatch(userActions.setUserProfile(profileObj));
-      setCookie('profilePicture', profileObj.imageUrl);
-      setCookie('userName', profileObj.name);
-      setCookie('userEmail', profileObj.email);
+      setProfilePic(profileObj.imageUrl);
+      setUserName(profileObj.name);
+      setUserEmail(profileObj.email);
     },
-    [onAuthComplete, dispatch],
+    [onAuthComplete, dispatch, setProfilePic, setUserName, setUserEmail],
   );
 
   const { signIn } = useGoogleLogin({

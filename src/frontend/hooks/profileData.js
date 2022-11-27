@@ -3,11 +3,11 @@ import * as userSelectors from '../state/user/selectors';
 import CookiesHelper from './cookies';
 
 const useProfileData = () => {
-  const {setCookie} = CookiesHelper;
+  const {getCookie,  CookieTags} = CookiesHelper;
   let profileData = useSelector(userSelectors.profile);
   if (profileData === null) {
-    const name = setCookie('userName');
-    const email = setCookie('userEmail');
+    const name = getCookie(CookieTags.userName);
+    const email = getCookie(CookieTags.userEmail);
     profileData = {
       name,
       email,

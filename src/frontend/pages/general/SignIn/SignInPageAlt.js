@@ -53,7 +53,7 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errMsgVisible, showErrorMsg] = useState(false);
-  const {setTokenId} = CookiesHelper;
+  const {setTokenId, setAccessToken} = CookiesHelper;
 
   const onAuthComplete = useCallback(
     (err, authPayload) => {
@@ -65,6 +65,7 @@ const SignInPage = () => {
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
       setTokenId(tokenId);
+      setAccessToken(accessToken);
       addAuthTokenToRequests(tokenId);
       api.google
         .updateUserGroups(userId, groupIds, accessToken)
