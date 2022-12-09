@@ -11,7 +11,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
         // TODO: url links must start with 'http://' or 'https://'
         knex('applications').insert([
           {
-            id: 1,
             status: 'app_reject',
             first_name: 'Jeff',
             last_name: 'Ma',
@@ -28,7 +27,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: '',
           },
           {
-            id: 2,
             status: 'final_accept',
             first_name: 'Evan',
             last_name: 'Wong',
@@ -45,7 +43,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: 'test',
           },
           {
-            id: 3,
             status: 'final_accept',
             first_name: 'William',
             last_name: 'Park',
@@ -63,7 +60,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               'Test information ;) "; DROP TABLE applications; --',
           },
           {
-            id: 4,
             status: 'interview_reject',
             first_name: 'SomeReallyLongName',
             last_name: 'S',
@@ -80,7 +76,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: 'Can I get an upvote? 🤞😂',
           },
           {
-            id: 5,
             status: 'app_pending',
             first_name: 'SomeReallyLongName',
             last_name: 'SomeReallyLongAndInappropriateLastName',
@@ -98,7 +93,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               "It's offensive to dead people. My great grandparents are dead and I would like to show them some respect and have twitch ban the term “live-streaming”. It's a slur used against dead people",
           },
           {
-            id: 6,
             status: 'app_pending',
             first_name: 'A',
             last_name: 'B',
@@ -115,7 +109,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: '',
           },
           {
-            id: 7,
             status: 'app_pending',
             first_name: 'Anna',
             last_name: 'Anna',
@@ -132,7 +125,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: '',
           },
           {
-            id: 8,
             status: 'app_pending',
             first_name: 'Guts',
             last_name: '',
@@ -150,7 +142,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               'Every 60 seconds, a minute passes in Africa. Hire me and together we can stop this from happening.',
           },
           {
-            id: 9,
             status: 'app_reject',
             first_name: 'William',
             last_name: 'Shakespeare',
@@ -167,7 +158,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               "To hit, or not to hit. Dost thou ever miss? I suppose it not. You have a male love interest, yet I would wager he does not kiss thee (Ye olde mwah). Furthermore; he will find another lass like he won't miss thee. And at the end of it all. He is going to skrrt, and he will hit that dab, as if he were the man known by the name of Wiz Khalifa",
           },
           {
-            id: 10,
             status: 'app_undecided',
             first_name: 'That',
             last_name: 'Dude',
@@ -185,7 +175,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               '⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀',
           },
           {
-            id: 11,
             status: 'app_undecided',
             first_name: 'Sussy',
             last_name: 'Baka',
@@ -202,7 +191,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               'ᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷᘛ⁐̤ᕐᐷ',
           },
           {
-            id: 12,
             status: 'final_accept',
             first_name: 'Joseph',
             last_name: 'Joestar',
@@ -219,7 +207,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               'Your next line is "I love this dude, he gonna be part of our team :)"',
           },
           {
-            id: 13,
             status: 'interview_pending',
             first_name: 'Walter',
             last_name: 'White',
@@ -237,7 +224,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               "Eventually, Hank and Fring had a falling-out. Things escalated. Fring was able to arrange – uh, I guess... I guess you call it a 'hit' – on Hank, and failed, but Hank was seriously injured. And I wound up paying his medical bills, which amounted to a little over $177,000. Upon recovery, Hank was bent on revenge. Working with a man named Hector Salamanca, he plotted to kill Fring. The bomb that he used was built by me, and he gave me no option in it. I have often contemplated suicide, but I'm a coward. I wanted to go to the police, but I was frightened. Hank had risen to become the head of the Albuquerque DEA. To keep me in line, he took my children. For three months, he kept them. My wife had no idea of my criminal activities, and was horrified to learn what I had done. I was in hell. I hated myself for what I had brought upon my family. Recently, I tried once again to quit, and in response, he gave me this. [Walt points to the bruise on his face left by Hank in 'Blood Money.'] I can't take this anymore. I live in fear every day that Hank will kill me, or worse, hurt my family. All I could think to do was to make this video and hope that the world will finally see this man for what he really is.",
           },
           {
-            id: 14,
             status: 'interview_pending',
             first_name: 'Kira',
             last_name: 'Yoshikage',
@@ -254,7 +240,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
             additional_information: '',
           },
           {
-            id: 15,
             status: 'app_undecided',
             first_name: 'Bobby',
             last_name: '"; DROP TABLE applications;--',
@@ -272,7 +257,6 @@ if (!ENV_IS_STAGING_OR_PROD) {
               "<IMG SRC=j&#X41vascript:prompt('pls enter your credit card number uwu')>",
           },
           {
-            id: 16,
             status: 'interview_undecided',
             first_name: 'Jane',
             last_name: 'John',
