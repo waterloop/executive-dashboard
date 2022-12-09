@@ -111,7 +111,7 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
           </TextInput>
         </InputGroup>
         <TextMultilineInput multiLine setInput={setBodyInput}>
-          {bodyInput}
+          <div dangerouslySetInnerHTML={{ __html: bodyInput }} />
           <img
             src={WaterloopLogo}
             alt="Waterloop Logo"
