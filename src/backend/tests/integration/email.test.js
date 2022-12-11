@@ -1,7 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../index';
-import { db } from '../../db';
+import app from '~/backend';
+import { db } from '~/backend/db';
+import { EMAIL_SENT_FLAGS, APP_COLUMNS } from '~/backend/utils/constants';
 process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
@@ -31,7 +32,7 @@ describe('Email Routes', () => {
   });
 
   describe('PATCH /api/email', () => {
-    it('should modify the applications table email_sent column for the application entry', async () =>
+    it('should modify the applications table email_sent column for the entry with status app_reject', async () =>
       chai
         .request(app)
         .patch('/api/email')
@@ -43,27 +44,13 @@ describe('Email Routes', () => {
             console.error(res.error.text);
           }
           expect(res).to.have.status(200);
-          expect(res.body).to.have.keys([
-            'id',
-            'submitted_at',
-            'first_name',
-            'last_name',
-            'email_address',
+          expect(res.body).to.have.keys(APP_COLUMNS);
+          expect(res.body).to.have.property(
             'email_sent',
-            'current_year',
-            'program',
-            'application_term',
-            'in_school',
-            'in_person_available',
-            'posting_id',
-            'status',
-            'reason_to_join',
-            'resume_link',
-            'additional_information',
-          ]);
-          expect(res.body).to.have.property('email_sent', true);
+            EMAIL_SENT_FLAGS.APP_REJECT,
+          );
         }));
-    it('should modify the interview table email_sent column for the application entry', async () =>
+    it('should modify the applications table email_sent column for the entry with status final_accept', async () =>
       chai
         .request(app)
         .patch('/api/email')
@@ -77,13 +64,11 @@ describe('Email Routes', () => {
             console.error(res.error.text);
           }
           expect(res).to.have.status(200);
-          expect(res.body).to.have.keys([
-            'id',
-            'note',
+          expect(res.body).to.have.keys(APP_COLUMNS);
+          expect(res.body).to.have.property(
             'email_sent',
-            'application_id',
-          ]);
-          expect(res.body).to.have.property('email_sent', true);
+            EMAIL_SENT_FLAGS.FINAL_ACCEPT,
+          );
         }));
   });
   it('should return 403 when trying to update email_sent for an application with an invalid status', async () =>

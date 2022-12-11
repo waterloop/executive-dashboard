@@ -4,21 +4,11 @@ import getApplications from './get-application';
 import getApplicationByEmail from './get-application-by-email';
 import getApplicationStatuses from '../application-status/get-application-statuses';
 import updateApplicationStatus from './update-application-status';
-import validationCheck from '../../utils/validation-check';
+import validationCheck from '~/backend/utils/validation-check';
 import { body, param, query } from 'express-validator';
-import { validateRequest } from '../../google-auth';
+import { validateRequest } from '~/backend/google-auth';
 
-// TODO: Move to a constants.js file if multiple references to this are needed.
-// Alternatively perform the status check on db side and get rid of this constant.
-const STATUSES = [
-  'app_pending',
-  'app_reject',
-  'app_undecided',
-  'interview_pending',
-  'interview_reject',
-  'interview_undecided',
-  'final_accept',
-];
+import { STATUSES } from '~/backend/utils/constants';
 
 const router = express.Router();
 

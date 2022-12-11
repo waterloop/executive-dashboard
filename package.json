@@ -54,8 +54,8 @@
     "build-storybook": "build-storybook -s public",
     "dev": "yarn migrate && yarn seed && cross-env NODE_ENV=development nodemon --exec ./node_modules/.bin/babel-node src/backend/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:integration": "cross-env NODE_ENV=test cross-env PORT=9001 mocha -r esm --exit ./src/backend/tests/integration/*",
-    "test:integration:watch": "cross-env NODE_ENV=test cross-env PORT=9001 mocha -r esm --watch ./src/backend/tests/integration/*",
+    "test:integration": "cross-env NODE_ENV=test cross-env PORT=9001 mocha -r @babel/register --exit ./src/backend/tests/integration/*",
+    "test:integration:watch": "cross-env NODE_ENV=test cross-env PORT=9001 mocha -r @babel/register --watch ./src/backend/tests/integration/*",
     "docker:test": "docker-compose run --service-ports test-db ",
     "docker:dev": "docker-compose run --service-ports dev-db ",
     "migrate": "knex migrate:latest --knexfile src/backend/knexfile.js",
@@ -86,7 +86,7 @@
     ]
   },
   "devDependencies": {
-    "redux-devtools-extension": "^2.13.9",
+    "babel-plugin-root-import": "^6.6.0",
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
@@ -113,7 +113,8 @@
     "lint-staged": "^11.2.3",
     "mocha": "^8.4.0",
     "prettier": "^2.4.1",
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "redux-devtools-extension": "^2.13.9"
   },
   "resolutions": {
     "babel-loader": "8.1.0"

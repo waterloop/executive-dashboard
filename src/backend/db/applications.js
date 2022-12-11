@@ -1,3 +1,5 @@
+import { EMAIL_SENT_FLAGS } from '~/backend/utils/constants';
+
 // Should return multiple applications for ONE APPLICANT.
 const getApplicationByEmail = (db) => (email_address) =>
   db('applications')
@@ -43,24 +45,7 @@ const addApplication = (db) => (application) =>
 const updateApplicationStatus = (db) => (appID, status) =>
   db('applications')
     .where({ id: appID })
-    .update({ status }, [
-      'id',
-      'submitted_at',
-      'status',
-      'first_name',
-      'last_name',
-      'email_address',
-      'email_sent',
-      'current_year',
-      'program',
-      'application_term',
-      'in_school',
-      'resume_link',
-      'in_person_available',
-      'reason_to_join',
-      'additional_information',
-      'posting_id',
-    ])
+    .update({ status }, '*')
     .then((response) => response)
     .catch((err) => {
       console.error(`Error in updateApplicationStatus: ${err}`);
@@ -68,47 +53,33 @@ const updateApplicationStatus = (db) => (appID, status) =>
     });
 
 /** When an email is sent and the application state is interview_pending or app_reject, this API is called */
-const updateEmailStatus = (db) => (appID) =>
-  db('applications')
-    .where({ id: appID })
-    .whereIn('status', ['interview_pending', 'app_reject'])
-    .update({ email_sent: true }, [
-      'id',
-      'submitted_at',
-      'status',
-      'first_name',
-      'last_name',
-      'email_address',
-      'email_sent',
-      'current_year',
-      'program',
-      'application_term',
-      'in_school',
-      'resume_link',
-      'in_person_available',
-      'reason_to_join',
-      'additional_information',
-      'posting_id',
-    ])
-    .then((response) => {
-      // If response is empty, it could be because the status is invalid OR the id is invalid.
-      if (response.length === 0) {
-        db('applications')
-          .where({ id: appID })
-          .then((resp2) => {
-            if (resp2.length === 0) {
-              return -1;
-            }
-            return -2;
-          });
-      } else {
-        return response;
-      }
-    })
-    .catch((err) => {
-      console.error(`Error in updateEmailStatus: ${err}`);
-      throw err;
-    });
+const updateEmailStatus = (db) => async (appID) => {
+  try {
+    const entry = await db('applications')
+      .where({ id: appID })
+      .whereIn(
+        'status',
+        Object.keys(EMAIL_SENT_FLAGS).map((k) => k.toLowerCase()),
+      )
+      .first('status', 'email_sent');
+
+    if (!entry || entry.length === 0) {
+      return [];
+    }
+
+    let { status, email_sent } = entry;
+    email_sent |= EMAIL_SENT_FLAGS[status.toUpperCase()];
+
+    const response = await db('applications')
+      .where({ id: appID })
+      .update({ email_sent }, '*');
+
+    return response;
+  } catch (err) {
+    console.error(`Error in updateEmailStatus: ${err}`);
+    throw err;
+  }
+};
 
 export default (db) => ({
   addApplication: addApplication(db),
