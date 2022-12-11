@@ -8,7 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 
 import { ROWS_PER_PAGE } from './Constants';
 
@@ -65,7 +65,9 @@ const PortalTableTemplate = ({ columns, rows }) => {
           <ColumnHeaderRow>
             {columns.map((col) => (
               <ColumnHeaderCell align="center" key={col}>
-                <ColumnHeaderText>{col.toUpperCase()}</ColumnHeaderText>
+                <ColumnHeaderText>
+                  {col.toUpperCase().replace('_', ' ')}
+                </ColumnHeaderText>
               </ColumnHeaderCell>
             ))}
           </ColumnHeaderRow>

@@ -4,15 +4,22 @@ import * as userActions from '../state/user/actions';
 import { useDispatch } from 'react-redux';
 import api from '../api';
 import { useGoogleLogout } from 'react-google-login';
-import Cookies from 'js-cookie';
+import CookiesHelper from '../hooks/cookies';
 
+const scopes = [
+  'profile',
+  'email',
+  'https://www.googleapis.com/auth/admin.directory.group.readonly',
+  'https://www.googleapis.com/auth/gmail.send',
+];
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
+  const { removeAllCookies, setProfilePic, setUserEmail, setUserName } =
+    CookiesHelper;
   const onSuccess = useCallback(
     (response) => {
       // https://github.com/anthonyjgrove/react-google-login/blob/7db5b9686a70ded6b090a9c01906ca978b00a54d/index.d.ts#L29
       const { tokenId, profileObj, accessToken } = response;
-      console.log('Begin auth');
       api.google
         .checkToken(tokenId, accessToken)
         .then((checkTokenResponse) => {
@@ -33,11 +40,11 @@ const useGoogleAuth = (onAuthComplete) => {
         .catch((err) => onAuthComplete(err));
       dispatch(userActions.setUserPicture(profileObj.imageUrl));
       dispatch(userActions.setUserProfile(profileObj));
-      Cookies.set('profilePicture', profileObj.imageUrl, { expires: 1 });
-      Cookies.set('userName', profileObj.name, { expires: 1 });
-      Cookies.set('userEmail', profileObj.email, { expires: 1 });
+      setProfilePic(profileObj.imageUrl);
+      setUserName(profileObj.name);
+      setUserEmail(profileObj.email);
     },
-    [onAuthComplete, dispatch],
+    [onAuthComplete, dispatch, setProfilePic, setUserName, setUserEmail],
   );
 
   const { signIn } = useGoogleLogin({
@@ -46,18 +53,14 @@ const useGoogleAuth = (onAuthComplete) => {
       console.error('Failed to authenticate user! Reason: ', err);
     },
     clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    scope:
-      'profile email https://www.googleapis.com/auth/admin.directory.group.readonly',
+    scope: scopes.join(' '),
     prompt: 'consent',
   });
 
   const { signOut } = useGoogleLogout({
     clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     onLogoutSuccess: () => {
-      Cookies.remove('tokenId', []);
-      Cookies.remove('userName');
-      Cookies.remove('userEmail');
-      Cookies.remove('profilePicture');
+      removeAllCookies();
       console.log('successful logout');
     },
     onFailure: () => {

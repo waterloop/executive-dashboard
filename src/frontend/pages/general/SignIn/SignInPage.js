@@ -1,13 +1,13 @@
-import Cookies from 'js-cookie';
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import useGoogleAuth from '../../../hooks/google-auth';
+import CookiesHelper from '../../../hooks/cookies';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
-import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
+import WaterloopCmsLogoSVG from './assets/waterloop-dashboard-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../../state/user/actions';
@@ -91,6 +91,7 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errMsgVisible, showErrorMsg] = useState(false);
+  const { setTokenId, setAccessToken } = CookiesHelper;
 
   const onAuthComplete = useCallback(
     (err, authPayload) => {
@@ -101,7 +102,8 @@ const SignInPage = () => {
       }
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
-      Cookies.set('tokenId', tokenId, { expires: 1 });
+      setTokenId(tokenId);
+      setAccessToken(accessToken);
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 
@@ -123,7 +125,7 @@ const SignInPage = () => {
 
       history.push('/');
     },
-    [dispatch, history],
+    [dispatch, history, setAccessToken, setTokenId],
   );
 
   const { signIn } = useGoogleAuth(onAuthComplete);

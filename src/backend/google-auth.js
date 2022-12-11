@@ -11,6 +11,45 @@ const client = new OAuth2Client(
 
 const router = express.Router();
 
+export const validateRequest = async (req, res, next) => {
+  if (process.env.NODE_ENV === 'test') {
+    next();
+    return;
+  }
+  const { authorization } = req.headers;
+  if (typeof authorization !== 'string') {
+    console.log("Auth Error, (typeof authorization !== 'string')", req.headers);
+    res.sendStatus(403);
+    return;
+  }
+  const [type, token] = authorization.split(' ');
+  if (type !== 'Bearer') {
+    console.log('Auth Error, (not a bearer token)', authorization, type, token);
+    res.sendStatus(403);
+    return;
+  }
+
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const {
+      hd, // host domain
+    } = payload;
+
+    if (hd !== 'waterloop.ca') {
+      res.sendStatus(403);
+    }
+    next();
+  } catch (err) {
+    // often happens when token expired
+    console.error(`Auth error: ${err}`);
+    res.sendStatus(401);
+  }
+};
 const groupName = process.env.NODE_ENV === 'production' ? 'Leads' : 'Web';
 
 router.post('/', async (req, res) => {

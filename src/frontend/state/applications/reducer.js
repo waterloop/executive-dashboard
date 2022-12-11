@@ -14,6 +14,16 @@ export default (state = initialState, { type, payload }) => {
         ...state,
         allApplications: payload.applications,
       };
+    case actionTypes.APPLICATIONS_UPDATE_APPLICATION:
+      return {
+        ...state,
+        allApplications: [
+          ...state.allApplications.filter(
+            (app) => app.id !== payload.application.id,
+          ),
+          payload.application,
+        ],
+      };
     case actionTypes.APPLICATIONS_SET_APPLICATIONS_BY_EMAIL:
       return {
         ...state,

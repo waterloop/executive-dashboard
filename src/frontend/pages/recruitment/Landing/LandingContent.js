@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import { useRouteMatch } from 'react-router-dom';
 
 import ApplicantPortalIcon from '../../../assets/svg/recruitment/application-portal-icon.svg';

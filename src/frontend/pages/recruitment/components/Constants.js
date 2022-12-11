@@ -1,3 +1,5 @@
+import { getTermDate } from 'frontend/utils';
+
 export const colNames = [
   'NAME',
   'YEAR OF STUDY',
@@ -26,3 +28,13 @@ export const YEAR_OPTIONS = [
 export const MIN_SUBTEAMS_SHOWN = 6;
 export const MIN_YEARS_SHOWN = 2;
 export const ROWS_PER_PAGE = 11;
+
+export const CURRENT_TERM_YEAR =
+  process.env.NODE_ENV === 'development'
+    ? 'FALL-2022'
+    : getTermDate(Date.now());
+
+export const PREVIOUS_TERM_YEAR =
+  process.env.NODE_ENV === 'development'
+    ? 'SPRING-2022'
+    : getTermDate(new Date().setMonth(Date.now().getMonth() - 4));

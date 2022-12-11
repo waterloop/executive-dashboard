@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 
 // Update with your config settings.
 let config;
@@ -17,6 +18,13 @@ module.exports = {
     client: 'pg',
     connection: 'postgresql://docker:docker@localhost:5435',
     useNullAsDefault: true,
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: path.join(__dirname, './migrations'),
+    },
+    seeds: {
+      directory: path.join(__dirname, './seeds'),
+    },
   },
 
   test: {
@@ -25,6 +33,10 @@ module.exports = {
     useNullAsDefault: true,
     migrations: {
       tableName: 'knex_migrations',
+      directory: path.join(__dirname, './migrations'),
+    },
+    seeds: {
+      directory: path.join(__dirname, './seeds'),
     },
   },
 

@@ -8,6 +8,7 @@ import {
   YEAR_OPTIONS,
   MIN_YEARS_SHOWN,
   MIN_SUBTEAMS_SHOWN,
+  CURRENT_TERM_YEAR,
 } from '../components/Constants';
 import {
   setCheckboxValues,
@@ -19,17 +20,11 @@ import {
 import usePostings from '../../../hooks/postings';
 import useApplications from '../../../hooks/applications';
 import useTeams from '../../../hooks/teams';
-import getTermDate from '../../../utils';
-
-const currentTermYear =
-  process.env.NODE_ENV === 'development'
-    ? 'FALL-2022'
-    : getTermDate(Date.now());
 
 const InterviewPage = () => {
   const history = useHistory();
 
-  const { applications } = useApplications(currentTermYear);
+  const { applications } = useApplications(CURRENT_TERM_YEAR);
   const { postings } = usePostings();
   const { teams } = useTeams();
 

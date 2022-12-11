@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import blobs from '../../../assets/svg/recruitment/application/blobs.svg';
 
 import Header from '../../../components/ProfileTemplate/Header';
@@ -10,15 +10,12 @@ import Sidebar from '../../../components/ProfileTemplate/Sidebar';
 import useApplications from '../../../hooks/applications';
 import usePostings from '../../../hooks/postings';
 
-import { getTermDate } from '../../../utils';
+import { CURRENT_TERM_YEAR, PREVIOUS_TERM_YEAR } from '../components/Constants';
 
 import { backgrounds, statuses, postingColours } from './Constants';
 
 // TODO: App and Interview profile pages share many similar styled-components / functions.
 // Move them to common file.
-
-// TODO: Make this a mock test variable.
-const FALL_2022 = new Date(1662352157000);
 
 const Container = styled.div`
   margin: 0;
@@ -119,7 +116,7 @@ const ApplicationProfilePage = () => {
   const history = useHistory();
   const { postings } = usePostings();
   const { applications, updateAppStatus, getApplicationsByEmail, appsByEmail } =
-    useApplications(getTermDate(FALL_2022)); // TODO: in production, replace with Date.now().
+    useApplications(CURRENT_TERM_YEAR);
   // TODO: Currently logic doesn't support loading page info for a previous posting.
 
   const application = applications.find(
@@ -141,10 +138,8 @@ const ApplicationProfilePage = () => {
       // Call posting functions here.
       const allUserApps = appsByEmail[application.email_address];
 
-      const currTermDate = getTermDate(FALL_2022);
-      const prevTermDate = getTermDate(
-        new Date(new Date(FALL_2022).setMonth(FALL_2022.getMonth() - 4)),
-      );
+      const currTermDate = CURRENT_TERM_YEAR;
+      const prevTermDate = PREVIOUS_TERM_YEAR;
 
       setCurrPostings(
         makePostingData(
