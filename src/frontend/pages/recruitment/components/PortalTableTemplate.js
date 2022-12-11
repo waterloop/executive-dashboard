@@ -65,7 +65,9 @@ const PortalTableTemplate = ({ columns, rows }) => {
           <ColumnHeaderRow>
             {columns.map((col) => (
               <ColumnHeaderCell align="center" key={col}>
-                <ColumnHeaderText>{col.toUpperCase()}</ColumnHeaderText>
+                <ColumnHeaderText>
+                  {col.toUpperCase().replace('_', ' ')}
+                </ColumnHeaderText>
               </ColumnHeaderCell>
             ))}
           </ColumnHeaderRow>

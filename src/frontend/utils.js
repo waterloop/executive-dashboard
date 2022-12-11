@@ -1,3 +1,17 @@
+//////////////
+// CONSTANTS:
+//////////////
+const EMAIL_SENT_FLAGS = {
+  INTERVIEW_PENDING: 0b1,
+  APP_REJECT: 0b10,
+  FINAL_ACCEPT: 0b100,
+  INTERVIEW_REJECT: 0b1000,
+};
+
+//////////////
+// FUNCTIONS:
+//////////////
+
 /**
  * Sets and updates checked checkboxes
  */
@@ -135,3 +149,9 @@ export const camelCaseToSnakeCase = (s) =>
  */
 export const snakeCaseToCamelCase = (s) =>
   s.replace(/[-_][a-z]/g, (group) => group.slice(-1).toUpperCase());
+
+/**
+ * Determines whether email was sent for given app status:
+ */
+export const getEmailSentForAppStatus = (status, emailSent) =>
+  emailSent & EMAIL_SENT_FLAGS[status.toUpperCase()];

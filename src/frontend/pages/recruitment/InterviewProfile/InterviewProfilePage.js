@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Grid from '@mui/material/Grid';
-import blobs from '../../../assets/svg/recruitment/interview/blobs.svg';
+import blobs from 'frontend/assets/svg/recruitment/interview/blobs.svg';
 
-import Header from '../../../components/ProfileTemplate/Header';
-import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+import Header from 'frontend/components/ProfileTemplate/Header';
+import Sidebar from 'frontend/components/ProfileTemplate/Sidebar';
 
-import useApplications from '../../../hooks/applications';
-import useInterviewByAppId from '../../../hooks/interviewByAppId';
+import useApplications from 'frontend/hooks/applications';
+import useInterviewByAppId from 'frontend/hooks/interviewByAppId';
 
 import { options, backgrounds, statuses } from './Constants';
 
@@ -105,7 +105,6 @@ const makeProfileData = (app) =>
         status: app.status,
         reasonToJoin: app.reason_to_join || '(none provided)',
         additionalInfo: app.additional_information || '(none provided)',
-        emailSent: app.email_sent,
       }
     : {};
 
@@ -190,7 +189,6 @@ const InterviewProfilePage = () => {
                 : 'interview_pending'
             }
             updateStatus={updateAppStatusCurried(profileData.id)}
-            emailSent={profileData.emailSent}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}

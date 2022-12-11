@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import moment from 'moment';
 
-import EmailModal from '../../../components/EmailModal';
+import EmailModal from 'frontend/components/EmailModal';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns, positionFields } from './Constants';
-import { makeTruthTable, createData, getItemById } from '../../../utils';
 import { MIN_SUBTEAMS_SHOWN, CURRENT_TERM_YEAR } from '../components/Constants';
 import {
   setCheckboxValues,
@@ -12,15 +11,19 @@ import {
   oneTrue,
   getItemByName,
   formatTerm,
-} from '../../../utils';
-import Button from '../../../components/Button';
+  makeTruthTable,
+  createData,
+  getItemById,
+  getEmailSentForAppStatus,
+} from 'frontend/utils';
+import Button from 'frontend/components/Button';
 
-import usePostings from '../../../hooks/postings';
-import useApplications from '../../../hooks/applications';
-import useConfiguration from '../../../hooks/configuration';
-import useEmail from '../../../hooks/email';
-import useTeams from '../../../hooks/teams';
-import useProfileData from '../../../hooks/profileData';
+import usePostings from 'frontend/hooks/postings';
+import useApplications from 'frontend/hooks/applications';
+import useConfiguration from 'frontend/hooks/configuration';
+import useEmail from 'frontend/hooks/email';
+import useTeams from 'frontend/hooks/teams';
+import useProfileData from 'frontend/hooks/profileData';
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,36 +41,46 @@ const DecisionPage = () => {
     setModalOpen(true);
   };
 
-  const makeButtonComponent = (data) => (
-    <Button
-      tertiary={!data.email_sent}
-      disabled={data.email_sent}
-      label={data.email_sent ? 'Sent' : 'Send Email'}
-      onClick={() => handleButtonClick(data)}
-    />
-  );
+  const makeButtonComponent = (data) => {
+    const emailSentForAppStatus = getEmailSentForAppStatus(
+      data.status,
+      data.email_sent,
+    );
+    return (
+      <Button
+        tertiary={!emailSentForAppStatus}
+        disabled={emailSentForAppStatus}
+        label={emailSentForAppStatus ? 'Sent' : 'Send Email'}
+        onClick={() => handleButtonClick(data)}
+      />
+    );
+  };
 
-  const tableRows = applications.map((application) => {
-    if (application) {
-      const appPosting = getItemById(postings, application.posting_id);
-      if (appPosting) {
-        const appValues = [
-          `${application.first_name} ${application.last_name}`,
-          application.email_address,
-          appPosting.team,
-          appPosting.title,
-          makeButtonComponent({
-            subteam: appPosting.team,
-            position: appPosting.title,
-            ...application,
-          }),
-          application.status,
-        ];
-        return createData(tableColumns, appValues);
-      }
-    }
-    return createData(tableColumns, []);
-  });
+  const tableRows = useMemo(
+    () =>
+      applications.map((application) => {
+        if (application) {
+          const posting = getItemById(postings, application.posting_id);
+          if (posting) {
+            const appValues = [
+              `${application.first_name} ${application.last_name}`,
+              application.email_address,
+              posting.team,
+              posting.title,
+              makeButtonComponent({
+                subteam: posting.team,
+                position: posting.title,
+                ...application,
+              }),
+              application.status,
+            ];
+            return createData(tableColumns, appValues);
+          }
+        }
+        return createData(tableColumns, []);
+      }),
+    [applications, postings],
+  );
 
   // Grab positions from applications data
   const allPositionNames = [];

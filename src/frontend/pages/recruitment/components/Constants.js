@@ -1,4 +1,4 @@
-import { getTermDate } from '../../../utils';
+import { getTermDate } from 'frontend/utils';
 
 export const colNames = [
   'NAME',

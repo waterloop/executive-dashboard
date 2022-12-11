@@ -1,14 +1,11 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import api from '../api';
-import * as emailActions from '../state/email/actions';
-import * as applicationActions from '../state/applications/actions';
-import * as emailSelectors from '../state/email/selectors';
+import { useDispatch } from 'react-redux';
+import api from 'frontend/api';
+import * as applicationActions from 'frontend/state/applications/actions';
 import CookiesHelper from './cookies.js';
 
 const useEmail = () => {
   const dispatch = useDispatch();
-  const emailData = useSelector(emailSelectors.emailData);
 
   const updateEmailStatus = useCallback(
     async (emailData) => {
@@ -26,7 +23,6 @@ const useEmail = () => {
             `Could not update email sent status, HTTP ${res.status}`,
           );
         }
-        dispatch(emailActions.setEmailData(res.data));
         dispatch(applicationActions.updateApplication(res.data));
       } catch (err) {
         if (process.env.NODE_ENV === 'development') {
@@ -39,7 +35,6 @@ const useEmail = () => {
   );
 
   return {
-    emailData,
     updateEmailStatus,
   };
 };
