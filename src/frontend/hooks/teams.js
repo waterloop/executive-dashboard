@@ -15,10 +15,10 @@ const useTeams = () => {
     try {
       const teams = await api.teams.getTeams();
       const teamDesc = await api.teams.getTeamDesc();
-      renameObjectKeys(teams.data, 'teamName', 'name');
+      const teamsData = renameObjectKeys(teams.data, 'teamName', 'name');
 
       return {
-        teams: teams.data,
+        teams: teamsData,
         teamDesc: teamDesc.data,
       };
     } catch (err) {

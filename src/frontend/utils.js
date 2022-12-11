@@ -1,3 +1,17 @@
+//////////////
+// CONSTANTS:
+//////////////
+const EMAIL_SENT_FLAGS = {
+  INTERVIEW_PENDING: 0b1,
+  APP_REJECT: 0b10,
+  FINAL_ACCEPT: 0b100,
+  INTERVIEW_REJECT: 0b1000,
+};
+
+//////////////
+// FUNCTIONS:
+//////////////
+
 /**
  * Sets and updates checked checkboxes
  */
@@ -38,9 +52,10 @@ export const getItemByName = (arr, name) => {
 
 export const renameObjectKeys = (arr, oldKey, newKey) => {
   const newArr = arr.map((obj) => {
-    obj[newKey] = obj[oldKey];
-    delete obj[oldKey];
-    return obj;
+    const newObj = { ...obj };
+    newObj[newKey] = newObj[oldKey];
+    delete newObj[oldKey];
+    return newObj;
   });
   return newArr;
 };
@@ -102,7 +117,6 @@ export const getTermDate = (date) =>
 /**
  * Creates data from an array of values:
  */
-
 export const createData = (keys, values) => {
   const res = {};
   keys.forEach((kval, idx) => {
@@ -118,3 +132,26 @@ export const getItemById = (arr, id) => {
   const obj = arr.filter((item) => item.id === id);
   return obj[0];
 };
+
+/**
+ * Converts a camelCase string to its snake_case equivalent
+ * e.g., importantObjectProperty -> important_object_property
+ */
+export const camelCaseToSnakeCase = (s) =>
+  s
+    .split(/(?=[A-Z])/)
+    .join('_')
+    .toLowerCase();
+
+/**
+ * Converts a snake_case string to its camelCase equivalent
+ * e.g., important_object_property -> importantObjectProperty
+ */
+export const snakeCaseToCamelCase = (s) =>
+  s.replace(/[-_][a-z]/g, (group) => group.slice(-1).toUpperCase());
+
+/**
+ * Determines whether email was sent for given app status:
+ */
+export const getEmailSentForAppStatus = (status, emailSent) =>
+  emailSent & EMAIL_SENT_FLAGS[status.toUpperCase()];

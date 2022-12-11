@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 
 import RecruitmentSVG from '../../../assets/svg/recruitment-icon.svg';
 import AnalyticsSVG from '../../../assets/svg/analytics-icon.svg';

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import MUIButtonBase from '@material-ui/core/ButtonBase';
-import MUITypography from '@material-ui/core/Typography';
+import MUIButtonBase from '@mui/material/ButtonBase';
+import MUITypography from '@mui/material/Typography';
 import GoogleSVG from '../assets/GoogleIcon.svg';
 
 const Typography = styled(MUITypography).attrs({

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import MUIGrid from '@material-ui/core/Grid';
-import MUITypography from '@material-ui/core/Typography';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import MUIGrid from '@mui/material/Grid';
+import MUITypography from '@mui/material/Typography';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
 
 const Typography = styled(MUITypography)`
   font: ${({ theme }) => theme.fonts.bold14};
@@ -43,9 +43,7 @@ const ProfileDropdown = ({ className, onClose, onLogout }) => (
     <Container className={className}>
       <Arrow />
       <MainBox>
-        <Grid xs={20}>
-          <Typography onClick={onLogout}>Sign Out</Typography>
-        </Grid>
+        <Typography onClick={onLogout}>Sign Out</Typography>
       </MainBox>
     </Container>
   </ClickAwayListener>

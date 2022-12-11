@@ -6,7 +6,7 @@ exports.up = (knex) =>
     table.string('first_name');
     table.string('last_name');
     table.string('email_address');
-    table.boolean('email_sent').notNullable().defaultTo(false);
+    table.integer('email_sent').notNullable().defaultTo(0); // encodes email sent for specific statuses, see constants.js for more info.
     table.string('current_year'); // 1A, 1B, 2A...
     table.string('program');
     table.string('application_term'); // values like <[WINTER, SPRING, FALL]>-<year>
@@ -18,12 +18,11 @@ exports.up = (knex) =>
     table.integer('posting_id'); // NOTE: references ids in postings table.
   });
 
-
 /**
  * in_person -> yes/no radio button instead of text.
  * Name of school -> should not be needed
  * Consider for another position -> also not needed; store in additional info
- * 
+ *
  * Resume -> should only allow 1 entry.
  * */
 exports.down = (knex) => knex.schema.dropTableIfExists('applications');

@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
-import blobs from '../../../assets/svg/recruitment/interview/blobs.svg';
+import Grid from '@mui/material/Grid';
+import blobs from 'frontend/assets/svg/recruitment/interview/blobs.svg';
 
-import Header from '../../../components/ProfileTemplate/Header';
-import Sidebar from '../../../components/ProfileTemplate/Sidebar';
+import Header from 'frontend/components/ProfileTemplate/Header';
+import Sidebar from 'frontend/components/ProfileTemplate/Sidebar';
 
-import useApplications from '../../../hooks/applications';
-import useInterviewByAppId from '../../../hooks/interviewByAppId';
-
-import { getTermDate } from '../../../utils';
+import useApplications from 'frontend/hooks/applications';
+import useInterviewByAppId from 'frontend/hooks/interviewByAppId';
 
 import { options, backgrounds, statuses } from './Constants';
 
-// TODO: Make this a mock test variable.
-const FALL_2022 = new Date(1662352157000);
+import { CURRENT_TERM_YEAR } from '../components/Constants';
 
 const Container = styled.div`
   margin: 0;
@@ -108,16 +105,13 @@ const makeProfileData = (app) =>
         status: app.status,
         reasonToJoin: app.reason_to_join || '(none provided)',
         additionalInfo: app.additional_information || '(none provided)',
-        emailSent: app.email_sent,
       }
     : {};
 
 const InterviewProfilePage = () => {
   const history = useHistory();
   const match = useRouteMatch('/recruitment/INTERVIEW/:id');
-  const { applications, updateAppStatus } = useApplications(
-    getTermDate(FALL_2022),
-  ); // TODO: in production, replace with Date.now().
+  const { applications, updateAppStatus } = useApplications(CURRENT_TERM_YEAR);
 
   const application = applications.find(
     (app) => `${app.id}` === match.params.id,
@@ -195,7 +189,6 @@ const InterviewProfilePage = () => {
                 : 'interview_pending'
             }
             updateStatus={updateAppStatusCurried(profileData.id)}
-            emailSent={profileData.emailSent}
           />
         </Grid>
         {/* main content takes up 2/3 of width */}

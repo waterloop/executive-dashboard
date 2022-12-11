@@ -5,7 +5,11 @@ import Modal from '@mui/material/Modal';
 import UnstyledTextInput from '../TextInput';
 import Button from '../Button';
 import EmailTemplate from './EmailTemplate';
-import WaterloopLogo from '../../assets/svg/recruitment/logo-signature.svg';
+
+// TODO: send waterloop logo SVG through email,
+// will require either attaching as part of email (then referencing) or uploading to gdrive and embedding link into img src directly.
+// see https://community.nodemailer.com/using-embedded-images/
+// import LogoSignature from '../../assets/LogoSignature';
 
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -68,13 +72,8 @@ const Cancel = styled(Button)`
   text-decoration: none;
 `;
 
-const emailSignatureLogo = {
-  width: '150px',
-  margin: '15px 0 15px 0',
-};
-
 const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
-  const { applicantEmail, execEmail } = data;
+  const { applicantEmail, execEmail, execName, subteam } = data;
 
   const [toInput, setToInput] = useState('');
   const [subjInput, setSubjInput] = useState('');
@@ -87,10 +86,10 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
   useEffect(() => {
     const { subject, text } = EmailTemplate(status, data);
     setSubjInput(subject);
-    setBodyInput(text);
+    setBodyInput(
+      `${text}<br /><br />${execName}<br />${subteam} Team Lead<br />Waterloop<br /><a href="mailto:${execEmail}">${execEmail}</a>`,
+    );
   }, [status, data]);
-
-  const execContact = `\n${execEmail}`;
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -111,13 +110,11 @@ const EmailModal = ({ status, data, onSubmit, open, handleClose }) => {
           </TextInput>
         </InputGroup>
         <TextMultilineInput multiLine setInput={setBodyInput}>
-          {bodyInput}
-          <img
-            src={WaterloopLogo}
-            alt="Waterloop Logo"
-            style={emailSignatureLogo}
+          <div
+            dangerouslySetInnerHTML={{
+              __html: bodyInput,
+            }}
           />
-          {execContact}
         </TextMultilineInput>
         <ButtonContainer>
           <Cancel cancel onClick={() => handleClose()}>

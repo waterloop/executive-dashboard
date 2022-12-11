@@ -4,9 +4,9 @@ import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 // TODO: Don't hardcode margin-inline-start
 const FiltersTitle = styled.h1`
   font: ${({ theme }) => theme.fonts.medium24};

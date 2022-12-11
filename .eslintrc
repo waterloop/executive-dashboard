@@ -18,8 +18,8 @@
     "no-console": "warn", // Warning
     "no-duplicate-case": "error", // Error
     "no-extra-semi": "off", // NO error
-    "eqeqeq": "error", // Error
-    "default-case": "error", // Error
+    "eqeqeq": "error",
+    "default-case": "error",
     "comma-dangle": ["error", "always-multiline"],
     "no-shadow": "off",
     "no-plusplus": "error",
@@ -31,6 +31,8 @@
     "react/jsx-filename-extension": ["warn", { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
-    "import/no-anonymous-default-export": "off"
+    "import/no-anonymous-default-export": "off",
+    "spaced-comment": "off",
+    "no-bitwise": "off"
   }
 }

@@ -3,6 +3,7 @@ import getConfiguration from './get-configuration';
 import changeConfiguration from './update-configuration';
 import validationCheck from '../../utils/validation-check';
 import { body } from 'express-validator';
+import { validateRequest } from '../../google-auth';
 
 const router = express.Router();
 
@@ -20,6 +21,7 @@ router.patch(
     body('*.value', 'expected value to be string').isString().notEmpty(),
   ],
   validationCheck,
+  validateRequest,
   changeConfiguration,
 );
 

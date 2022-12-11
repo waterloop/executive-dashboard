@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import DropdownMenu from '../../DropdownMenu';
-import resumeIcon from '../../../assets/svg/recruitment/resume-click.svg';
+import DropdownMenu from 'frontend/components/DropdownMenu';
+import resumeIcon from 'frontend/assets/svg/recruitment/resume-click.svg';
 
 const Container = styled.div`
   margin: 0;
@@ -44,7 +44,6 @@ const Sidebar = ({
   errorMessage,
   initialStatus,
   updateStatus,
-  emailSent,
 }) => {
   // Uses status ID instead of status name, e.g. app_pending
   const [currentStatus, setCurrentStatus] = useState('');
@@ -77,7 +76,6 @@ const Sidebar = ({
           setCurrent={handleStatusChange}
           locked={locked}
           errorMessage={errorMessage}
-          emailSent={emailSent}
         />
       </DemographicContainer>
     </Container>
@@ -85,4 +83,3 @@ const Sidebar = ({
 };
 
 export default Sidebar;
-

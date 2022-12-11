@@ -8,10 +8,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { Tooltip } from '@mui/material';
 
-import chevron from '../../assets/svg/recruitment/chevron.svg';
+import chevron from 'frontend/assets/svg/recruitment/chevron.svg';
 
 import { useSelector } from 'react-redux';
-import * as applicationSelectors from '../../state/applications/selectors';
+import * as applicationSelectors from 'frontend/state/applications/selectors';
 
 const Chevron = styled.img`
   src: ${chevron};
@@ -42,7 +42,6 @@ const DropdownMenu = ({
   setCurrent,
   locked,
   errorMessage = 'This menu is locked!',
-  emailSent,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -67,12 +66,11 @@ const DropdownMenu = ({
   const appStatuses = useSelector(applicationSelectors.appStatuses);
 
   const statusTooltip = (key) => {
-    const appStatus = appStatuses.find(appStatus => appStatus.key === key)
+    const appStatus = appStatuses.find((appStatus) => appStatus.key === key);
 
-    if(appStatus)
-      return appStatus.description
-    return ''
-  }
+    if (appStatus) return appStatus.description;
+    return '';
+  };
 
   return (
     <div>
@@ -88,29 +86,21 @@ const DropdownMenu = ({
           display: 'flex',
         }}
       >
-        <Tooltip title={emailSent ? 'Email has already been sent' : ''}>
-          <ListItem
-            button
-            id="button"
-            aria-haspopup="listbox"
-            aria-controls="menu"
-            aria-label="dropdown-item"
-            aria-expanded={open ? 'true' : undefined}
-            onClick={emailSent ? () => {} : handleClickListItem}
-            sx={{
-              right: '0.2rem',
-              ...(emailSent && {
-                cursor: 'not-allowed',
-                '&:hover': { backgroundColor: 'transparent' },
-                opacity: 0.5,
-              }),
-            }}
-            disableTouchRipple={emailSent}
-          >
-            <ListItemText primary={options[current]} />
-            <Chevron src={chevron} alt="chevron" />
-          </ListItem>
-        </Tooltip>
+        <ListItem
+          button
+          id="button"
+          aria-haspopup="listbox"
+          aria-controls="menu"
+          aria-label="dropdown-item"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClickListItem}
+          sx={{
+            right: '0.2rem',
+          }}
+        >
+          <ListItemText primary={options[current]} />
+          <Chevron src={chevron} alt="chevron" />
+        </ListItem>
       </List>
       <Menu
         id="menu"
@@ -123,7 +113,7 @@ const DropdownMenu = ({
         }}
       >
         {Object.keys(options).map((key) => (
-          <Tooltip title = {statusTooltip(key)} placement="right" key={key}> 
+          <Tooltip title={statusTooltip(key)} placement="right" key={key}>
             <MenuItem
               key={key}
               selected={current === key}

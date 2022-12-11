@@ -1,11 +1,10 @@
-// TODO: Design contains "position" section in filter side. Define an API call frontend-side to grab this value (server-side call exists).
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@mui/material/Grid';
 import PortalTableTemplate from './PortalTableTemplate';
 import PortalFilterTemplate from './PortalFilterTemplate';
 
