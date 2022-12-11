@@ -68,10 +68,10 @@ const updateApplicationStatus = (db) => (appID, status) =>
     });
 
 /** When an email is sent and the application state is interview_pending or app_reject, this API is called */
-const updateEmailSent = (db) => (appID) =>
+const updateEmailStatus = (db) => (appID) =>
   db('applications')
     .where({ id: appID })
-    .whereIn('status', ['interview_pending', 'app_reject', 'interview_reject', 'final_accept'])
+    .whereIn('status', ['interview_pending', 'app_reject'])
     .update({ email_sent: true }, [
       'id',
       'submitted_at',
@@ -106,7 +106,7 @@ const updateEmailSent = (db) => (appID) =>
       }
     })
     .catch((err) => {
-      console.error(`Error in updateEmailSent: ${err}`);
+      console.error(`Error in updateEmailStatus: ${err}`);
       throw err;
     });
 
@@ -115,5 +115,5 @@ export default (db) => ({
   getApplicationByEmail: getApplicationByEmail(db),
   getApplicationsByTerm: getApplicationsByTerm(db),
   updateApplicationStatus: updateApplicationStatus(db),
-  updateEmailSent: updateEmailSent(db),
+  updateEmailStatus: updateEmailStatus(db),
 });

@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 import App from './frontend/App';
 import state from './frontend/state';
 import theme from './frontend/theme';
-// import { config } from 'dotenv';
 
 ReactDOM.render(
   <React.StrictMode>

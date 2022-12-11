@@ -42,7 +42,7 @@ const updateOrAddInterview = (db) => (interview) =>
     });
 
 /** When an email is sent and the application state is interview_pending or app_reject, this API is called */
-const updateEmailSent = (db) => (appID) =>
+const updateEmailStatus = (db) => (appID) =>
   db('interviews')
     .update({ email_sent: true }, [
       'id',
@@ -72,7 +72,7 @@ const updateEmailSent = (db) => (appID) =>
       return response;
     })
     .catch((err) => {
-      console.error(`Error in updateEmailSent: ${err}`);
+      console.error(`Error in updateEmailStatus: ${err}`);
       throw err;
     });
 
@@ -80,5 +80,5 @@ export default (db) => ({
   getInterviewsByTerm: getInterviewsByTerm(db),
   getInterviewByApplicationId: getInterviewByApplicationId(db),
   updateOrAddInterview: updateOrAddInterview(db),
-  updateEmailSent: updateEmailSent(db),
+  updateEmailStatus: updateEmailStatus(db),
 });

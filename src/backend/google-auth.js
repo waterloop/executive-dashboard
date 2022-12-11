@@ -24,17 +24,16 @@ export const validateRequest = async (req, res, next) => {
   }
   const [type, token] = authorization.split(' ');
   if (type !== 'Bearer') {
-    console.log("Auth Error, (not a bearer token)", authorization, type, token);
+    console.log('Auth Error, (not a bearer token)', authorization, type, token);
     res.sendStatus(403);
     return;
   }
 
   try {
-    const ticket = await client
-      .verifyIdToken({
-        idToken: token,
-        audience: process.env.GOOGLE_CLIENT_ID,
-      })
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
 
     const payload = ticket.getPayload();
     const {
@@ -44,12 +43,11 @@ export const validateRequest = async (req, res, next) => {
     if (hd !== 'waterloop.ca') {
       res.sendStatus(403);
     }
-
-    // authenticated: give downstream functions authenticated instance if using Google API calls.
-    res.locals.ticket = ticket;
     next();
   } catch (err) {
-    res.sendStatus(403);
+    // often happens when token expired
+    console.error(`Auth error: ${err}`);
+    res.sendStatus(401);
   }
 };
 const groupName = process.env.NODE_ENV === 'production' ? 'Leads' : 'Web';

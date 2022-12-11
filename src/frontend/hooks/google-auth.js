@@ -6,12 +6,16 @@ import api from '../api';
 import { useGoogleLogout } from 'react-google-login';
 import CookiesHelper from '../hooks/cookies';
 
-// TODO: store token in localStorage.
-
-const scopes = ['profile', 'email', 'https://www.googleapis.com/auth/admin.directory.group.readonly', 'https://www.googleapis.com/auth/gmail.send'];
+const scopes = [
+  'profile',
+  'email',
+  'https://www.googleapis.com/auth/admin.directory.group.readonly',
+  'https://www.googleapis.com/auth/gmail.send',
+];
 const useGoogleAuth = (onAuthComplete) => {
   const dispatch = useDispatch();
-  const {removeAllCookies, setProfilePic, setUserEmail, setUserName } = CookiesHelper;
+  const { removeAllCookies, setProfilePic, setUserEmail, setUserName } =
+    CookiesHelper;
   const onSuccess = useCallback(
     (response) => {
       // https://github.com/anthonyjgrove/react-google-login/blob/7db5b9686a70ded6b090a9c01906ca978b00a54d/index.d.ts#L29
@@ -48,16 +52,13 @@ const useGoogleAuth = (onAuthComplete) => {
     onFailure: (err) => {
       console.error('Failed to authenticate user! Reason: ', err);
     },
-    clientId:
-      process.env.REACT_APP_GOOGLE_CLIENT_ID,
-    scope: 
-      scopes.join(' '),
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    scope: scopes.join(' '),
     prompt: 'consent',
   });
-  console.log('PROCESS.ENV: ', process.env.REACT_APP_GOOGLE_CLIENT_ID);
+
   const { signOut } = useGoogleLogout({
-    clientId:
-      process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
     onLogoutSuccess: () => {
       removeAllCookies();
       console.log('successful logout');

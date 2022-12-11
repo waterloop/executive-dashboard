@@ -6,6 +6,7 @@ import getApplicationStatuses from '../application-status/get-application-status
 import updateApplicationStatus from './update-application-status';
 import validationCheck from '../../utils/validation-check';
 import { body, param, query } from 'express-validator';
+import { validateRequest } from '../../google-auth';
 
 // TODO: Move to a constants.js file if multiple references to this are needed.
 // Alternatively perform the status check on db side and get rid of this constant.
@@ -29,6 +30,7 @@ router.get(
       .matches(/^(FALL|WINTER|SPRING)-2\d{3}$/),
   ],
   validationCheck,
+  validateRequest,
   getApplications,
 );
 
@@ -36,12 +38,13 @@ router.get(
   '/applicant/:email',
   [param('email').isEmail()],
   validationCheck,
+  validateRequest,
   getApplicationByEmail,
 );
 
 router.get('/statuses', getApplicationStatuses);
 
-// NOTE: refer to express-validator for documentation.
+// Route is used by main site, so we don't need a validateRequest middleware.
 router.post(
   '/',
   [
@@ -70,6 +73,7 @@ router.patch(
   '/applicant/status',
   [body('id').isInt(), body('status').isString().isIn(STATUSES)],
   validationCheck,
+  validateRequest,
   updateApplicationStatus,
 );
 

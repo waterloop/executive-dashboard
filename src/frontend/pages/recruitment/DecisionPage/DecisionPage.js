@@ -5,7 +5,7 @@ import EmailModal from '../../../components/EmailModal';
 import PortalTemplate from '../components/PortalTemplate';
 import { tabs, tableColumns, positionFields } from './Constants';
 import { makeTruthTable, createData, getItemById } from '../../../utils';
-import { MIN_SUBTEAMS_SHOWN } from '../components/Constants';
+import { MIN_SUBTEAMS_SHOWN, CURRENT_TERM_YEAR } from '../components/Constants';
 import {
   setCheckboxValues,
   setCheckboxesShown,
@@ -21,24 +21,17 @@ import useConfiguration from '../../../hooks/configuration';
 import useEmail from '../../../hooks/email';
 import useTeams from '../../../hooks/teams';
 import useProfileData from '../../../hooks/profileData';
-import getTermDate from '../../../utils';
-
-const currentTermYear =
-  process.env.NODE_ENV === 'development'
-    ? 'FALL-2022'
-    : getTermDate(Date.now());
 
 const DecisionPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [emailData, setEmailData] = useState({});
 
-  const { applications } = useApplications(currentTermYear);
+  const { applications } = useApplications(CURRENT_TERM_YEAR);
   const { configuration } = useConfiguration();
   const { postings } = usePostings();
-  const { updateEmailSent } = useEmail();
+  const { updateEmailStatus } = useEmail();
   const { teams } = useTeams();
   const { profileData } = useProfileData();
-  // console.log('profile:', profileData);
 
   const handleButtonClick = (data) => {
     setEmailData(data);
@@ -63,7 +56,11 @@ const DecisionPage = () => {
           application.email_address,
           appPosting.team,
           appPosting.title,
-          makeButtonComponent({subteam: appPosting.team, position: appPosting.title, ...application}),
+          makeButtonComponent({
+            subteam: appPosting.team,
+            position: appPosting.title,
+            ...application,
+          }),
           application.status,
         ];
         return createData(tableColumns, appValues);
@@ -71,8 +68,6 @@ const DecisionPage = () => {
     }
     return createData(tableColumns, []);
   });
-  console.log(applications);
-  console.log(tableRows);
 
   // Grab positions from applications data
   const allPositionNames = [];
@@ -180,13 +175,9 @@ const DecisionPage = () => {
   };
 
   const handleModalSubmit = (email) => {
-    console.log('email sent:', email);
-    updateEmailSent({id: emailData.id, ...email});
-
+    updateEmailStatus({ id: emailData.id, ...email });
     setEmailData({});
     setModalOpen(false);
-    // Force a reload of the browser so that the email status button states update.
-    window.location.reload();
   };
 
   const userData = {
@@ -209,7 +200,6 @@ const DecisionPage = () => {
       configuration.newMembersFormDeadline,
     ).format('MMMM Do')}, 11:59 PM`,
   };
-  console.log('emailData: ', emailData);
 
   return (
     <div>

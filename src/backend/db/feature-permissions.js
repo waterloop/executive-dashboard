@@ -78,7 +78,6 @@ const getGroupKeys = async (gAdminClient, userId) => {
 
 const getGAdminClient = (accessToken) => {
   const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-  console.log('process.env google client id: ', process.env.GOOGLE_CLIENT_ID);
   client.setCredentials({
     access_token: accessToken,
   });

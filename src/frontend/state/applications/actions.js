@@ -6,6 +6,12 @@ export const setApplications = (applications) => ({
     applications,
   },
 });
+export const updateApplication = (application) => ({
+  type: actionTypes.APPLICATIONS_UPDATE_APPLICATION,
+  payload: {
+    application,
+  },
+});
 export const setApplicationsByEmail = (email, applications) => ({
   type: actionTypes.APPLICATIONS_SET_APPLICATIONS_BY_EMAIL,
   payload: {

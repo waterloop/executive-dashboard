@@ -35,8 +35,10 @@ describe('Email Routes', () => {
       chai
         .request(app)
         .patch('/api/email')
-        .send({ id: 1 }) // Should result in email_sent being changed in applications table.
-        .then((res) => {
+        .send(
+          await db('applications').where({ status: 'app_reject' }).first('id'),
+        ) // Should result in email_sent being changed in applications table.
+        .then(async (res) => {
           if (res.error.text) {
             console.error(res.error.text);
           }
@@ -65,7 +67,11 @@ describe('Email Routes', () => {
       chai
         .request(app)
         .patch('/api/email')
-        .send({ id: 3 }) // Should result in email_sent being changed in interviews table.
+        .send(
+          await db('applications')
+            .where({ status: 'final_accept' })
+            .first('id'),
+        ) // Should result in email_sent being changed in interviews table.
         .then((res) => {
           if (res.error.text) {
             console.error(res.error.text);
@@ -84,7 +90,9 @@ describe('Email Routes', () => {
     chai
       .request(app)
       .patch('/api/email')
-      .send({ id: 5 })
+      .send(
+        await db('applications').where({ status: 'app_pending' }).first('id'),
+      )
       .then((res) => {
         expect(res).to.have.status(403);
       }));

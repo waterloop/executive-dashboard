@@ -1,29 +1,23 @@
 import db from '../../db';
-import {sendEmail} from './helper';
+import { sendEmail } from './helper';
 
 export default async (req, res) => {
-  console.log('req.body:', req.body);
   const appID = req.body.id;
-  console.log('appID:', appID);
-  console.log('res.locals:', res.locals.ticket);
-  // TODO: send the actual email, then check if email sent correctly
 
-  let emailId = -1;
+  // send the actual email, then check if email sent correctly
   if (req.body.accessToken) {
-    emailId = await sendEmail(req.body, req.body.accessToken);
-    console.log('messageID: ', emailId);
+    await sendEmail(req.body, req.body.accessToken); // TODO: check if accessToken sent securely.
   }
 
- // TODO: If so, proceed with code below, else abort procedure.
-
+  // if so, proceed with code below, else abort procedure.
   db.applications
-    .updateEmailSent(appID) // TODO: change to 'updateEmailStatus'
+    .updateEmailStatus(appID)
     .then((response) => {
       if (Array.isArray(response) && response.length !== 0) {
-        res.send({...response[0], emailId});
+        res.send({ ...response[0] });
       } else {
         // If no entries matched criteria in db, then attempt to update interview table email_sent column
-        db.interviews.updateEmailSent(appID).then((resp2) => {
+        db.interviews.updateEmailStatus(appID).then((resp2) => {
           if (typeof resp2 === 'number') {
             let errMsg;
             switch (resp2) {
@@ -55,5 +49,4 @@ export default async (req, res) => {
       console.error(errMsg);
       res.status(500).send(errMsg);
     });
-    
 };

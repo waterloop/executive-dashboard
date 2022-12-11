@@ -7,7 +7,7 @@ import CookiesHelper from '../../../hooks/cookies';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
-import WaterloopCmsLogoSVG from './assets/waterloop-cms-logo.svg';
+import WaterloopCmsLogoSVG from './assets/waterloop-dashboard-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
 import * as userActions from '../../../state/user/actions';
@@ -91,7 +91,7 @@ const SignInPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [errMsgVisible, showErrorMsg] = useState(false);
-  const {setTokenId, setAccessToken} = CookiesHelper;
+  const { setTokenId, setAccessToken } = CookiesHelper;
 
   const onAuthComplete = useCallback(
     (err, authPayload) => {
@@ -116,7 +116,6 @@ const SignInPage = () => {
                 ', ',
               )}`,
             );
-            console.log(resp.data);
           }
         })
         .catch((e) => {
