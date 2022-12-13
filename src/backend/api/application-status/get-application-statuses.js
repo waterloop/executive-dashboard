@@ -1,4 +1,4 @@
-import db from '../../db';
+import db from '~/backend/db';
 
 export default (req, res) => {
   db.applicationStatus
@@ -7,7 +7,7 @@ export default (req, res) => {
       res.send(response);
     })
     .catch((err) => {
-      console.log(`Could not get application status: ${err}`);
+      console.error(`Could not get application status: ${err}`);
       res.sendStatus(404);
     });
 };

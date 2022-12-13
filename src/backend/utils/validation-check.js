@@ -5,10 +5,9 @@ const validationCheck = (req, res, next) => {
     validationResult(req).throw();
     next();
   } catch (err) {
-    console.log('Validation Error', err)
+    console.error('Validation Error', err);
     res.sendStatus(400);
   }
-}
+};
 
 export default validationCheck;
-

@@ -42,7 +42,7 @@ export const sendEmail = async (message, token) => {
     });
     return id;
   } catch (err) {
-    console.log('sendMail error', err);
+    console.error('sendMail error', err);
     return -1;
   }
 };

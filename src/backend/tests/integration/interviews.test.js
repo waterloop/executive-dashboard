@@ -1,11 +1,13 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '../../index';
-import { db } from '../../db';
+import app from '~/backend';
+import { db } from '~/backend/db';
 process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);
 const { expect } = chai;
+
+let firstAppId;
 
 describe('Interview Routes', () => {
   // Rollback migrations.
@@ -19,7 +21,9 @@ describe('Interview Routes', () => {
   beforeEach('reseed', async function () {
     // ensures that database is in a consistant state, avoids the actions of one test from interferring with another test (want test to be isolated)
     this.timeout(60 * 1000); // Resetting the DB can take a few seconds
-    return db.seed.run();
+    await db.seed.run();
+    const { id } = await db('applications').orderBy('id').first('id');
+    firstAppId = id;
   });
 
   // Rollback migration again.
@@ -68,7 +72,7 @@ describe('Interview Routes', () => {
       it('should return corresponding interview for application id', async () =>
         chai
           .request(app)
-          .get('/api/interviews/1')
+          .get(`/api/interviews/${firstAppId}`)
           .then((res) => {
             if (res.error.text) {
               console.error(res.error.text);
@@ -95,7 +99,7 @@ describe('Interview Routes', () => {
           .request(app)
           .post('/api/interviews/')
           .send({
-            application_id: 2,
+            application_id: firstAppId + 1,
             note: 'test test',
           })
           .then((res) => {
@@ -116,7 +120,7 @@ describe('Interview Routes', () => {
             .request(app)
             .post('/api/interviews/')
             .send({
-              application_id: 2,
+              application_id: firstAppId + 1,
               note: 'test test',
             })
             .then((res) => {
@@ -136,7 +140,7 @@ describe('Interview Routes', () => {
             .request(app)
             .post('/api/interviews/')
             .send({
-              application_id: 1,
+              application_id: firstAppId,
               note: 'test test3',
             })
             .then((res) => {
@@ -154,7 +158,7 @@ describe('Interview Routes', () => {
               // Test for uniqueness by application ID:
               return chai
                 .request(app)
-                .get('/api/interviews/1')
+                .get(`/api/interviews/${firstAppId}`)
                 .then((res) => {
                   if (res.error.text) {
                     console.error(res.error.text);

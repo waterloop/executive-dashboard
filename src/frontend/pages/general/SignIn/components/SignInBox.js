@@ -80,12 +80,7 @@ const SignInBox = ({ className, onClick, errMsgVisible }) => (
   <Container className={className}>
     <Header>Sign in</Header>
     <Body>Remember to use your waterloop email</Body>
-    <Button
-      onClick={() => {
-        console.log('onclick');
-        onClick();
-      }}
-    >
+    <Button onClick={onClick}>
       <GoogleLogo />
       &ensp;Sign In
     </Button>
