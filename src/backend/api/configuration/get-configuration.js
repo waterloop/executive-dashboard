@@ -7,7 +7,7 @@ export default (req, res) => {
       res.send(response);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.sendStatus(404);
     });
 };
