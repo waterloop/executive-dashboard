@@ -4,16 +4,17 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-import TimePicker from '@mui/lab/TimePicker';
+import {
+  LocalizationProvider,
+  DesktopDatePicker,
+  TimePicker,
+} from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-// TODO: figure out why config page isn't loading all components.
-import useConfiguration from '../../../hooks/configuration';
-import FormContainer from '../../../components/FormContainer';
-import Button from '../../../components/Button';
-import { camelCaseToSnakeCase } from '../../../utils';
+import useConfiguration from 'frontend/hooks/configuration';
+import FormContainer from 'frontend/components/FormContainer';
+import Button from 'frontend/components/Button';
+import { camelCaseToSnakeCase } from 'frontend/utils';
 
 const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.colours.white};
@@ -165,7 +166,6 @@ const ConfigurationPage = () => {
       });
 
     updateConfiguration(configuration);
-    history.push('/');
   };
 
   // Handler function for all inputs on this page

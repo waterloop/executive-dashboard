@@ -2,7 +2,7 @@ exports.up = (knex) =>
   knex.schema.createTable('applications', (table) => {
     table.increments('id').primary();
     table.timestamp('submitted_at').notNullable().defaultTo(knex.fn.now());
-    table.string('status'); // Current application status
+    table.string('status').defaultTo('app_pending'); // Current application status
     table.string('first_name');
     table.string('last_name');
     table.string('email_address');

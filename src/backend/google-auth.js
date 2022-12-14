@@ -18,13 +18,21 @@ export const validateRequest = async (req, res, next) => {
   }
   const { authorization } = req.headers;
   if (typeof authorization !== 'string') {
-    console.log("Auth Error, (typeof authorization !== 'string')", req.headers);
+    console.error(
+      "Auth Error, (typeof authorization !== 'string')",
+      req.headers,
+    );
     res.sendStatus(403);
     return;
   }
   const [type, token] = authorization.split(' ');
   if (type !== 'Bearer') {
-    console.log('Auth Error, (not a bearer token)', authorization, type, token);
+    console.error(
+      'Auth Error, (not a bearer token)',
+      authorization,
+      type,
+      token,
+    );
     res.sendStatus(403);
     return;
   }

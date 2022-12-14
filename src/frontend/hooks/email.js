@@ -16,8 +16,7 @@ const useEmail = () => {
           ...emailData,
           accessToken,
         });
-        console.log('result is: ');
-        console.log(res.data);
+
         if (res.status !== 200) {
           throw new Error(
             `Could not update email sent status, HTTP ${res.status}`,
