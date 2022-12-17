@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '~/backend';
-import { db } from '~/backend/db';
+import app from 'backend';
+import { db } from 'backend/db';
 process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);

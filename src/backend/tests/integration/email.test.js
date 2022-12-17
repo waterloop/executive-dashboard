@@ -1,8 +1,8 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import app from '~/backend';
-import { db } from '~/backend/db';
-import { EMAIL_SENT_FLAGS, APP_COLUMNS } from '~/backend/utils/constants';
+import app from 'backend';
+import { db } from 'backend/db';
+import { EMAIL_SENT_FLAGS, APP_COLUMNS } from 'backend/utils/constants';
 process.env.NODE_ENV = 'test';
 
 chai.use(chaiHttp);

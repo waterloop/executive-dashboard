@@ -1,7 +1,6 @@
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore } from '@reduxjs/toolkit';
 import reducer from './reducer';
 
-const state = createStore(reducer, composeWithDevTools());
+const state = configureStore({reducer, devTools: process.env.NODE_ENV !== 'production'});
 
 export default state;

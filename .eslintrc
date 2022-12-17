@@ -5,12 +5,6 @@
   "plugins": ["jsx-a11y", "prettier"],
   "extends": [
     "react-app",
-    "./node_modules/eslint-config-airbnb-base/rules/best-practices.js",
-    "./node_modules/eslint-config-airbnb-base/rules/errors.js",
-    "./node_modules/eslint-config-airbnb-base/rules/node.js",
-    "./node_modules/eslint-config-airbnb-base/rules/style.js",
-    "./node_modules/eslint-config-airbnb-base/rules/variables.js",
-    "./node_modules/eslint-config-airbnb-base/rules/es6.js",
     "plugin:jsx-a11y/recommended",
     "prettier"
   ],

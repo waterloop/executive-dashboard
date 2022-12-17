@@ -1,4 +1,4 @@
-import { EMAIL_SENT_FLAGS } from '~/backend/utils/constants';
+import { EMAIL_SENT_FLAGS } from 'backend/utils/constants';
 
 // Should return multiple applications for ONE APPLICANT.
 const getApplicationByEmail = (db) => (email_address) =>

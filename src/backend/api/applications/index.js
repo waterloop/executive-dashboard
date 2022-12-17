@@ -4,11 +4,12 @@ import getApplications from './get-application';
 import getApplicationByEmail from './get-application-by-email';
 import getApplicationStatuses from '../application-status/get-application-statuses';
 import updateApplicationStatus from './update-application-status';
-import validationCheck from '~/backend/utils/validation-check';
+// import addRow from './spreadsheet/add-row';
+import validationCheck from 'backend/utils/validation-check';
 import { body, param, query } from 'express-validator';
-import { validateRequest } from '~/backend/google-auth';
+import { validateRequest } from 'backend/google-auth';
 
-import { STATUSES } from '~/backend/utils/constants';
+import { STATUSES } from 'backend/utils/constants';
 
 const router = express.Router();
 
@@ -66,5 +67,7 @@ router.patch(
   validateRequest,
   updateApplicationStatus,
 );
+
+// router.post('/spreadsheet/addentry', validationCheck, validateRequest, addRow);
 
 export default router;

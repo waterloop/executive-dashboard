@@ -2,17 +2,17 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import useGoogleAuth from '../../../hooks/google-auth';
-import CookiesHelper from '../../../hooks/cookies';
+import useGoogleAuth from 'frontend/hooks/google-auth';
+import CookiesHelper from 'frontend/hooks/cookies';
 
 import BuildingsSVG from './assets/buildings.svg';
 import PodSVG from './assets/pod.svg';
 import WaterloopCmsLogoSVG from './assets/waterloop-dashboard-logo.svg';
 import UnstyledSignInBox from './components/SignInBox';
 
-import * as userActions from '../../../state/user/actions';
-import { addAuthTokenToRequests } from '../../../api/server';
-import api from '../../../api';
+import * as userActions from 'frontend/state/user/actions';
+import { addAuthTokenToRequests } from 'frontend/api/server';
+import api from 'frontend/api';
 
 const WaterloopCmsLogo = styled.img.attrs({
   src: WaterloopCmsLogoSVG,
@@ -103,7 +103,8 @@ const SignInPage = () => {
       const { userId, tokenId, groupIds, accessToken } = authPayload;
       dispatch(userActions.setUserAuth({ userId, tokenId }));
       setTokenId(tokenId);
-      setAccessToken(accessToken);
+      setAccessToken(accessToken); // TODO: Send accessToken via Authorization header. Don't send tokenId through that!
+
       addAuthTokenToRequests(tokenId);
       console.log('Auth Complete');
 

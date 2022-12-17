@@ -1,7 +1,9 @@
-import db from '../../db';
+import db from 'backend/db';
 
 export default (req, res) => {
   const appData = req.body;
+
+  // TODO: Call add-row endpoint.
   db.applications
     .addApplication(appData)
     .then((response) => {

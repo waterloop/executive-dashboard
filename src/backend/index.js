@@ -1,3 +1,4 @@
+require('dotenv').config();
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -12,6 +13,13 @@ const server = http.createServer(app);
 const port = process.env.PORT || 9001;
 const host = process.env.HOST || '127.0.0.1';
 
+app.disable('x-powered-by');  // they don't need to know the server tech stack.
+
+/**
+ * @brief express body handler Middleware:
+ * This converts the body of POST and PUT requests to
+ * json
+ */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,10 +42,6 @@ app.use(
     credentials: true,
   }),
 );
-
-app.get('/', (req, res) => {
-  res.send('This works?');
-});
 
 app.use('/google', googleAuth);
 app.use('/api', api);

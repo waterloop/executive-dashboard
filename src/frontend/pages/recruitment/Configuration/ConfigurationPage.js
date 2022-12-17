@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import { clone } from 'ramda';
 import moment from 'moment';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -108,7 +108,7 @@ const ConfigurationPage = () => {
   const history = useHistory();
 
   useEffect(() => {
-    const parsedConfiguration = cloneDeep(configuration);
+    const parsedConfiguration = clone(configuration);
 
     Object.entries(parsedConfiguration).forEach(([k, v]) => {
       if (
@@ -170,7 +170,7 @@ const ConfigurationPage = () => {
 
   // Handler function for all inputs on this page
   const handleChange = (type, prop) => (param) => {
-    const newConfig = cloneDeep(localConfiguration);
+    const newConfig = clone(localConfiguration);
     switch (type) {
       case 'text':
         newConfig[prop] = param.target.value;

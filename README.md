@@ -4,15 +4,16 @@ The executive dashboard is an all-in-one ATS and member analytics tool used by a
 
 # Setup - local environment:
 
+<!-- TODO: refactor -->
+
 1. Make sure you're on Node v16.10+ and have npm installed.
-2. Ensure cms-server is locally setup and running. See cms-server's README for more details.
-3. Make sure you have yarn installed (`npm install -g yarn`), then run `yarn install`
-4. After running cms-server, run these 3 commands in succession to start the application:
+2. Make sure you have yarn installed (`npm install -g yarn`), then run `yarn install`
+3. After running cms-server, run these 3 commands in succession to start the application:
    1. `yarn docker:dev`
    2. `yarn dev` in new terminal
    3. `yarn start:frontend` in new terminal
-5. For more commmands please see `package.json` under the "scripts" section. `yarn start` to start the application.
-6. (Optional): Download React Tools and Redux Devtools to debug components from your browser.
+4. For more commmands please see `package.json` under the "scripts" section. `yarn start:frontend` to start the application.
+5. (Optional): Download React Tools and Redux Devtools through your browser extension to debug components from your browser.
 
 # Folder Directory Tree (+ description):
 
