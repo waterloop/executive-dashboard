@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import api from 'frontend/api';
 import * as applicationActions from 'frontend/state/applications/actions';
-import CookiesHelper from './cookies.js';
 
 const useEmail = () => {
   const dispatch = useDispatch();
@@ -10,12 +9,7 @@ const useEmail = () => {
   const updateEmailStatus = useCallback(
     async (emailData) => {
       try {
-        const { getCookie, CookieTags } = CookiesHelper;
-        const accessToken = getCookie(CookieTags.accessToken);
-        const res = await api.email.updateApplicationEmailSent({
-          ...emailData,
-          accessToken,
-        });
+        const res = await api.email.updateApplicationEmailSent(emailData);
 
         if (res.status !== 200) {
           throw new Error(
