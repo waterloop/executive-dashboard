@@ -22,7 +22,7 @@ const ContentGrid = styled(Grid)`
   position: relative;
   top: 9rem;
   z-index: 0;
-  padding: 64px 82px 64px 82px;
+  padding: 0px 82px 64px 82px;
 `;
 
 const InterviewContainer = styled(Grid)`
