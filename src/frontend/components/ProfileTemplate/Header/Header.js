@@ -27,7 +27,6 @@ const BackArrow = styled.button`
 const HeaderGrid = styled(Grid)`
   width: 100%;
   position: relative;
-  margin-bottom: -150px;
   overflow: auto;
   z-index: 1;
   padding: 64px 82px 10px 82px;
