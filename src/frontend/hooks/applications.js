@@ -3,12 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import api from '../api';
 import * as applicationActions from '../state/applications/actions';
 import * as applicationSelectors from '../state/applications/selectors';
+import useGoogleAuth from './google-auth';
+import { useHistory } from 'react-router-dom';
 
 const useApplications = (termQuery) => {
   const dispatch = useDispatch();
   const applications = useSelector(applicationSelectors.applications);
   const appsByEmail = useSelector(applicationSelectors.applicationsByEmail);
   const appStatuses = useSelector(applicationSelectors.appStatuses);
+  // eslint-disable-next-line no-unused-vars
+  const { signOut } = useGoogleAuth();
+  const history = useHistory();
 
   const getApplications = useCallback(async () => {
     try {
@@ -37,7 +42,8 @@ const useApplications = (termQuery) => {
         // eslint-disable-next-line no-console
         console.error(err);
       }
-      return {};
+      signOut();
+      history.push('/sign-in');
     }
   }, [termQuery]);
 
