@@ -44,6 +44,7 @@ const useApplications = (termQuery) => {
       }
       signOut();
       history.push('/sign-in');
+      return {};
     }
   }, [termQuery]);
 
