@@ -1,10 +1,11 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useGoogleLogin } from 'react-google-login';
 import * as userActions from '../state/user/actions';
 import { useDispatch } from 'react-redux';
 import api from '../api';
 import { useGoogleLogout } from 'react-google-login';
 import CookiesHelper from '../hooks/cookies';
+import { gapi } from 'gapi-script';
 
 const scopes = [
   'profile',
@@ -12,7 +13,19 @@ const scopes = [
   'https://www.googleapis.com/auth/admin.directory.group.readonly',
   'https://www.googleapis.com/auth/gmail.send',
 ];
+
 const useGoogleAuth = (onAuthComplete) => {
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: process.env.REACT_PUBLIC_GOOGLE_CLIENT_ID,
+        scope: 'email',
+      });
+    }
+
+    gapi.load('client:auth2', start);
+  }, []);
+
   const dispatch = useDispatch();
   const { removeAllCookies, setProfilePic, setUserEmail, setUserName } =
     CookiesHelper;
