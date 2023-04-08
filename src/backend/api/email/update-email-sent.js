@@ -4,9 +4,23 @@ import { sendEmail } from './helper';
 export default async (req, res) => {
   const appID = req.body.id;
 
-  // send the actual email, then check if email sent correctly
-  if (req.body.accessToken) {
-    await sendEmail(req.body, req.body.accessToken); // TODO: check if accessToken sent securely.
+  const cookieHeader = req.headers?.cookie;
+  if (cookieHeader) {
+    const list = {};
+    cookieHeader.split(';').forEach(cookie => {
+      let [name, ...rest] = cookie.split('=');
+      name = name?.trim();
+      if (!name) return;
+      const value = rest.join('=').trim();
+      if (!value) return;
+      list[name] = decodeURIComponent(value);
+    });
+    console.log('cookieHeader::', list)
+
+    // send the actual email, then check if email sent correctly
+    if (list.accessToken) {
+      await sendEmail(req.body, list.accessToken); // TODO: check if accessToken sent securely.
+    }
   }
 
   try {
