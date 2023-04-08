@@ -25,7 +25,7 @@ const ContentGrid = styled(Grid)`
   position: relative;
   top: 12rem;
   z-index: 0;
-  padding: 64px 82px 64px 82px;
+  padding: 0px 82px 64px 82px;
 `;
 
 const PostingGrid = styled(Grid)`

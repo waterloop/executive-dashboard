@@ -15,7 +15,7 @@ const BackArrow = styled.button`
   font: inherit;
   cursor: pointer;
   outline: inherit;
-  position: fixed;
+  position: absolute;
   z-index: 2;
   top: 5rem;
   left: 1rem;
@@ -26,7 +26,8 @@ const BackArrow = styled.button`
 
 const HeaderGrid = styled(Grid)`
   width: 100%;
-  position: fixed;
+  position: relative;
+  overflow: auto;
   z-index: 1;
   padding: 64px 82px 10px 82px;
   background-color: #a3f4e4;
