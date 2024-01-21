@@ -105,7 +105,7 @@ const ApplicationPage = () => {
     (position) => subteamsChecked[position.team],
   );
 
-  const MAX_SUBTEAMS_SHOWN = teams.length;
+  const MAX_SUBTEAMS_SHOWN = teams?.length;
   const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);

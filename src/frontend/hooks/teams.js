@@ -23,7 +23,7 @@ const useTeams = () => {
       };
     } catch (err) {
       if (process.env.NODE_ENV === 'development') {
-        console.error(err);
+        console.error('here:', err);
       }
       return {};
     }

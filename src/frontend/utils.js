@@ -85,7 +85,7 @@ export const sanitizeUrlPrefix = (url) =>
  * */
 export const makeTruthTable = (values, isSelected) => {
   const res = {};
-  values.forEach((val) => {
+  values?.forEach((val) => {
     res[val] = isSelected;
   });
   return res;

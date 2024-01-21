@@ -85,7 +85,7 @@ const InterviewPage = () => {
 
   useEffect(() => {
     const formattedSubteams = makeTruthTable(
-      teams.map((subteam) => subteam.name),
+      teams?.map((subteam) => subteam.name),
       false,
     );
     setSubteamsChecked(formattedSubteams);
@@ -105,7 +105,7 @@ const InterviewPage = () => {
     (position) => subteamsChecked[position.team],
   );
 
-  const MAX_SUBTEAMS_SHOWN = teams.length;
+  const MAX_SUBTEAMS_SHOWN = teams?.length;
   const MAX_YEARS_SHOWN = YEAR_OPTIONS.length;
 
   const [subteamsShown, setSubteamsShown] = useState(MIN_SUBTEAMS_SHOWN);

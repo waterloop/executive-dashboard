@@ -38,6 +38,7 @@ const useGoogleAuth = (onAuthComplete) => {
         .then((checkTokenResponse) => {
           if (checkTokenResponse.status === 200) {
             const { userId, groupIds, accessToken } = checkTokenResponse.data;
+            console.log(checkTokenResponse);
             onAuthComplete(null, {
               userId,
               tokenId,
